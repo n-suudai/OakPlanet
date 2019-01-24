@@ -1,1 +1,4 @@
 Project/Win32/Core/.vs/
+*.ipch
+*.db
+*.suo

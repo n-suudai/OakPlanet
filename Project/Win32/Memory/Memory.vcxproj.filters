@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{34550a43-a5c9-44b3-8e22-9a3e0201a3ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak">
+      <UniqueIdentifier>{d220f48d-4f8f-4500-845d-474c3fce89bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Core">
+      <UniqueIdentifier>{701d259e-c83b-43a2-8e29-62035c939a84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Core\Platform">
+      <UniqueIdentifier>{817674f9-646c-407a-8f3f-bec1906d0e0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{b445296b-3e55-4ef9-b9ec-171a4b9741d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Oak">
+      <UniqueIdentifier>{ddd1b330-55a9-4ba0-8dc4-6033079f24bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Memory">
+      <UniqueIdentifier>{95796870-6f25-4754-9ea5-02174f523512}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Oak\Memory">
+      <UniqueIdentifier>{b92b456f-34b8-4e8c-83c6-8db6eab52de8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Include\Oak\Core.hpp">
+      <Filter>Include\Oak</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Assert.hpp">
+      <Filter>Include\Oak\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\DebugBreak.hpp">
+      <Filter>Include\Oak\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\File.hpp">
+      <Filter>Include\Oak\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Log.hpp">
+      <Filter>Include\Oak\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\NetWork.hpp">
+      <Filter>Include\Oak\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Platform.hpp">
+      <Filter>Include\Oak\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\StackTrace.hpp">
+      <Filter>Include\Oak\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Thread.hpp">
+      <Filter>Include\Oak\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Time.hpp">
+      <Filter>Include\Oak\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Types.hpp">
+      <Filter>Include\Oak\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Platform\OSX.hpp">
+      <Filter>Include\Oak\Core\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Platform\Win32.hpp">
+      <Filter>Include\Oak\Core\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Memory.hpp">
+      <Filter>Include\Oak</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Memory\Heap.hpp">
+      <Filter>Include\Oak\Memory</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Source\Oak\Memory\Heap.cpp">
+      <Filter>Source\Oak\Memory</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
