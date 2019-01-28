@@ -2,3 +2,10 @@ Project/Win32/Core/.vs/
 *.ipch
 *.db
 *.suo
+*.lastbuildstate
+*.tlog
+*.pdb
+*.log
+*.idb
+*.obj
+*.lib
