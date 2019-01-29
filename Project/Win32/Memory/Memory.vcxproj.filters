@@ -25,11 +25,11 @@
     <Filter Include="Source\Oak\Memory">
       <UniqueIdentifier>{b92b456f-34b8-4e8c-83c6-8db6eab52de8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include\Oak\Core\Thread">
+      <UniqueIdentifier>{66001a1f-ba4b-44a3-b857-b9ca99835601}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Include\Oak\Core.hpp">
-      <Filter>Include\Oak</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Core\Assert.hpp">
       <Filter>Include\Oak\Core</Filter>
     </ClInclude>
@@ -51,9 +51,6 @@
     <ClInclude Include="..\..\..\Include\Oak\Core\StackTrace.hpp">
       <Filter>Include\Oak\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Core\Thread.hpp">
-      <Filter>Include\Oak\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Core\Time.hpp">
       <Filter>Include\Oak\Core</Filter>
     </ClInclude>
@@ -66,11 +63,17 @@
     <ClInclude Include="..\..\..\Include\Oak\Core\Platform\Win32.hpp">
       <Filter>Include\Oak\Core\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Memory.hpp">
-      <Filter>Include\Oak</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Memory\Heap.hpp">
       <Filter>Include\Oak\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Thread\ThreadSync.hpp">
+      <Filter>Include\Oak\Core\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\CopyMoveAssign.hpp">
+      <Filter>Include\Oak\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Thread\Thread.hpp">
+      <Filter>Include\Oak\Core\Thread</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

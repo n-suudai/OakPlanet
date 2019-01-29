@@ -36,8 +36,10 @@ typedef bool    Bool;
 typedef void    Void;
 
 typedef size_t SizeT;
+typedef time_t TimeT;
 
 typedef std::ptrdiff_t PtrDiff;
+
 
 
 } // namespace Oak

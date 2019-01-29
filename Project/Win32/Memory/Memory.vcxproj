@@ -91,7 +91,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\Include\Oak\Core\;$(SolutionDir)..\..\..\Include\Oak\Memory\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -102,7 +102,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\Include\Oak\Core\;$(SolutionDir)..\..\..\Include\Oak\Memory\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -115,7 +115,7 @@
       </PrecompiledHeader>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\Include\Oak\Core\;$(SolutionDir)..\..\..\Include\Oak\Memory\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -130,7 +130,7 @@
       </PrecompiledHeader>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\Include\Oak\Core\;$(SolutionDir)..\..\..\Include\Oak\Memory\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\..\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -140,8 +140,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Include\Oak\Core.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Core\Assert.hpp" />
+    <ClInclude Include="..\..\..\Include\Oak\Core\CopyMoveAssign.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Core\DebugBreak.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Core\File.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Core\Log.hpp" />
@@ -150,10 +153,16 @@
     <ClInclude Include="..\..\..\Include\Oak\Core\Platform\OSX.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Core\Platform\Win32.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Core\StackTrace.hpp" />
-    <ClInclude Include="..\..\..\Include\Oak\Core\Thread.hpp" />
+    <ClInclude Include="..\..\..\Include\Oak\Core\Thread\Thread.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Thread\ThreadSync.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Core\Time.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Core\Types.hpp" />
-    <ClInclude Include="..\..\..\Include\Oak\Memory.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Memory\Heap.hpp" />
   </ItemGroup>
   <ItemGroup>

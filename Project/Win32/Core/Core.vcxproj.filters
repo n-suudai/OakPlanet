@@ -22,11 +22,11 @@
     <Filter Include="Source\Oak\Core">
       <UniqueIdentifier>{0e8eb7dd-2059-488a-b5e8-0a88a68c829e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Oak\Core\Wiin32">
+      <UniqueIdentifier>{dfe9fab6-28cc-4863-86f3-653dadebb604}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Include\Oak\Core.hpp">
-      <Filter>Include\Oak</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Core\Assert.hpp">
       <Filter>Include\Oak\Core</Filter>
     </ClInclude>
@@ -40,9 +40,6 @@
       <Filter>Include\Oak\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Core\NetWork.hpp">
-      <Filter>Include\Oak\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Core\Platform.hpp">
       <Filter>Include\Oak\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Core\StackTrace.hpp">
@@ -67,6 +64,12 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\Core\Assert.cpp">
       <Filter>Source\Oak\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Oak\Core\Win32\StackTrace_Win32.cpp">
+      <Filter>Source\Oak\Core\Wiin32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Oak\Core\Win32\Log_Win32.cpp">
+      <Filter>Source\Oak\Core\Wiin32</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,7 +1,8 @@
 ﻿
 #pragma once
 
-#include "Types.hpp"
+#include "Oak/Core/Types.hpp"
+#include "Oak/Core/Thread/ThreadSync.hpp"
 
 
 #define OAK_DECLARE_HEAP \
@@ -38,7 +39,6 @@
     { \
         ::operator delete(p); \
     }
-
 
 
 namespace Oak {
@@ -106,7 +106,8 @@ private:
     Heap * m_pNextSibling;
     Heap * m_pPrevSibling;
 
-    static UInt64 m_nextMemoryBookmark;
+    static Core::Mutex  m_heapProtection;
+    static UInt64       m_nextMemoryBookmark;
 };
 
 
