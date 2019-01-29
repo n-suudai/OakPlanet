@@ -10,15 +10,15 @@
         static Oak::Void * operator new(Oak::SizeT size); \
         static Oak::Void operator delete(Oak::Void * p, Oak::SizeT size); \
     private: \
-        static Oak::Memory::Heap * s_pHeap;
+        static Oak::Core::Heap * s_pHeap;
 
 
 #define OAK_DEFINE_HIERARCHICALHEAP(className, heapName, parentHeapName) \
-    Oak::Memory::Heap * className::s_pHeap = nullptr; \
+    Oak::Core::Heap * className::s_pHeap = nullptr; \
     Oak::Void * className::operator new(Oak::SizeT size) \
     { \
         if (s_pHeap == nullptr)  \
-            s_pHeap = Oak::Memory::HeapFactory::CreateHeap(heapName, parentName); \
+            s_pHeap = Oak::Core::HeapFactory::CreateHeap(heapName, parentName); \
         return ::operator new(size, s_pHeap); \
     } \
     Oak::Void className::operator delete(Oak::Void * p, Oak::SizeT) \
@@ -28,11 +28,11 @@
 
 
 #define OAK_DEFINE_HEAP(className, heapName) \
-    Oak::Memory::Heap * className::s_pHeap = nullptr; \
+    Oak::Core::Heap * className::s_pHeap = nullptr; \
     Oak::Void * className::operator new(Oak::SizeT size) \
     { \
         if (s_pHeap == nullptr)  \
-            s_pHeap = Oak::Memory::HeapFactory::CreateHeap(heapName); \
+            s_pHeap = Oak::Core::HeapFactory::CreateHeap(heapName); \
         return ::operator new(size, s_pHeap); \
     } \
     Oak::Void className::operator delete(Oak::Void * p, Oak::SizeT) \
@@ -42,7 +42,7 @@
 
 
 namespace Oak {
-namespace Memory {
+namespace Core {
 
 
 struct IAllocator
@@ -112,7 +112,7 @@ private:
 
 
 
-} // namespace Memory
+} // namespace Core
 } // namespace Oak
 
 
