@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{34550a43-a5c9-44b3-8e22-9a3e0201a3ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak">
+      <UniqueIdentifier>{d220f48d-4f8f-4500-845d-474c3fce89bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{b445296b-3e55-4ef9-b9ec-171a4b9741d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Oak">
+      <UniqueIdentifier>{ddd1b330-55a9-4ba0-8dc4-6033079f24bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Platform">
+      <UniqueIdentifier>{262c83f0-093d-4957-b6d1-9df3bceb1d67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Oak\Platform">
+      <UniqueIdentifier>{032b8620-0752-40a1-aba4-b8d1c146be14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Platform\Graphics">
+      <UniqueIdentifier>{150847dc-2109-4801-955a-1c74ec72cf8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Platform\Physics">
+      <UniqueIdentifier>{1f5d4178-80a1-4d4f-8f78-b09d28684def}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Platform\Thread">
+      <UniqueIdentifier>{95073c10-8970-4470-9603-40c928919af1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Oak\Platform\Graphics">
+      <UniqueIdentifier>{628d45bf-21cd-40ac-a46f-77dcc06ae88f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Oak\Platform\Thread">
+      <UniqueIdentifier>{699c15f9-4fe9-4b81-86f8-d2dd9c0f7d12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Oak\Platform\Physics">
+      <UniqueIdentifier>{ce107058-999b-408b-8436-2fb0f2d68650}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Platform\OS">
+      <UniqueIdentifier>{84c60d0d-11c7-4a47-9399-aa940a20a380}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Platform\Thread\Win32">
+      <UniqueIdentifier>{bee09f9e-6a81-4476-a981-f7c227f57230}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\PlatformDetection.hpp">
+      <Filter>Include\Oak\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\AtomicDataTypes.hpp">
+      <Filter>Include\Oak\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\FileSystem.hpp">
+      <Filter>Include\Oak\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\NetWork.hpp">
+      <Filter>Include\Oak\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\HighResolutionTimer.hpp">
+      <Filter>Include\Oak\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\OS\Win32.hpp">
+      <Filter>Include\Oak\Platform\OS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Mutex.hpp">
+      <Filter>Include\Oak\Platform\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Win32\XMutex_Win32.hpp">
+      <Filter>Include\Oak\Platform\Thread\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\CriticalSection.hpp">
+      <Filter>Include\Oak\Platform\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Semaphore.hpp">
+      <Filter>Include\Oak\Platform\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Event.hpp">
+      <Filter>Include\Oak\Platform\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Win32\XSemapore_Win32.hpp">
+      <Filter>Include\Oak\Platform\Thread\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Win32\XCriticalSection_Win32.hpp">
+      <Filter>Include\Oak\Platform\Thread\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Win32\XEvent_Win32.hpp">
+      <Filter>Include\Oak\Platform\Thread\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Thread.hpp">
+      <Filter>Include\Oak\Platform\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Win32\XThread_Win32.hpp">
+      <Filter>Include\Oak\Platform\Thread\Win32</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Source\Oak\Platform\Thread\Win32\XMutex_Win32.cpp">
+      <Filter>Source\Oak\Platform\Thread</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

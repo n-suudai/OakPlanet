@@ -15,8 +15,9 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <PreprocessorDefinitions Condition="'$(Configuration)' == 'Debug'">OAK_BUILD_DEBUG;_DEBUG;OAK_PLATFORM_WIN;_ITERATOR_DEBUG_LEVEL=0;USE_DL_PREFIX;MSPACES=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)' == 'Debug'">OAK_BUILD_DEBUG;_DEBUG;OAK_PLATFORM_WIN;_ITERATOR_DEBUG_LEVEL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)' == 'Release'">OAK_BUILD_RELEASE;NDEBUG;OAK_PLATFORM_WIN;_ITERATOR_DEBUG_LEVEL=0;USE_DL_PREFIX;MSPACES=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(VK_SDK_PATH)\Include\;$(SolutionDir)..\..\..\External\dlmalloc\;$(SolutionDir)..\..\..\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

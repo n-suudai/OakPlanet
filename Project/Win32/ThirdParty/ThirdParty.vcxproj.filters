@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{34550a43-a5c9-44b3-8e22-9a3e0201a3ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak">
+      <UniqueIdentifier>{d220f48d-4f8f-4500-845d-474c3fce89bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source">
+      <UniqueIdentifier>{b445296b-3e55-4ef9-b9ec-171a4b9741d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Oak">
+      <UniqueIdentifier>{ddd1b330-55a9-4ba0-8dc4-6033079f24bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\ThirdParty">
+      <UniqueIdentifier>{93e650c1-df89-45f6-8c71-61926bc84c09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Oak\ThirdParty">
+      <UniqueIdentifier>{b1a9cffa-3f44-4a55-adb2-227c751b6fef}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Include\Oak\ThirdParty\dlmalloc.hpp">
+      <Filter>Include\Oak\ThirdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\ThirdParty\Direct3D11.hpp">
+      <Filter>Include\Oak\ThirdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\ThirdParty\DXGI.hpp">
+      <Filter>Include\Oak\ThirdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\ThirdParty\OpenGL.hpp">
+      <Filter>Include\Oak\ThirdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\ThirdParty\Direct3D12.hpp">
+      <Filter>Include\Oak\ThirdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\ThirdParty\Vulkan.hpp">
+      <Filter>Include\Oak\ThirdParty</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Source\Oak\ThirdParty\dlmalloc.cpp">
+      <Filter>Source\Oak\ThirdParty</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
