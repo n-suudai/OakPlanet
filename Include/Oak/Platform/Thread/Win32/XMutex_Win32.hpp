@@ -17,9 +17,9 @@ public:
 
     ~Mutex();
 
-    Int32 Lock();
+    Void Lock();
 
-    Int32 Unlock();
+    Void Unlock();
 
 private:
     Char m_name[128];

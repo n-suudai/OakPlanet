@@ -46,6 +46,18 @@
     <Filter Include="Source\Oak\Platform\Thread\Win32">
       <UniqueIdentifier>{166a5750-b121-4bb8-b4ce-5f4e434fab15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test">
+      <UniqueIdentifier>{b0524de0-8f2e-4737-acb7-a9023f0da71f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test\Oak">
+      <UniqueIdentifier>{516f7fae-06a0-407c-967d-c16aa62eb2dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test\Oak\Platform">
+      <UniqueIdentifier>{ad86bff4-3bb2-42b1-a66a-2d716387e625}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test\Oak\Platform\Thread">
+      <UniqueIdentifier>{e61d282c-002a-40c2-a358-59fba01e3792}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Include\Oak\Platform\PlatformDetection.hpp">
@@ -96,6 +108,21 @@
     <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Win32\XThread_Win32.hpp">
       <Filter>Include\Oak\Platform\Thread\Win32</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Test\Oak\Platform\Thread\ThreadTest.hpp">
+      <Filter>Test\Oak\Platform\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Test\Oak\Platform\Thread\MutexTest.hpp">
+      <Filter>Test\Oak\Platform\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Test\Oak\Platform\Thread\CriticalSectionTest.hpp">
+      <Filter>Test\Oak\Platform\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Test\Oak\Platform\Thread\SemaphoreTest.hpp">
+      <Filter>Test\Oak\Platform\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Test\Oak\Platform\Thread\EventTest.hpp">
+      <Filter>Test\Oak\Platform\Thread</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\Platform\Thread\Win32\XCriticalSection_Win32.cpp">
@@ -112,6 +139,24 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Source\Oak\Platform\Thread\Win32\XThread_Win32.cpp">
       <Filter>Source\Oak\Platform\Thread\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Test\Oak\Platform\PlatformMain.cpp">
+      <Filter>Test\Oak\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Test\Oak\Platform\Thread\ThreadTest.cpp">
+      <Filter>Test\Oak\Platform\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Test\Oak\Platform\Thread\MutexTest.cpp">
+      <Filter>Test\Oak\Platform\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Test\Oak\Platform\Thread\CriticalSectionTest.cpp">
+      <Filter>Test\Oak\Platform\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Test\Oak\Platform\Thread\SemaphoreTest.cpp">
+      <Filter>Test\Oak\Platform\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Test\Oak\Platform\Thread\EventTest.cpp">
+      <Filter>Test\Oak\Platform\Thread</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
