@@ -19,67 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\AtomicDataTypes.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\FileSystem.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\HighResolutionTimer.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\NetWork.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\OS\Win32.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\PlatformDetection.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\CriticalSection.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Event.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Mutex.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Semaphore.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Thread.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Win32\XCriticalSection_Win32.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Win32\XEvent_Win32.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Win32\XMutex_Win32.hpp" />
-    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Win32\XSemapore_Win32.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Win32\XThread_Win32.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="..\..\..\Test\Oak\Platform\Thread\CriticalSectionTest.hpp">
       <SubType>
       </SubType>
@@ -99,23 +38,6 @@
     <ClInclude Include="..\..\..\Test\Oak\Platform\Thread\ThreadTest.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Source\Oak\Platform\Thread\Win32\XCriticalSection_Win32.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Source\Oak\Platform\Thread\Win32\XEvent_Win32.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Source\Oak\Platform\Thread\Win32\XMutex_Win32.cpp" />
-    <ClCompile Include="..\..\..\Source\Oak\Platform\Thread\Win32\XSemaphore_Win32.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Source\Oak\Platform\Thread\Win32\XThread_Win32.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="..\..\..\Test\Oak\Platform\PlatformMain.cpp">
       <SubType>
       </SubType>
@@ -219,6 +141,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(OutDir)Platform.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -230,6 +153,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(OutDir)Platform.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -245,6 +169,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(OutDir)Platform.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -260,6 +185,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(OutDir)Platform.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

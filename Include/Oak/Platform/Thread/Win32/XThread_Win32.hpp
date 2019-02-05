@@ -1,28 +1,24 @@
 ﻿
 #pragma once
 
-#include "Oak/Platform/AtomicDataTypes.hpp"
 #include "Oak/Platform/OS/Win32.hpp"
+#include "Oak/Platform/Thread/Interface/IThread.hpp"
 
 
 namespace Oak {
 
 
-typedef UInt32(*ThreadEntry)(Void*, SizeT);
-
-
 class Thread final
+    : public Detail::IThread
 {
 public:
     Thread(const Char* name, ThreadEntry threadEntry);
 
     ~Thread();
 
-    Void Start(Void* pArgumentBlock, SizeT argumentSize);
+    Void Start(Void* pArgumentBlock, SizeT argumentSize) override;
 
-    Int32 Wait();
-
-    static Void Sleep(UInt32 milliSeconds);
+    Int32 Wait() override;
 
 private:
     static DWORD WINAPI ThreadStartRoutine(LPVOID lpArgument);

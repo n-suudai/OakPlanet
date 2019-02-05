@@ -4,7 +4,20 @@
 namespace Oak {
 
 
+namespace  Detail {
+
+
+Void IThread::Sleep(UInt32 milliSeconds)
+{
+    ::Sleep(static_cast<DWORD>(milliSeconds));
+}
+
+
+} // namespace Detail
+
+
 Thread::Thread(const Char* name, ThreadEntry threadEntry)
+    : IThread(name, threadEntry)
 {
     strcpy_s(m_name, name);
 
@@ -45,11 +58,6 @@ Int32 Thread::Wait()
     }
     
     return static_cast<Int32>(exitCode);
-}
-
-Void Thread::Sleep(UInt32 milliSeconds)
-{
-    ::Sleep(static_cast<DWORD>(milliSeconds));
 }
 
 DWORD WINAPI Thread::ThreadStartRoutine(LPVOID lpArgument)

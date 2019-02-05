@@ -27,7 +27,32 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\HighResolutionTimer.hpp">
+    <ClInclude Include="..\..\..\Include\Oak\Platform\FileSystem\Interface\IFileSystem.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\FileSystem\Win32\XFileSystem_Win32.hpp" />
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Interface\ICriticalSection.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Interface\IEvent.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Interface\IMutex.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Interface\ISemaphore.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Interface\IThread.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Timer.hpp">
       <SubType>
       </SubType>
     </ClInclude>
@@ -80,6 +105,11 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Timer\Interface\ITimer.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Timer\Win32\Timer_Win32.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\Platform\Thread\Win32\XCriticalSection_Win32.cpp">
@@ -99,10 +129,11 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="..\..\..\Source\Oak\Platform\Timer\Win32\Timer_Win32.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{B168175E-722E-4171-8FB5-A7CD4E6F8330}</ProjectGuid>
+    <ProjectGuid>{6F4DF941-F717-4747-8EBE-433D0C0FE09D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Core</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>

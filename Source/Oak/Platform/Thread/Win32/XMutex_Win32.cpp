@@ -6,6 +6,7 @@ namespace Oak {
 
 
 Mutex::Mutex(const Char* name)
+    : IMutex(name)
 {
     strcpy_s(m_name, name);
     m_handle = CreateMutexA(NULL, FALSE, m_name);

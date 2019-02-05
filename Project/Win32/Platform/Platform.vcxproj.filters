@@ -46,6 +46,33 @@
     <Filter Include="Source\Oak\Platform\Thread\Win32">
       <UniqueIdentifier>{166a5750-b121-4bb8-b4ce-5f4e434fab15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include\Oak\Platform\Timer">
+      <UniqueIdentifier>{2763e9a8-fcfa-4d72-bc97-ad4ea8158fcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Oak\Platform\Timer">
+      <UniqueIdentifier>{4f3af9a7-ed23-4747-a7bd-5d43f4d66fef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Platform\Timer\Win32">
+      <UniqueIdentifier>{95a4d7cb-c99e-4a24-8f1a-ab363f699bf9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Oak\Platform\Timer\Win32">
+      <UniqueIdentifier>{f3cb9f3d-1257-4662-9aad-b913756798f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Platform\FileSystem">
+      <UniqueIdentifier>{a44f81b0-b39f-474c-a3dc-ff8c28e600b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Platform\FileSystem\Win32">
+      <UniqueIdentifier>{1999e628-5d4a-48ef-bb41-023cbc2b5e95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Platform\Thread\Interface">
+      <UniqueIdentifier>{c18a9658-6eb4-4c7b-a136-6858482bfc32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Platform\Timer\Interface">
+      <UniqueIdentifier>{82ed294d-60c2-40c2-b7b0-d5dc0937ac3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Platform\FileSystem\Interface">
+      <UniqueIdentifier>{7e1161f6-1f9d-42e5-9365-18856dac4d2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Include\Oak\Platform\PlatformDetection.hpp">
@@ -58,9 +85,6 @@
       <Filter>Include\Oak\Platform</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Platform\NetWork.hpp">
-      <Filter>Include\Oak\Platform</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Platform\HighResolutionTimer.hpp">
       <Filter>Include\Oak\Platform</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Platform\OS\Win32.hpp">
@@ -96,6 +120,36 @@
     <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Win32\XThread_Win32.hpp">
       <Filter>Include\Oak\Platform\Thread\Win32</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Timer.hpp">
+      <Filter>Include\Oak\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Timer\Win32\Timer_Win32.hpp">
+      <Filter>Include\Oak\Platform\Timer\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Interface\ICriticalSection.hpp">
+      <Filter>Include\Oak\Platform\Thread\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Interface\IMutex.hpp">
+      <Filter>Include\Oak\Platform\Thread\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Interface\ISemaphore.hpp">
+      <Filter>Include\Oak\Platform\Thread\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Interface\IEvent.hpp">
+      <Filter>Include\Oak\Platform\Thread\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Interface\IThread.hpp">
+      <Filter>Include\Oak\Platform\Thread\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Timer\Interface\ITimer.hpp">
+      <Filter>Include\Oak\Platform\Timer\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\FileSystem\Interface\IFileSystem.hpp">
+      <Filter>Include\Oak\Platform\FileSystem\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\FileSystem\Win32\XFileSystem_Win32.hpp">
+      <Filter>Include\Oak\Platform\FileSystem\Win32</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\Platform\Thread\Win32\XCriticalSection_Win32.cpp">
@@ -112,6 +166,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Source\Oak\Platform\Thread\Win32\XThread_Win32.cpp">
       <Filter>Source\Oak\Platform\Thread\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Oak\Platform\Timer\Win32\Timer_Win32.cpp">
+      <Filter>Source\Oak\Platform\Timer\Win32</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -34,7 +34,7 @@ Oak::Event* g_pEvent = nullptr;
 UInt32 ThreadProc(Void* pArgumentBlock, SizeT argumentSize)
 {
     g_pEvent->WaitSignal();
-    g_pEvent->Reset();
+    g_pEvent->ResetSignal();
 
     UNREFERENCED_PARAMETER(pArgumentBlock);
     UNREFERENCED_PARAMETER(argumentSize);
@@ -78,7 +78,7 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
         return 0;
 
     case WM_LBUTTONDOWN:
-        g_pEvent->Set();
+        g_pEvent->SetSignal();
         return 0;
 
     }

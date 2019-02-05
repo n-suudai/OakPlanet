@@ -6,6 +6,7 @@ namespace Oak {
 
 
 Event::Event(const Char* name, Bool initialState)
+    : IEvent(name, initialState)
 {
     strcpy_s(m_name, name);
 
@@ -29,12 +30,12 @@ Void Event::WaitSignal()
     WaitForSingleObject(m_handle, INFINITE);
 }
 
-Void Event::Set()
+Void Event::SetSignal()
 {
     SetEvent(m_handle);
 }
 
-Void Event::Reset()
+Void Event::ResetSignal()
 {
     ResetEvent(m_handle);
 }

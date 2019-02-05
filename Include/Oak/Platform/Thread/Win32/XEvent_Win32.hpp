@@ -2,24 +2,25 @@
 #pragma once
 
 #include "Oak/Platform/OS/Win32.hpp"
-#include "Oak/Platform/AtomicDataTypes.hpp"
+#include "Oak/Platform/Thread/Interface/IEvent.hpp"
 
 
 namespace Oak {
 
 
 class Event final
+    : public Detail::IEvent
 {
 public:
     Event(const Char* name, Bool initialState = false);
 
     ~Event();
 
-    Void WaitSignal();
+    Void WaitSignal() override;
 
-    Void Set();
+    Void SetSignal() override;
 
-    Void Reset();
+    Void ResetSignal() override;
 
 private:
     Char m_name[128];

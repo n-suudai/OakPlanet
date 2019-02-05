@@ -2,8 +2,8 @@
 #pragma once
 
 
-#include "Oak/Platform/AtomicDataTypes.hpp"
 #include "Oak/Platform/OS/Win32.hpp"
+#include "Oak/Platform/Thread/Interface/IMutex.hpp"
 
 
 
@@ -11,15 +11,16 @@ namespace Oak {
 
 
 class Mutex final
+    : public Detail::IMutex
 {
 public:
-    Mutex(const Char* name);
+    explicit Mutex(const Char* name);
 
     ~Mutex();
 
-    Void Lock();
+    Void Lock() override;
 
-    Void Unlock();
+    Void Unlock() override;
 
 private:
     Char m_name[128];

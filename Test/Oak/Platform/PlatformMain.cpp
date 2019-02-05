@@ -6,22 +6,20 @@
 #include "Thread/SemaphoreTest.hpp"
 #include "Thread/EventTest.hpp"
 
+#include  <chrono>
+
 
 #define ExecuteTest(testName) testName ## TestMain()
 
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
-    UNREFERENCED_PARAMETER(hInstance);
-    UNREFERENCED_PARAMETER(hPrevInstance);
-    UNREFERENCED_PARAMETER(lpCmdLine);
-    UNREFERENCED_PARAMETER(nShowCmd);
-
     //ExecuteTest(Thread);
     //ExecuteTest(Mutex);
     //ExecuteTest(CriticalSection);
     //ExecuteTest(Semaphore);
     ExecuteTest(Event);
 
+    return EXIT_SUCCESS;
 }
 

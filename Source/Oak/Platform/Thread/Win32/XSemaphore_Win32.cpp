@@ -6,6 +6,7 @@ namespace Oak {
 
 
 Semaphore::Semaphore(const Char* name, Int32 initialCount, Int32 maxCount)
+    : ISemaphore(name, initialCount, maxCount)
 {
     strcpy_s(m_name, name);
     m_handle = CreateSemaphoreA(
