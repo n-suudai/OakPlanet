@@ -29,6 +29,7 @@ const int HEIGHT = 300;
 
 Oak::Thread* g_pThread1 = nullptr;
 Oak::Thread* g_pThread2 = nullptr;
+Oak::Bool g_exitThread = false;
 Oak::CriticalSection* g_pCriticalSection = nullptr;
 int g_count = 0;
 
@@ -42,7 +43,7 @@ UInt32 ThreadProc1(Void* pArgumentBlock, SizeT argumentSize)
 
     char buf[1000];
 
-    while (g_count <= 1000)
+    while (!g_exitThread && g_count <= 1000)
     {
         sprintf_s(buf, "カウント数表示 : %d", g_count);
         SetWindowTextA(g_hwnd, buf);
@@ -66,7 +67,7 @@ UInt32 ThreadProc2(Void* pArgumentBlock, SizeT argumentSize)
 
     char buf[1000];
 
-    while (g_count >= 0)
+    while (!g_exitThread && g_count >= 0)
     {
         sprintf_s(buf, "カウント数表示 : %d", g_count);
         SetWindowTextA(g_hwnd, buf);
@@ -97,6 +98,7 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
         g_pThread2->Start(nullptr, 0);
         return 0;
     case WM_CLOSE:
+        g_exitThread = true;
         g_pThread1->Wait();
         g_pThread2->Wait();
         delete g_pThread1;

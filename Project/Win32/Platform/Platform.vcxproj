@@ -112,6 +112,10 @@
     <ClInclude Include="..\..\..\Include\Oak\Platform\Timer\Win32\Timer_Win32.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Source\Oak\Platform\FileSystem\Win32\XFileSystem_Win32.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="..\..\..\Source\Oak\Platform\Thread\Win32\XCriticalSection_Win32.cpp">
       <SubType>
       </SubType>

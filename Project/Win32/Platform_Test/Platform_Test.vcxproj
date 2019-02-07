@@ -19,6 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Test\Oak\Platform\FileSystem\FileSystemTest.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="..\..\..\Test\Oak\Platform\Thread\CriticalSectionTest.hpp">
       <SubType>
       </SubType>
@@ -36,8 +40,16 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="..\..\..\Test\Oak\Platform\Thread\ThreadTest.hpp" />
+    <ClInclude Include="..\..\..\Test\Oak\Platform\Timer\TimerTest.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Test\Oak\Platform\FileSystem\FileSystemTest.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="..\..\..\Test\Oak\Platform\PlatformMain.cpp">
       <SubType>
       </SubType>
@@ -59,6 +71,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="..\..\..\Test\Oak\Platform\Thread\ThreadTest.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Test\Oak\Platform\Timer\TimerTest.cpp">
       <SubType>
       </SubType>
     </ClCompile>

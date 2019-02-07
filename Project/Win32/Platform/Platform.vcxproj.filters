@@ -73,6 +73,12 @@
     <Filter Include="Include\Oak\Platform\FileSystem\Interface">
       <UniqueIdentifier>{7e1161f6-1f9d-42e5-9365-18856dac4d2a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Oak\Platform\FileSystem">
+      <UniqueIdentifier>{8ba3f3d7-72a3-43c4-87ae-0d3f786024b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Platform\NetWork">
+      <UniqueIdentifier>{e8a8f2a1-2c73-41de-a1e4-22fd07ba6204}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Include\Oak\Platform\PlatformDetection.hpp">
@@ -169,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Source\Oak\Platform\Timer\Win32\Timer_Win32.cpp">
       <Filter>Source\Oak\Platform\Timer\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Oak\Platform\FileSystem\Win32\XFileSystem_Win32.cpp">
+      <Filter>Source\Oak\Platform\FileSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

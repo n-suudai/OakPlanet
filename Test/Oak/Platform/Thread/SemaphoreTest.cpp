@@ -29,6 +29,7 @@ const int HEIGHT = 300;
 
 Oak::Thread* g_pThread = nullptr;
 Oak::Semaphore* g_pSemaphore = nullptr;
+Oak::Bool g_exitThread = false;
 int g_count = 0;
 
 
@@ -41,7 +42,7 @@ UInt32 ThreadProc(Void* pArgumentBlock, SizeT argumentSize)
 
     char buf[1000];
 
-    while (g_count < 1000)
+    while (!g_exitThread && g_count < 1000)
     {
         sprintf_s(buf, "カウント数表示 : %d", g_count);
         SetWindowTextA(g_hwnd, buf);
@@ -71,7 +72,7 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
         return 0;
 
     case WM_CLOSE:
-        //フラグをfalseにしてスレッドを終了させる。
+        g_exitThread = true;
         g_pThread->Wait();
         delete g_pThread;
         delete g_pSemaphore;

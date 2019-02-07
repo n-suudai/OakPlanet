@@ -65,7 +65,6 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
         return 0;
 
     case WM_CLOSE:
-        //フラグをfalseにしてスレッドを終了させる。
         g_flag = false;
         g_pThread->Wait();
         delete g_pThread;

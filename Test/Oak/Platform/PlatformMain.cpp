@@ -5,8 +5,8 @@
 #include "Thread/CriticalSectionTest.hpp"
 #include "Thread/SemaphoreTest.hpp"
 #include "Thread/EventTest.hpp"
-
-#include  <chrono>
+#include "Timer/TimerTest.hpp"
+#include  "FileSystem/FileSystemTest.hpp"
 
 
 #define ExecuteTest(testName) testName ## TestMain()
@@ -18,8 +18,10 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
     //ExecuteTest(Mutex);
     //ExecuteTest(CriticalSection);
     //ExecuteTest(Semaphore);
-    ExecuteTest(Event);
+    //ExecuteTest(Event);
+    //ExecuteTest(Timer);
+    //ExecuteTest(FileSystem);
 
-    return EXIT_SUCCESS;
+    return 0;
 }
 

@@ -13,6 +13,12 @@
     <Filter Include="Test\Oak\Platform\Thread">
       <UniqueIdentifier>{e61d282c-002a-40c2-a358-59fba01e3792}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test\Oak\Platform\FileSystem">
+      <UniqueIdentifier>{0a66868f-53c9-440d-a47c-d8dc4c4ea4ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test\Oak\Platform\Timer">
+      <UniqueIdentifier>{f2285006-c2b5-4b16-b353-1e20ac5b493c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Test\Oak\Platform\Thread\ThreadTest.hpp">
@@ -29,6 +35,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Test\Oak\Platform\Thread\EventTest.hpp">
       <Filter>Test\Oak\Platform\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Test\Oak\Platform\FileSystem\FileSystemTest.hpp">
+      <Filter>Test\Oak\Platform\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Test\Oak\Platform\Timer\TimerTest.hpp">
+      <Filter>Test\Oak\Platform\Timer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +61,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Test\Oak\Platform\Thread\EventTest.cpp">
       <Filter>Test\Oak\Platform\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Test\Oak\Platform\FileSystem\FileSystemTest.cpp">
+      <Filter>Test\Oak\Platform\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Test\Oak\Platform\Timer\TimerTest.cpp">
+      <Filter>Test\Oak\Platform\Timer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -51,7 +51,7 @@ Bool HighResolutionTimer::IsEnableHighResolutionTimer() const
 
 Double StandardTimer::NowSeconds()
 {
-    return GetTickCount64() * 0.0001;
+    return GetTickCount64() * 0.001;
 }
 
 
