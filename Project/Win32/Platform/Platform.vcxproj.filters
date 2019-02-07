@@ -79,6 +79,18 @@
     <Filter Include="Include\Oak\Platform\NetWork">
       <UniqueIdentifier>{e8a8f2a1-2c73-41de-a1e4-22fd07ba6204}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include\Oak\Platform\NetWork\Interface">
+      <UniqueIdentifier>{6e690673-9a93-470b-aa7f-6a7e43d94536}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Platform\NetWork\Win32">
+      <UniqueIdentifier>{f323a578-30e4-4c17-8e8b-7b69777cbe2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Oak\Platform\NetWork">
+      <UniqueIdentifier>{6a5594e7-1bac-45a5-8d38-74a2ef742aa1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Oak\Platform\NetWork\Win32">
+      <UniqueIdentifier>{a7c58471-a577-467f-bb19-183df18060c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Include\Oak\Platform\PlatformDetection.hpp">
@@ -156,6 +168,12 @@
     <ClInclude Include="..\..\..\Include\Oak\Platform\FileSystem\Win32\XFileSystem_Win32.hpp">
       <Filter>Include\Oak\Platform\FileSystem\Win32</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\NetWork\Interface\ISocket.hpp">
+      <Filter>Include\Oak\Platform\NetWork\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\NetWork\Win32\XSocket_Win32.hpp">
+      <Filter>Include\Oak\Platform\NetWork\Win32</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\Platform\Thread\Win32\XCriticalSection_Win32.cpp">
@@ -178,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Source\Oak\Platform\FileSystem\Win32\XFileSystem_Win32.cpp">
       <Filter>Source\Oak\Platform\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Oak\Platform\NetWork\Win32\XSocket_Win32.cpp">
+      <Filter>Source\Oak\Platform\NetWork\Win32</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

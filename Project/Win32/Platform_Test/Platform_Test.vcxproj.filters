@@ -19,6 +19,9 @@
     <Filter Include="Test\Oak\Platform\Timer">
       <UniqueIdentifier>{f2285006-c2b5-4b16-b353-1e20ac5b493c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test\Oak\Platform\NetWork">
+      <UniqueIdentifier>{02b23551-68e5-462e-9853-53033fc528b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Test\Oak\Platform\Thread\ThreadTest.hpp">
@@ -41,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Test\Oak\Platform\Timer\TimerTest.hpp">
       <Filter>Test\Oak\Platform\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Test\Oak\Platform\NetWork\NetWorkTest.hpp">
+      <Filter>Test\Oak\Platform\NetWork</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Test\Oak\Platform\Timer\TimerTest.cpp">
       <Filter>Test\Oak\Platform\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Test\Oak\Platform\NetWork\NetWorkTest.cpp">
+      <Filter>Test\Oak\Platform\NetWork</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
