@@ -10,9 +10,6 @@
     <Filter Include="Include\Oak\Core">
       <UniqueIdentifier>{701d259e-c83b-43a2-8e29-62035c939a84}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Include\Oak\Core\Platform">
-      <UniqueIdentifier>{817674f9-646c-407a-8f3f-bec1906d0e0f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source">
       <UniqueIdentifier>{b445296b-3e55-4ef9-b9ec-171a4b9741d4}</UniqueIdentifier>
     </Filter>
@@ -53,12 +50,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Core\Types.hpp">
       <Filter>Include\Oak\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Core\Platform\OSX.hpp">
-      <Filter>Include\Oak\Core\Platform</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Core\Platform\Win32.hpp">
-      <Filter>Include\Oak\Core\Platform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

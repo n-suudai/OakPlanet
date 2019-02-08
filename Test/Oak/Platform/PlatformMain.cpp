@@ -18,7 +18,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
     //ExecuteTest(Thread);
     //ExecuteTest(Mutex);
     //ExecuteTest(CriticalSection);
-    ExecuteTest(Semaphore);
+    //ExecuteTest(Semaphore);
     //ExecuteTest(Event);
     //ExecuteTest(Timer);
     //ExecuteTest(FileSystem);

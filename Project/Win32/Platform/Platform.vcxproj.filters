@@ -192,6 +192,9 @@
     <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\LockGuard.hpp">
       <Filter>Include\Oak\Platform\Thread</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Graphics\Graphics.hpp">
+      <Filter>Include\Oak\Platform\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\Platform\Thread\Win32\XCriticalSection_Win32.cpp">

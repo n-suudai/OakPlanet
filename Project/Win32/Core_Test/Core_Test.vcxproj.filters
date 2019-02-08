@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Test">
+      <UniqueIdentifier>{9177dd9e-ed37-4286-b200-28d2d3be9a2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test\Oak">
+      <UniqueIdentifier>{c9d49d47-12fa-42e7-afe7-76ad18298dd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test\Oak\Core">
+      <UniqueIdentifier>{82f43893-303d-4239-a2a8-abf5f49dc12b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

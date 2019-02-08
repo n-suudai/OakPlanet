@@ -32,6 +32,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Platform\FileSystem\Win32\XFileSystem_Win32.hpp" />
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Graphics\Graphics.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Platform\NetWork\Interface\ISocket.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Platform\NetWork\Win32\XSocket_Win32.hpp">
       <SubType>

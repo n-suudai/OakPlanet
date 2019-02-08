@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{B168175E-722E-4171-8FB5-A7CD4E6F8330}</ProjectGuid>
+    <ProjectGuid>{A2B1F9BD-3748-471C-97FA-47DB90E47684}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Core</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
@@ -144,8 +144,6 @@
     <ClInclude Include="..\..\..\Include\Oak\Core\File.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Core\Log.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Core\NetWork.hpp" />
-    <ClInclude Include="..\..\..\Include\Oak\Core\Platform\OSX.hpp" />
-    <ClInclude Include="..\..\..\Include\Oak\Core\Platform\Win32.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Core\StackTrace.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Core\Thread.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Core\Time.hpp" />
