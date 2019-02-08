@@ -37,6 +37,22 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\STL\Container.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\STL\Memory.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\STL\STLAllocator.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\STL\String.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Interface\ICriticalSection.hpp">
       <SubType>
       </SubType>
@@ -54,6 +70,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\Interface\IThread.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\LockGuard.hpp">
       <SubType>
       </SubType>
     </ClInclude>

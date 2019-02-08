@@ -4,6 +4,7 @@
 
 #include "Oak/Platform/Thread/Thread.hpp"
 #include "Oak/Platform/Thread/Mutex.hpp"
+#include "Oak/Platform/Thread/LockGuard.hpp"
 #include <cstdio>
 
 
@@ -28,13 +29,13 @@ const int WIDTH = 500;
 const int HEIGHT = 300;
 
 Oak::Thread* g_pThread = nullptr;
-Oak::Mutex* g_pMutex = nullptr;
+Oak::Mutex g_mutex("MUTEX");
 Oak::Bool  g_exitThread = false;
 
 
 UInt32 ThreadProc(Void* pArgumentBlock, SizeT argumentSize)
 {
-    g_pMutex->Lock();
+    LockGuard<Mutex> lock(g_mutex);
 
     UNREFERENCED_PARAMETER(pArgumentBlock);
     UNREFERENCED_PARAMETER(argumentSize);
@@ -52,8 +53,6 @@ UInt32 ThreadProc(Void* pArgumentBlock, SizeT argumentSize)
         Thread::Sleep(20);
     }
 
-    g_pMutex->Unlock();
-
     return 0;
 }
 
@@ -67,7 +66,6 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
     case WM_CREATE:
         //スレッドを作成
         g_pThread = new Oak::Thread("スレッド", ThreadProc);
-        g_pMutex = new Oak::Mutex("MUTEX");
         g_pThread->Start(nullptr, 0);
         return 0;
 
@@ -75,7 +73,6 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
         g_exitThread = true;
         g_pThread->Wait();
         delete g_pThread;
-        delete g_pMutex;
         //ウィンドウを破棄
         DestroyWindow(hwnd);
         return 0;

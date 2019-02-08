@@ -91,6 +91,9 @@
     <Filter Include="Source\Oak\Platform\NetWork\Win32">
       <UniqueIdentifier>{a7c58471-a577-467f-bb19-183df18060c9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include\Oak\Platform\STL">
+      <UniqueIdentifier>{55274d9b-26bd-42f6-99b3-0dafffdda013}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Include\Oak\Platform\PlatformDetection.hpp">
@@ -173,6 +176,21 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Platform\NetWork\Win32\XSocket_Win32.hpp">
       <Filter>Include\Oak\Platform\NetWork\Win32</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\STL\STLAllocator.hpp">
+      <Filter>Include\Oak\Platform\STL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\STL\Container.hpp">
+      <Filter>Include\Oak\Platform\STL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\STL\Memory.hpp">
+      <Filter>Include\Oak\Platform\STL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\STL\String.hpp">
+      <Filter>Include\Oak\Platform\STL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Platform\Thread\LockGuard.hpp">
+      <Filter>Include\Oak\Platform\Thread</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

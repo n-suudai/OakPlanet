@@ -4,6 +4,7 @@
 
 #include "Oak/Platform/Thread/Thread.hpp"
 #include "Oak/Platform/Thread/CriticalSection.hpp"
+#include "Oak/Platform/Thread/LockGuard.hpp"
 #include <cstdio>
 
 
@@ -30,13 +31,13 @@ const int HEIGHT = 300;
 Oak::Thread* g_pThread1 = nullptr;
 Oak::Thread* g_pThread2 = nullptr;
 Oak::Bool g_exitThread = false;
-Oak::CriticalSection* g_pCriticalSection = nullptr;
+Oak::CriticalSection g_criticalSection;
 int g_count = 0;
 
 
 UInt32 ThreadProc1(Void* pArgumentBlock, SizeT argumentSize)
 {
-    g_pCriticalSection->Lock();
+    LockGuard<CriticalSection> lock(g_criticalSection);
 
     UNREFERENCED_PARAMETER(pArgumentBlock);
     UNREFERENCED_PARAMETER(argumentSize);
@@ -53,14 +54,12 @@ UInt32 ThreadProc1(Void* pArgumentBlock, SizeT argumentSize)
         Thread::Sleep(10);
     }
 
-    g_pCriticalSection->Unlock();
-
     return 0;
 }
 
 UInt32 ThreadProc2(Void* pArgumentBlock, SizeT argumentSize)
 {
-    g_pCriticalSection->Lock();
+    LockGuard<CriticalSection> lock(g_criticalSection);
 
     UNREFERENCED_PARAMETER(pArgumentBlock);
     UNREFERENCED_PARAMETER(argumentSize);
@@ -77,8 +76,6 @@ UInt32 ThreadProc2(Void* pArgumentBlock, SizeT argumentSize)
         Thread::Sleep(10);
     }
 
-    g_pCriticalSection->Unlock();
-
     return 0;
 }
 
@@ -93,7 +90,6 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
         //スレッドを作成
         g_pThread1 = new Oak::Thread("スレッド1", ThreadProc1);
         g_pThread2 = new Oak::Thread("スレッド2", ThreadProc2);
-        g_pCriticalSection = new Oak::CriticalSection();
         g_pThread1->Start(nullptr, 0);
         g_pThread2->Start(nullptr, 0);
         return 0;
@@ -103,7 +99,6 @@ LRESULT CALLBACK WinProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
         g_pThread2->Wait();
         delete g_pThread1;
         delete g_pThread2;
-        delete g_pCriticalSection;
         //ウィンドウを破棄
         DestroyWindow(hwnd);
         return 0;

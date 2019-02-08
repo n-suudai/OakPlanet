@@ -2,6 +2,8 @@
 #include "NetWorkTest.hpp"
 #include "Oak/Platform/NetWork.hpp"
 
+#include  <cstdio>
+
 #pragma comment(lib, "ws2_32.lib")
 
 

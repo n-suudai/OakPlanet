@@ -26,7 +26,7 @@ Bool Socket::Initialize(SOCKET_TYPE socketType)
     {
         int err;
 
-        err = WSAStartup(MAKEWORD(2, 0), &m_wsaData);
+        err = WSAStartup(WINSOCK_VERSION, &m_wsaData);
 
         if (err != 0)
         {
