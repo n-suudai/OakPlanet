@@ -11,4 +11,9 @@
       <UniqueIdentifier>{82f43893-303d-4239-a2a8-abf5f49dc12b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Test\Oak\Core\CoreMain.cpp">
+      <Filter>Test\Oak\Core</Filter>
+    </ClCompile>
+  </ItemGroup>
 </Project>
