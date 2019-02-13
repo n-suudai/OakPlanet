@@ -2,11 +2,10 @@
 #pragma once
 
 
-#include "Oak/Core/Types.hpp"
+#include "Oak/Platform/AtomicDataTypes.hpp"
 
 
 namespace Oak {
-namespace Core {
 
 
 class Log
@@ -31,6 +30,5 @@ public:
 };
 
 
-} // namespace Core
 } // namespace Oak
 

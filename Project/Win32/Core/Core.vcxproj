@@ -141,13 +141,8 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\Include\Oak\Core\Assert.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Core\DebugBreak.hpp" />
-    <ClInclude Include="..\..\..\Include\Oak\Core\File.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Core\Log.hpp" />
-    <ClInclude Include="..\..\..\Include\Oak\Core\NetWork.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Core\StackTrace.hpp" />
-    <ClInclude Include="..\..\..\Include\Oak\Core\Thread.hpp" />
-    <ClInclude Include="..\..\..\Include\Oak\Core\Time.hpp" />
-    <ClInclude Include="..\..\..\Include\Oak\Core\Types.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\Core\Assert.cpp">

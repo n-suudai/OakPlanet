@@ -2,7 +2,7 @@
 #pragma once
 
 
-#include "Oak/Core/Types.hpp"
+#include "Oak/Platform/AtomicDataTypes.hpp"
 #include "Oak/Core/DebugBreak.hpp"
 
 
@@ -12,7 +12,7 @@
 #       define OAK_ASSERT(expression) \
             static_cast<Oak::Void>( \
                 (!!(expression)) \
-                || (Oak::Core::Assert::Handle(#expression, __FILE__, __LINE__), OAK_DEBUG_BREAK(), false))
+                || (Oak::Assert::Handle(#expression, __FILE__, __LINE__), OAK_DEBUG_BREAK(), false))
 
 #   else
 #       define OAK_ASSERT(expression, message) \
@@ -26,7 +26,7 @@
 #       define OAK_ASSERT_MESSAGE(expression, message) \
             static_cast<Oak::Void>( \
                 (!!(expression)) \
-                || (Oak::Core::Assert::HandleMessage(#expression, message, __FILE__, __LINE__), OAK_DEBUG_BREAK(), false))
+                || (Oak::Assert::HandleMessage(#expression, message, __FILE__, __LINE__), OAK_DEBUG_BREAK(), false))
 
 #   else
 #       define OAK_ASSERT_MESSAGE(expression, message) \
@@ -36,7 +36,6 @@
 
 
 namespace Oak {
-namespace Core {
 
 
 class Assert
@@ -48,6 +47,5 @@ public:
 };
 
 
-} // namespace Core
 } // namespace Oak
 

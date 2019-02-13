@@ -4,7 +4,6 @@
 
 
 namespace Oak {
-namespace Core {
 
 
 Void Assert::Handle(const Char* expression, const Char* file, Int32 line)
@@ -81,6 +80,5 @@ Void Assert::HandleMessage(const Char* expression, const Char* message, const Ch
 }
 
 
-} // namespace Core
 } // namespace Oak
 

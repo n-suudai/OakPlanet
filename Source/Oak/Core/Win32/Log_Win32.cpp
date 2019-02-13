@@ -1,6 +1,6 @@
 ﻿
 #include "Oak/Core/Log.hpp"
-#include "Oak/Core/Platform/Win32.hpp"
+#include "Oak/Platform/OS/Win32.hpp"
 
 #include <string.h>
 #include <cstdarg>
@@ -8,7 +8,6 @@
 
 
 namespace Oak {
-namespace Core {
 
 
 Void Log::Format(Level level, const Char* format, ...)
@@ -68,6 +67,5 @@ Void Log::Message(const Char* message)
 }
 
 
-} // namespace Core
 } // namespace Oak
 

@@ -30,25 +30,10 @@
     <ClInclude Include="..\..\..\Include\Oak\Core\DebugBreak.hpp">
       <Filter>Include\Oak\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Core\File.hpp">
-      <Filter>Include\Oak\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Core\Log.hpp">
       <Filter>Include\Oak\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Core\NetWork.hpp">
-      <Filter>Include\Oak\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Core\StackTrace.hpp">
-      <Filter>Include\Oak\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Core\Thread.hpp">
-      <Filter>Include\Oak\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Core\Time.hpp">
-      <Filter>Include\Oak\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Core\Types.hpp">
       <Filter>Include\Oak\Core</Filter>
     </ClInclude>
   </ItemGroup>

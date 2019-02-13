@@ -1,11 +1,10 @@
 ﻿
 #include "Oak/Core/StackTrace.hpp"
 #include "Oak/Core/Log.hpp"
+#include "Oak/Platform/OS/Win32.hpp"
 
 
-#include <Windows.h>
 #include <dbghelp.h>
-#include <mutex>
 
 #pragma comment(lib, "imagehlp.lib")
 #pragma comment(lib, "Kernel32.lib")
@@ -27,7 +26,7 @@ static Bool   g_IsSymbolEngineReady = false;
 #pragma warning(pop)
 
 
-static Void AddressToTraceInfo(Void* address, Oak::Core::StackTrace::TraceInfo& outInfo)
+static Void AddressToTraceInfo(Void* address, Oak::StackTrace::TraceInfo& outInfo)
 {
     outInfo.Clear();
     outInfo.address = address;
@@ -90,7 +89,6 @@ static Void AddressToTraceInfo(Void* address, Oak::Core::StackTrace::TraceInfo& 
 
 
 namespace Oak {
-namespace Core {
 
 
 StackTrace::TraceInfo::TraceInfo()
@@ -193,6 +191,5 @@ UInt32 StackTrace::CaptureStackTrace(
 }
 
 
-} // namespace Core
 } // namespace Oak
 
