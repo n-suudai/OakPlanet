@@ -1,0 +1,19 @@
+﻿
+#pragma once
+
+
+#ifdef OAK_USE_NED
+
+
+#ifndef _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
+
+#define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
+
+#endif // _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
+
+
+#include "nedmalloc/nedmalloc.h"
+
+
+#endif // OAK_USE_NED
+

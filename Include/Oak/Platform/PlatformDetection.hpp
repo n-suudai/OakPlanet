@@ -12,3 +12,18 @@
 
 #endif
 
+
+#ifndef DECL_MALLOC
+
+#if defined(_MSC_VER)
+
+#define DECL_MALLOC __declspec(restrict) __declspec(noalias)
+
+#else // !defined(_MSC_VER)
+
+#define DECL_MALLOC __attribute__ ((malloc))
+
+#endif
+
+#endif // DECL_MALLOC
+

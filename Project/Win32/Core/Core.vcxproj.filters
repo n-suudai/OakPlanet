@@ -22,6 +22,18 @@
     <Filter Include="Source\Oak\Core\Wiin32">
       <UniqueIdentifier>{dfe9fab6-28cc-4863-86f3-653dadebb604}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include\Oak\Core\Memory">
+      <UniqueIdentifier>{da4b9ddf-9929-47f2-b15c-6e699b12fe2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Oak\Core\Memory\Policy">
+      <UniqueIdentifier>{c0c9b71a-abe1-42b8-899c-747ac765d2bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Oak\Core\Memory">
+      <UniqueIdentifier>{73e662e3-7282-439e-9a24-7278ddc4a380}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Oak\Core\Memory\Policy">
+      <UniqueIdentifier>{e6cf08d3-2ee4-4d68-9800-b3ad14d45bca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Include\Oak\Core\Assert.hpp">
@@ -36,6 +48,15 @@
     <ClInclude Include="..\..\..\Include\Oak\Core\StackTrace.hpp">
       <Filter>Include\Oak\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\AllocatedObject.hpp">
+      <Filter>Include\Oak\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\AllocateConfig.hpp">
+      <Filter>Include\Oak\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\Policy\NedPoolingAllocatePolicy.hpp">
+      <Filter>Include\Oak\Core\Memory\Policy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\Core\Assert.cpp">
@@ -46,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Source\Oak\Core\Win32\Log_Win32.cpp">
       <Filter>Source\Oak\Core\Wiin32</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Oak\Core\Memory\Policy\NedPoolingAllocatePolicy.cpp">
+      <Filter>Source\Oak\Core\Memory\Policy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

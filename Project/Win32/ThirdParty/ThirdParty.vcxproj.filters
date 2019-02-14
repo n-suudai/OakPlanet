@@ -39,9 +39,15 @@
     <ClInclude Include="..\..\..\Include\Oak\ThirdParty\Vulkan.hpp">
       <Filter>Include\Oak\ThirdParty</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\ThirdParty\nedmalloc.hpp">
+      <Filter>Include\Oak\ThirdParty</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\ThirdParty\dlmalloc.cpp">
+      <Filter>Source\Oak\ThirdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Oak\ThirdParty\nedmalloc.cpp">
       <Filter>Source\Oak\ThirdParty</Filter>
     </ClCompile>
   </ItemGroup>
