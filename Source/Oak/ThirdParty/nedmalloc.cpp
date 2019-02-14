@@ -1,8 +1,9 @@
 ﻿
 
-#ifdef OAK_USE_NED
+#ifdef OAK_USE_NEDMALLOC
 
 
+#include "Oak/ThirdParty/nedmalloc.hpp"
 
 
 #pragma warning(push)
@@ -13,5 +14,5 @@
 #pragma warning(pop)
 
 
-#endif  // OAK_USE_NED
+#endif  // OAK_USE_NEDMALLOC
 

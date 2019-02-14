@@ -15,8 +15,8 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <PreprocessorDefinitions Condition="'$(Configuration)' == 'Debug'">OAK_BUILD_DEBUG;_DEBUG=1;DEBUG=1;OAK_PLATFORM_WIN;_ITERATOR_DEBUG_LEVEL=0;WIN32=1;OAK_USE_NED;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)' == 'Release'">OAK_BUILD_RELEASE;_NDEBUG=1;NDEBUG=1;OAK_PLATFORM_WIN;_ITERATOR_DEBUG_LEVEL=0;WIN32=1;OAK_USE_NED;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)' == 'Debug'">OAK_BUILD_DEBUG;_DEBUG=1;DEBUG=1;OAK_PLATFORM_WIN;_ITERATOR_DEBUG_LEVEL=0;WIN32=1;OAK_USE_NEDMALLOC;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)' == 'Release'">OAK_BUILD_RELEASE;_NDEBUG=1;NDEBUG=1;OAK_PLATFORM_WIN;_ITERATOR_DEBUG_LEVEL=0;WIN32=1;OAK_USE_NEDMALLOC;_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(VK_SDK_PATH)\Include\;$(SolutionDir)..\..\..\External\dlmalloc\;$(SolutionDir)..\..\..\External\nedmalloc\;$(SolutionDir)..\..\..\Include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>

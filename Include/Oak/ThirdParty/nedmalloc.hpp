@@ -2,7 +2,7 @@
 #pragma once
 
 
-#ifdef OAK_USE_NED
+#ifdef OAK_USE_NEDMALLOC
 
 
 #ifndef _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING
@@ -15,5 +15,5 @@
 #include "nedmalloc/nedmalloc.h"
 
 
-#endif // OAK_USE_NED
+#endif // OAK_USE_NEDMALLOC
 
