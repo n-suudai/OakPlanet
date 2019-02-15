@@ -1,11 +1,12 @@
-﻿#include "Oak/Core/Memory/Policy/NedPoolingAllocatePolicy.hpp"
+﻿
+#include "Oak/Core/Memory/Policy/NedPoolingAllocatePolicy.hpp"
+
+
+#if OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NEDPOOLING
+
+
 #include "Oak/ThirdParty/nedmalloc.hpp"
-#include "Oak/Platform/PlatformDetection.hpp"
 #include <algorithm>
-
-
-#define OAK_SIMD_ALIGNMENT 128
-#define OAK_MEMORY_TRACKER 0
 
 
 namespace Oak {
@@ -114,7 +115,7 @@ Void internalFree(Void* a_mem)
 DECL_MALLOC Void* NedPoolingAllocatePolicyImpl::AllocateBytes(
     SizeT bytes,
     const Char* file,
-    int line,
+    Int32 line,
     const Char* func
 )
 {
@@ -132,8 +133,7 @@ DECL_MALLOC Void* NedPoolingAllocatePolicyImpl::AllocateBytes(
 Void NedPoolingAllocatePolicyImpl::DeallocateBytes(Void* pBlock)
 {
     // deal with null
-    if (!pBlock)
-        return;
+    if (!pBlock) { return; }
 #if OAK_MEMORY_TRACKER
     MemoryTracker::get()._recordDealloc(pBlock);
 #endif
@@ -144,7 +144,7 @@ DECL_MALLOC Void* NedPoolingAllocatePolicyImpl::AllocateBytesAligned(
     SizeT alignment,
     SizeT bytes,
     const Char* file,
-    int line,
+    Int32 line,
     const Char* func)
 {
     // default to platform SIMD alignment if none specified
@@ -167,8 +167,7 @@ Void NedPoolingAllocatePolicyImpl::DeallocateBytesAligned(SizeT alignment, Void*
     alignment;
 
     // deal with null
-    if (!pBlock)
-        return;
+    if (!pBlock) { return; }
 #if OAK_MEMORY_TRACKER
     MemoryTracker::get()._recordDealloc(pBlock);
 #endif
@@ -177,4 +176,7 @@ Void NedPoolingAllocatePolicyImpl::DeallocateBytesAligned(SizeT alignment, Void*
 
 
 } // namespace Oak
+
+
+#endif  // OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NEDPOOLING
 

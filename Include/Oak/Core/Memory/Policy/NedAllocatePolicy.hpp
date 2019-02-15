@@ -1,11 +1,10 @@
 ﻿
 #pragma once
 
-
 #include "Oak/Core/Memory/MemoryConfig.hpp"
 
 
-#if OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NEDPOOLING
+#if  OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NED
 
 
 #include "Oak/Platform/AtomicDataTypes.hpp"
@@ -15,25 +14,25 @@
 namespace Oak {
 
 
-class NedPoolingAllocatePolicyImpl
+class NedAllocatePolicyImpl
 {
 public:
-    static DECL_MALLOC Void* AllocateBytes(SizeT bytes, const Char* file, Int32 line, const Char* func);
+    static Void* AllocateBytes(SizeT bytes, const Char* file, Int32 line, const Char* func);
 
     static Void DeallocateBytes(Void* pBlock);
 
-    static DECL_MALLOC Void* AllocateBytesAligned(SizeT alignment, SizeT bytes, const Char* file, Int32 line, const Char* func);
+    static Void* AllocateBytesAligned(SizeT alignment, SizeT bytes, const Char* file, Int32 line, const Char* func);
 
     static Void DeallocateBytesAligned(SizeT alignment, Void* pBlock);
 };
 
 
-class NedPoolingAllocatePolicy
+class NedAllocatePolicy
 {
 public:
     static inline Void* AllocateBytes(SizeT bytes, const Char* file, Int32 line, const Char* func)
     {
-        return NedPoolingAllocatePolicyImpl::AllocateBytes(
+        return NedAllocatePolicyImpl::AllocateBytes(
             bytes,
             file,
             line,
@@ -43,20 +42,20 @@ public:
 
     static inline Void DeallocateBytes(Void* pBlock)
     {
-        NedPoolingAllocatePolicyImpl::DeallocateBytes(pBlock);
+        NedAllocatePolicyImpl::DeallocateBytes(pBlock);
     }
 };
 
 
 template<SizeT Alignment = 0>
-class NedPoolingAlignedAllocatePolicy
+class NedAlignedAllocatePolicy
 {
     // compile-time check alignment is available.
     typedef int IsValidAlignment[Alignment <= 128 && ((Alignment & (Alignment - 1)) == 0) ? +1 : -1];
 public:
     static inline Void* AllocateBytes(SizeT bytes, const Char* file, Int32 line, const Char* func)
     {
-        return NedPoolingAllocatePolicyImpl::AllocateBytesAligned(
+        return NedAllocatePolicyImpl::AllocateBytesAligned(
             Alignment,
             bytes,
             file,
@@ -67,7 +66,7 @@ public:
 
     static inline Void DeallocateBytes(Void* pBlock)
     {
-        NedPoolingAllocatePolicyImpl::DeallocateBytesAligned(
+        NedAllocatePolicyImpl::DeallocateBytesAligned(
             Alignment,
             pBlock
         );
@@ -78,5 +77,5 @@ public:
 } // namespace Oak
 
 
-#endif  // OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NEDPOOLING
+#endif // OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NED
 

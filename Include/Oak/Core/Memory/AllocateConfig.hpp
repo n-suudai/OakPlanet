@@ -2,13 +2,7 @@
 #pragma once
 
 #include "Oak/Core/Memory/AllocatedObject.hpp"
-
-
-#define OAK_MEMORY_ALLOCATOR_NEDPOOLING     1
-#define OAK_MEMORY_ALLOCATOR_NED            2
-#define OAK_MEMORY_ALLOCATOR_STD            3
-
-#define OAK_MEMORY_ALLOCATOR OAK_MEMORY_ALLOCATOR_NEDPOOLING
+#include "Oak/Core/Memory/MemoryConfig.hpp"
 
 
 namespace Oak {
@@ -22,9 +16,12 @@ enum MEMORY_CATEGORY : UInt8
     , MEMORY_CATEGORY_NUM
 };
 
+
 } // namespace Oak
 
+
 #if OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NEDPOOLING
+
 
 #include "Oak/Core/Memory/Policy/NedPoolingAllocatePolicy.hpp"
 
@@ -38,9 +35,38 @@ class CategorisedAlignAllocatePolicy : public NedPoolingAlignedAllocatePolicy<Al
 
 } // namespace Oak
 
+
 #elif OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NED
 
+
+#include "Oak/Core/Memory/Policy/NedAllocatePolicy.hpp"
+
+namespace Oak {
+
+template<MEMORY_CATEGORY Category>
+class CategorisedAllocatePolicy : public NedAllocatePolicy {};
+
+template<MEMORY_CATEGORY Category, SizeT Alignment = 0>
+class CategorisedAlignAllocatePolicy : public NedAlignedAllocatePolicy<Alignment> {};
+
+} // namespace Oak
+
+
 #elif OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_STD
+
+
+#include "Oak/Core/Memory/Policy/StandardAllocatePolicy.hpp"
+
+namespace Oak {
+
+template<MEMORY_CATEGORY Category>
+class CategorisedAllocatePolicy : public StandardAllocatePolicy {};
+
+template<MEMORY_CATEGORY Category, SizeT Alignment = 0>
+class CategorisedAlignAllocatePolicy : public StandardAlignedAllocatePolicy<Alignment> {};
+
+} // namespace Oak
+
 
 #else
 
@@ -51,13 +77,14 @@ class CategorisedAlignAllocatePolicy : public NedPoolingAlignedAllocatePolicy<Al
 
 namespace  Oak {
 
+
 // policy shortcuts
 typedef CategorisedAllocatePolicy<MEMORY_CATEGORY_GENERAL> GeneralAllocatePolicy;
 
 
 // aligned policy shortcuts
 template<SizeT Alignment = 0>
-using GeneralAlignedAllocatePolicy = CategorisedAlignAllocatePolicy<MEMORY_CATEGORY_GENERAL, Alignement>;
+using GeneralAlignedAllocatePolicy = CategorisedAlignAllocatePolicy<MEMORY_CATEGORY_GENERAL, Alignment>;
 
 
 // base classes
@@ -66,8 +93,7 @@ typedef AllocatedObject<GeneralAllocatePolicy> GeneralAllocatedObject;
 
 // aligned base classes
 template<SizeT Alignment = 0>
-using GeneralAlignAllocatedObject = AllocatedObject<CategorisedAlignAllocatePolicy<Alignment>>;
-
+using GeneralAlignAllocatedObject = AllocatedObject<GeneralAlignedAllocatePolicy<Alignment>>;
 
 
 } // namespace Oak

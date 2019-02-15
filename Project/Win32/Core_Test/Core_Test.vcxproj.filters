@@ -18,9 +18,15 @@
     <ClCompile Include="..\..\..\Test\Oak\Core\AssertTest.cpp">
       <Filter>Test\Oak\Core</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Test\Oak\Core\MemoryTest.cpp">
+      <Filter>Test\Oak\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Test\Oak\Core\AssertTest.hpp">
+      <Filter>Test\Oak\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Test\Oak\Core\MemoryTest.hpp">
       <Filter>Test\Oak\Core</Filter>
     </ClInclude>
   </ItemGroup>

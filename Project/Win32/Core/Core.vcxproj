@@ -140,14 +140,34 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Include\Oak\Core\Assert.hpp" />
+    <ClInclude Include="..\..\..\Include\Oak\Core\Bitwise.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Core\DebugBreak.hpp" />
     <ClInclude Include="..\..\..\Include\Oak\Core\Log.hpp" />
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\AlignedAllocator.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Core\Memory\AllocateConfig.hpp">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Core\Memory\AllocatedObject.hpp" />
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\MemoryConfig.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\Policy\NedAllocatePolicy.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Core\Memory\Policy\NedPoolingAllocatePolicy.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\Policy\StandardAllocatePolicy.hpp">
       <SubType>
       </SubType>
     </ClInclude>
@@ -155,6 +175,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\Core\Assert.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Oak\Core\Memory\Policy\NedAllocatePolicy.cpp">
       <SubType>
       </SubType>
     </ClCompile>

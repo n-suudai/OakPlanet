@@ -27,12 +27,14 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="..\..\..\Test\Oak\Core\MemoryTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Test\Oak\Core\AssertTest.hpp">
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="..\..\..\Test\Oak\Core\MemoryTest.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -112,7 +114,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\Platform.lib;$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\Platform.lib;$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\Core.lib;$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\ThirdParty.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -124,7 +126,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\Platform.lib;$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\Platform.lib;$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\Core.lib;$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\ThirdParty.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -140,7 +142,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\Platform.lib;$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\Platform.lib;$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\Core.lib;$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\ThirdParty.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -156,7 +158,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\Platform.lib;$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\Core.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\Platform.lib;$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\Core.lib;$(Solutiondir)bin\$(Configuration)\$(PlatformShortName)\ThirdParty.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

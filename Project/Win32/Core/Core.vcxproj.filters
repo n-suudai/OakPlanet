@@ -57,6 +57,21 @@
     <ClInclude Include="..\..\..\Include\Oak\Core\Memory\Policy\NedPoolingAllocatePolicy.hpp">
       <Filter>Include\Oak\Core\Memory\Policy</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\Policy\NedAllocatePolicy.hpp">
+      <Filter>Include\Oak\Core\Memory\Policy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\MemoryConfig.hpp">
+      <Filter>Include\Oak\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\Policy\StandardAllocatePolicy.hpp">
+      <Filter>Include\Oak\Core\Memory\Policy</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\AlignedAllocator.hpp">
+      <Filter>Include\Oak\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Bitwise.hpp">
+      <Filter>Include\Oak\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\Core\Assert.cpp">
@@ -69,6 +84,9 @@
       <Filter>Source\Oak\Core\Wiin32</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Source\Oak\Core\Memory\Policy\NedPoolingAllocatePolicy.cpp">
+      <Filter>Source\Oak\Core\Memory\Policy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Oak\Core\Memory\Policy\NedAllocatePolicy.cpp">
       <Filter>Source\Oak\Core\Memory\Policy</Filter>
     </ClCompile>
   </ItemGroup>
