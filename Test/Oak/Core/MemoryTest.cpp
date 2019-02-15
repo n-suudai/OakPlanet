@@ -1,6 +1,11 @@
 ﻿
 #include "MemoryTest.hpp"
 #include "Oak/Core/Memory/AllocateConfig.hpp"
+#include "Oak/Core/Memory/MemoryTracker.hpp"
+#include  <stdio.h>
+
+
+#define DebugPrintf(format, ...) { char buff[256]; sprintf_s(buff, format, __VA_ARGS__); OutputDebugStringA(buff);  }
 
 
 class TestClass : public Oak::GeneralAllocatedObject
@@ -13,6 +18,9 @@ public:
     {
         OutputDebugStringA("TestClass::Func()\n");
     }
+
+private:
+    char m_size[16];
 };
 
 #define ALIGNMENT_SIZE 32
@@ -35,11 +43,16 @@ public:
             OutputDebugStringA("TestClassAligned::Func() = false\n");
         }
     }
+
+private:
+    char m_size[32];
 };
 
 
 int  MemoryTestMain()
 {
+    Oak::MemoryTracker&  tracker = Oak::MemoryTracker::Get();
+
     {
         TestClass* pTestClass = OAK_NEW TestClass();
 
@@ -55,6 +68,15 @@ int  MemoryTestMain()
 
         OAK_DELETE pTestClassAligned;
     }
+
+    DebugPrintf(
+        "Instance : %zu\n"
+        "Total    : %zu\n"
+        "Peak     : %zu\n",
+        tracker.GetAliveInstanceCount(),
+        tracker.GetTotalMemoryAllocatedBytes(),
+        tracker.GetPeakMemoryAllocatedBytes()
+    );
 
     return 0;
 }

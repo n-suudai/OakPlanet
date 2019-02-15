@@ -9,6 +9,7 @@
 
 #include "Oak/Platform/AtomicDataTypes.hpp"
 #include "Oak/Core/Memory/AlignedAllocator.hpp"
+#include "Oak/Core/Memory/MemoryTracker.hpp"
 
 
 namespace Oak {
@@ -22,7 +23,7 @@ public:
         Void* pBlock = reinterpret_cast<Void*>(new UInt8[bytes]);
 
 #if OAK_MEMORY_TRACKER
-        MemoryTracker::get()._recordAlloc(pBlock, bytes, 0, file, line, func);
+        MemoryTracker::Get().RecordAllocation(pBlock, bytes, 0, file, line, func);
 #else
         // aVoid unused params warning
         file = func = "";
@@ -36,7 +37,7 @@ public:
         // deal with null
         if (!pBlock) { return; }
 #if OAK_MEMORY_TRACKER
-        MemoryTracker::get()._recordDealloc(pBlock);
+        MemoryTracker::Get().RecordDeallocation(pBlock);
 #endif
         delete[] (reinterpret_cast<UInt8*>(pBlock));
     }
@@ -55,7 +56,7 @@ public:
         Void* pBlock = AlignedMemory::Allocate(bytes, Alignment);
 
 #if OAK_MEMORY_TRACKER
-        MemoryTracker::get()._recordAlloc(pBlock, bytes, 0, file, line, func);
+        MemoryTracker::Get().RecordAllocation(pBlock, bytes, 0, file, line, func);
 #else
         // aVoid unused params warning
         file = func = "";
@@ -69,7 +70,7 @@ public:
         // deal with null
         if (!pBlock) { return; }
 #if OAK_MEMORY_TRACKER
-        MemoryTracker::get()._recordDealloc(pBlock);
+        MemoryTracker::Get().RecordDeallocation(pBlock);
 #endif
         AlignedMemory::Deallocate(pBlock);
     }

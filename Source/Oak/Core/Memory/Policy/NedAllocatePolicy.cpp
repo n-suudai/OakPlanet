@@ -6,6 +6,7 @@
 #if OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NED
 
 
+#include "Oak/Core/Memory/MemoryTracker.hpp"
 #include "Oak/ThirdParty/nedmalloc.hpp"
 #include <algorithm>
 
@@ -23,7 +24,7 @@ Void* NedAllocatePolicyImpl::AllocateBytes(
     Void* pBlock = nedalloc::nedmalloc(bytes);
 #if OAK_MEMORY_TRACKER
     // this alloc policy doesn't do pools (yet, ned can do it)
-    MemoryTracker::get()._recordAlloc(pBlock, bytes, 0, file, line, func);
+    MemoryTracker::Get().RecordAllocation(pBlock, bytes, 0, file, line, func);
 #endif
     return pBlock;
 }
@@ -33,7 +34,7 @@ Void NedAllocatePolicyImpl::DeallocateBytes(Void* pBlock)
     // deal with null
     if (!pBlock) { return; }
 #if OAK_MEMORY_TRACKER
-    MemoryTracker::get()._recordDealloc(pBlock);
+    MemoryTracker::Get().RecordDeallocation(pBlock);
 #endif
     nedalloc::nedfree(pBlock);
 }
@@ -50,7 +51,7 @@ Void* NedAllocatePolicyImpl::AllocateBytesAligned(
     Void* pBlock = nedalloc::nedmemalign(align ? align : OAK_SIMD_ALIGNMENT, bytes);
 #if OAK_MEMORY_TRACKER
     // this alloc policy doesn't do pools (yet, ned can do it)
-    MemoryTracker::get()._recordAlloc(pBlock, bytes, 0, file, line, func);
+    MemoryTracker::Get().RecordAllocation(pBlock, bytes, 0, file, line, func);
 #endif
     return pBlock;
 }
@@ -63,7 +64,7 @@ Void NedAllocatePolicyImpl::DeallocateBytesAligned(SizeT alignment, Void* pBlock
     if (!pBlock) { return; }
 #if OAK_MEMORY_TRACKER
     // this alloc policy doesn't do pools (yet, ned can do it)
-    MemoryTracker::get()._recordDealloc(pBlock);
+    MemoryTracker::Get().RecordDeallocation(pBlock);
 #endif
     nedalloc::nedfree(pBlock);
 }

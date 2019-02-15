@@ -5,6 +5,7 @@
 #if OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NEDPOOLING
 
 
+#include "Oak/Core/Memory/MemoryTracker.hpp"
 #include "Oak/ThirdParty/nedmalloc.hpp"
 #include <algorithm>
 
@@ -121,7 +122,7 @@ DECL_MALLOC Void* NedPoolingAllocatePolicyImpl::AllocateBytes(
 {
     Void* pBlock = NedPoolingAllocateInternal::internalAlloc(bytes);
 #if OAK_MEMORY_TRACKER
-    MemoryTracker::get()._recordAlloc(pBlock, bytes, 0, file, line, func);
+    MemoryTracker::Get().RecordAllocation(pBlock, bytes, 0, file, line, func);
 #else
     // aVoid unused params warning
     file = func = "";
@@ -135,7 +136,7 @@ Void NedPoolingAllocatePolicyImpl::DeallocateBytes(Void* pBlock)
     // deal with null
     if (!pBlock) { return; }
 #if OAK_MEMORY_TRACKER
-    MemoryTracker::get()._recordDealloc(pBlock);
+    MemoryTracker::Get().RecordDeallocation(pBlock);
 #endif
     NedPoolingAllocateInternal::internalFree(pBlock);
 }
@@ -153,7 +154,7 @@ DECL_MALLOC Void* NedPoolingAllocatePolicyImpl::AllocateBytesAligned(
         bytes
     );
 #if OAK_MEMORY_TRACKER
-    MemoryTracker::get()._recordAlloc(pBlock, bytes, 0, file, line, func);
+    MemoryTracker::Get().RecordAllocation(pBlock, bytes, 0, file, line, func);
 #else
     // aVoid unused params warning
     file = func = "";
@@ -169,7 +170,7 @@ Void NedPoolingAllocatePolicyImpl::DeallocateBytesAligned(SizeT alignment, Void*
     // deal with null
     if (!pBlock) { return; }
 #if OAK_MEMORY_TRACKER
-    MemoryTracker::get()._recordDealloc(pBlock);
+    MemoryTracker::Get().RecordDeallocation(pBlock);
 #endif
     NedPoolingAllocateInternal::internalFree(pBlock);
 }
