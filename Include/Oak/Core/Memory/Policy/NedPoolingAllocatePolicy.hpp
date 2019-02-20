@@ -18,11 +18,11 @@ namespace Oak {
 class NedPoolingAllocatePolicyImpl
 {
 public:
-    static DECL_MALLOC Void* AllocateBytes(SizeT bytes, const Char* file, Int32 line, const Char* func);
+    static DECL_MALLOC Void* AllocateBytes(SizeT bytes);
 
     static Void DeallocateBytes(Void* pBlock);
 
-    static DECL_MALLOC Void* AllocateBytesAligned(SizeT alignment, SizeT bytes, const Char* file, Int32 line, const Char* func);
+    static DECL_MALLOC Void* AllocateBytesAligned(SizeT alignment, SizeT bytes);
 
     static Void DeallocateBytesAligned(SizeT alignment, Void* pBlock);
 };
@@ -31,14 +31,9 @@ public:
 class NedPoolingAllocatePolicy
 {
 public:
-    static inline Void* AllocateBytes(SizeT bytes, const Char* file, Int32 line, const Char* func)
+    static inline Void* AllocateBytes(SizeT bytes)
     {
-        return NedPoolingAllocatePolicyImpl::AllocateBytes(
-            bytes,
-            file,
-            line,
-            func
-        );
+        return NedPoolingAllocatePolicyImpl::AllocateBytes(bytes);
     }
 
     static inline Void DeallocateBytes(Void* pBlock)
@@ -54,14 +49,11 @@ class NedPoolingAlignedAllocatePolicy
     // compile-time check alignment is available.
     typedef int IsValidAlignment[Alignment <= 128 && ((Alignment & (Alignment - 1)) == 0) ? +1 : -1];
 public:
-    static inline Void* AllocateBytes(SizeT bytes, const Char* file, Int32 line, const Char* func)
+    static inline Void* AllocateBytes(SizeT bytes)
     {
         return NedPoolingAllocatePolicyImpl::AllocateBytesAligned(
             Alignment,
-            bytes,
-            file,
-            line,
-            func
+            bytes
         );
     }
 

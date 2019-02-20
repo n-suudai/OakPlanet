@@ -15,8 +15,8 @@
                 || (Oak::Assert::Handle(#expression, __FILE__, __LINE__), OAK_DEBUG_BREAK(), false))
 
 #   else
-#       define OAK_ASSERT(expression, message) \
-            static_cast<OAK::Void>(0)
+#       define OAK_ASSERT(expression) \
+            static_cast<Oak::Void>(0)
 #   endif
 #endif // OAK_ASSERT_MESSAGE
 
@@ -30,7 +30,7 @@
 
 #   else
 #       define OAK_ASSERT_MESSAGE(expression, message) \
-            static_cast<OAK::Void>(0)
+            static_cast<Oak::Void>(0)
 #   endif
 #endif // OAK_ASSERT_MESSAGE
 

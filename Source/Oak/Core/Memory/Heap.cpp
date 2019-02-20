@@ -1,173 +1,240 @@
-﻿#include "Oak/Core/Memory/Heap.hpp"
+﻿
+
+#include "Oak/Core/Memory/Heap.hpp"
 #include "Oak/Core/Assert.hpp"
-#include "Oak/Core/Log.hpp"
-
-#include <string.h>
-
-
+#include "Oak/Core/Memory/HeapWalk.hpp"
 
 
 namespace Oak {
-namespace Core {
 
 
-constexpr UInt32 OAK_MEMORY_TRAP = 0xCDCDCDCD;
-
-
-struct AllocHeader
+Heap::Heap()
+    : m_protection()
+    , m_totalAllocatedBytes(0)
+    , m_peakAllocatedBytes(0)
+    , m_allocatedInstanceCount(0)
+    , m_pAllocation(nullptr)
+    , m_pParent(nullptr)
+    , m_pFirstChild(nullptr)
+    , m_pNextSibling(nullptr)
+    , m_pPrevSibling(nullptr)
+    , m_isActive(false)
 {
-    time_t      time;           // 確保時刻
-    UInt64      bytes;          // サイズ
-    UInt64      bookmark;       // ブックマーク
-    UInt64      stackTraceHash; // スタックトレースハッシュ
-    UInt64      line;           // 行数
-    const Char* file;           // ファイル名
-    Heap*       pHeap;          // ヒープ
-    UInt32*     pBeginTrap;     // 開始トラップ
-    UInt32*     pEndTrap;       // 末尾トラップ
-};
 
+}
 
-UInt64 Heap::m_nextMemoryBookmark = 1;
+Heap::~Heap()
+{
 
+}
 
 Void Heap::Initialize()
 {
-    m_pAllocator = nullptr;
+    LockGuard<CriticalSection> lock(m_protection);
 
     m_isActive = false;
-    strcpy_s(m_heapName, "");
-    m_bytesAllocated = 0;
-    m_bytesAllocatedPeak = 0;
-    m_instancesAllocated = 0;
-    m_pAllocHeader = nullptr;
-
+    m_totalAllocatedBytes = 0;
+    m_peakAllocatedBytes = 0;
+    m_allocatedInstanceCount = 0;
+    m_pAllocation = nullptr;
     m_pParent = nullptr;
     m_pFirstChild = nullptr;
     m_pNextSibling = nullptr;
     m_pPrevSibling = nullptr;
 }
 
-Void Heap::Activate(const Char* name, IAllocator* pAllocator)
+Void Heap::Activate(const Char* name)
 {
+    LockGuard<CriticalSection> lock(m_protection);
+
     OAK_ASSERT(name != nullptr);
     OAK_ASSERT(strlen(name) < NAMELENGTH);
-    OAK_ASSERT(pAllocator != nullptr);
-
-    m_pAllocator = pAllocator;
-
-    strcpy_s(m_heapName, name);
-
-    m_bytesAllocated = 0;
-    m_bytesAllocatedPeak = 0;
-    m_instancesAllocated = 0;
-
+    strcpy_s(m_name, name);
     m_isActive = true;
+    m_totalAllocatedBytes = 0;
+    m_peakAllocatedBytes = 0;
+    m_allocatedInstanceCount = 0;
 }
 
 Void Heap::Deactivate()
 {
-    m_pAllocator = nullptr;
+    LockGuard<CriticalSection> lock(m_protection);
 
-    strcpy_s(m_heapName, "");
-
-    m_bytesAllocated = 0;
-    m_bytesAllocatedPeak = 0;
-    m_instancesAllocated = 0;
-
+    strcpy_s(m_name, "");
     m_isActive = false;
+    m_totalAllocatedBytes = 0;
+    m_peakAllocatedBytes = 0;
+    m_allocatedInstanceCount = 0;
 }
 
-Void* Heap::Allocate(SizeT bytes, SizeT alignment)
+const Char* Heap::GetName() const
 {
-    OAK_ASSERT(m_pAllocator != nullptr);
-
-    return m_pAllocator->Allocate(bytes, alignment);
+    return m_name;
 }
 
-Void* Heap::AllocateDebug(const Char* file, Int32 line, SizeT bytes, SizeT alignment)
+Bool Heap::IsActive() const
 {
-
+    return m_isActive;
 }
 
-Void Heap::Deallocate(Void* pAddress)
+// リンクリストを構築
+Void Heap::AddAllocation(Allocation* pAllocation)
 {
-    //AllocHeader * pHeader = (AllocHeader *)((PtrDiff)pAddress - sizeof(AllocHeader));
-    //OAK_ASSERT((*pHeader->pBeginTrap) == OAK_MEMORY_TRAP);
-    //pHeader->pHeap->Deallocate(pHeader);
+    LockGuard<CriticalSection> lock(m_protection);
+
+    pAllocation->pPrev = nullptr;
+    pAllocation->pNext = m_pAllocation;
+
+    if (m_pAllocation != nullptr)
+    {
+        m_pAllocation->pPrev = pAllocation;
+    }
+
+    m_pAllocation = pAllocation;
+
+    // 確保サイズ情報更新
+    m_totalAllocatedBytes += pAllocation->bytes;
+
+    if (m_totalAllocatedBytes > m_peakAllocatedBytes)
+    {
+        m_peakAllocatedBytes = m_totalAllocatedBytes;
+    }
+
+    m_allocatedInstanceCount++;
 }
 
-Void Heap::AttachTo(Heap * pParent)
+// リンクリストから切り離す
+Void Heap::EraseAllocation(Allocation* pAllocation)
 {
+    LockGuard<CriticalSection> lock(m_protection);
 
+    if (pAllocation->pPrev == nullptr)
+    {
+        OAK_ASSERT(pAllocation == m_pAllocation);
+        m_pAllocation = pAllocation->pNext;
+    }
+    else
+    {
+        pAllocation->pPrev->pNext = pAllocation->pNext;
+    }
+
+    if (pAllocation->pNext != nullptr)
+    {
+        pAllocation->pNext->pPrev = pAllocation->pPrev;
+    }
+
+    // 確保サイズ情報更新
+    m_totalAllocatedBytes -= pAllocation->bytes;
+    m_allocatedInstanceCount--;
 }
 
-Void Heap::PrintTreeInfo(UInt32 indentLevel) const
+// 親子関係の構築をする関数
+Void Heap::AttachTo(Heap* pParent)
 {
-    PrintInfo(indentLevel);
-    Heap * pChild = m_pFirstChild;
+    LockGuard<CriticalSection> lock(m_protection);
+
+    OAK_ASSERT(pParent != nullptr);
+
+    if (pParent == m_pParent) { return; }
+
+    // 1. 現在の親子関係を切り離す
+    if (m_pPrevSibling != nullptr)
+    {
+        m_pPrevSibling->m_pNextSibling = m_pNextSibling;
+    }
+
+    if (m_pNextSibling != nullptr)
+    {
+        m_pNextSibling->m_pPrevSibling = m_pPrevSibling;
+    }
+
+    if (m_pParent != nullptr)
+    {
+        if (m_pParent->m_pFirstChild == this)
+        {
+            m_pParent->m_pFirstChild = m_pNextSibling;
+        }
+    }
+
+    // 2. 新しく親子関係を構築
+    m_pNextSibling = pParent->m_pFirstChild;
+    m_pPrevSibling = nullptr;
+    m_pParent = pParent;
+    pParent->m_pFirstChild = this;
+}
+
+// リークのチェック関数
+Void Heap::MemoryLeakCheck(IMemoryLeakReporter* pReporter, UInt64 bookmarkStart, UInt64 bookmarkEnd) const
+{
+    OAK_ASSERT(pReporter != nullptr);
+
+    Allocation* pAllocation = m_pAllocation;
+    while (pAllocation != nullptr)
+    {
+        if (pAllocation->bookmark >= bookmarkStart && pAllocation->bookmark <= bookmarkEnd)
+        {
+            pReporter->Report(this, pAllocation);
+        }
+        pAllocation = pAllocation->pNext;
+    }
+}
+
+// 情報収集のための関数
+Void Heap::ReportTreeStats(IHeapTreeStatsReporter* pAccumulator, Int32 depth) const
+{
+    OAK_ASSERT(pAccumulator != nullptr);
+
+    IHeapTreeStatsReporter::HeapTreeStats local, total;
+
+    local.totalBytes = m_totalAllocatedBytes;
+    local.peakBytes = m_peakAllocatedBytes;
+    local.instanceCount = m_allocatedInstanceCount;
+
+    GetTreeStats(total.totalBytes, total.peakBytes, total.instanceCount);
+
+    pAccumulator->Report(depth, this, local, total);
+
+    Heap* pChild = m_pFirstChild;
     while (pChild != nullptr)
     {
-        pChild->PrintTreeInfo(indentLevel + 1);
+        pChild->ReportTreeStats(pAccumulator, depth + 1);
         pChild = pChild->m_pNextSibling;
     }
 }
 
-Void Heap::PrintInfo(UInt32 indentLevel) const
+// メモリ破壊のチェック関数
+Void Heap::MemoryAssertionCheck(IMemoryAssertionReporter* pReporter, UInt64 bookmarkStart, UInt64 bookmarkEnd) const
 {
-    for (UInt32 i = 0; i < indentLevel; ++i)
+    OAK_ASSERT(pReporter != nullptr);
+
+    Allocation* pAllocation = m_pAllocation;
+    while (pAllocation != nullptr)
     {
-        printf("  ");
+        if (pAllocation->bookmark >= bookmarkStart && pAllocation->bookmark <= bookmarkEnd)
+        {
+            if ((*pAllocation->pSignature) != Allocation::SIGNATURE)
+            {
+                pReporter->Report(this, pAllocation);
+            }
+        }
+        pAllocation = pAllocation->pNext;
     }
-
-    UInt64 totalBytes = 0;
-    UInt64 totalPeakBytes = 0;
-    UInt64 totalInstances = 0;
-    GetTreeStats(totalBytes, totalPeakBytes, totalInstances);
-
-    UInt32 spacing = 20 - indentLevel * 2;
-    printf("%-*s %6d %6d %5d  %6d %6d %5d\n",
-        spacing, m_heapName,
-        m_bytesAllocated, m_bytesAllocatedPeak, m_instancesAllocated,
-        totalBytes, totalPeakBytes, totalInstances);
 }
 
-UInt64 Heap::ReportMemoryLeaks(UInt64 bookmarkBegin, UInt64 bookmarkEnd) const
+Void Heap::GetTreeStats(SizeT& totalBytes, SizeT& totalPeakBytes, SizeT& totalInstanceCount) const
 {
-
-}
-
-UInt64 Heap::GetMemoryBookmark()
-{
-    return m_nextMemoryBookmark;
-}
-
-Void Heap::Deallocate(AllocHeader* pAllocHeader)
-{
-
-}
-
-Void Heap::GetTreeStats(UInt64& totalBytes, UInt64& totalPeak, UInt64& totalInstances) const
-{
-    totalBytes += m_bytesAllocated;
-    totalPeak += m_bytesAllocatedPeak;
-    totalInstances += m_instancesAllocated;
+    totalBytes += m_totalAllocatedBytes;
+    totalPeakBytes += m_peakAllocatedBytes;
+    totalInstanceCount += m_allocatedInstanceCount;
 
     Heap * pChild = m_pFirstChild;
-    while (pChild != nullptr)
+    while (pChild != NULL)
     {
-        pChild->GetTreeStats(totalBytes, totalPeak, totalInstances);
+        pChild->GetTreeStats(totalBytes, totalPeakBytes, totalInstanceCount);
         pChild = pChild->m_pNextSibling;
     }
 }
 
 
-
-
-
-} // namespace Core
 } // namespace Oak
-
-
-
 

@@ -18,27 +18,16 @@ namespace Oak {
 class StandardAllocatePolicy
 {
 public:
-    static inline Void* AllocateBytes(SizeT bytes, const Char* file, Int32 line, const Char* func)
+    static inline Void* AllocateBytes(SizeT bytes)
     {
-        Void* pBlock = reinterpret_cast<Void*>(new UInt8[bytes]);
-
-#if OAK_MEMORY_TRACKER
-        MemoryTracker::Get().RecordAllocation(pBlock, bytes, 0, file, line, func);
-#else
-        // aVoid unused params warning
-        file = func = "";
-        line = 0;
-#endif
-        return pBlock;
+        return reinterpret_cast<Void*>(new UInt8[bytes]);
     }
 
-    static inline Void* DeallocateBytes(Void* pBlock)
+    static inline Void DeallocateBytes(Void* pBlock)
     {
         // deal with null
         if (!pBlock) { return; }
-#if OAK_MEMORY_TRACKER
-        MemoryTracker::Get().RecordDeallocation(pBlock);
-#endif
+
         delete[] (reinterpret_cast<UInt8*>(pBlock));
     }
 };
@@ -51,27 +40,16 @@ class StandardAlignedAllocatePolicy
     // compile-time check alignment is available.
     typedef int IsValidAlignment[Alignment <= 128 && ((Alignment & (Alignment - 1)) == 0) ? +1 : -1];
 public:
-    static inline Void* AllocateBytes(SizeT bytes, const Char* file, Int32 line, const Char* func)
+    static inline Void* AllocateBytes(SizeT bytes)
     {
-        Void* pBlock = AlignedMemory::Allocate(bytes, Alignment);
-
-#if OAK_MEMORY_TRACKER
-        MemoryTracker::Get().RecordAllocation(pBlock, bytes, 0, file, line, func);
-#else
-        // aVoid unused params warning
-        file = func = "";
-        line = 0;
-#endif
-        return pBlock;
+        return AlignedMemory::Allocate(bytes, Alignment);
     }
 
     static inline Void DeallocateBytes(Void* pBlock)
     {
         // deal with null
         if (!pBlock) { return; }
-#if OAK_MEMORY_TRACKER
-        MemoryTracker::Get().RecordDeallocation(pBlock);
-#endif
+
         AlignedMemory::Deallocate(pBlock);
     }
 };

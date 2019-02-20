@@ -1,52 +1,14 @@
 ﻿
 #include "MemoryTest.hpp"
 #include "Oak/Core/Memory/AllocateConfig.hpp"
-#include "Oak/Core/Memory/MemoryTracker.hpp"
+#include "Oak/Core/Memory/MemoryManager.hpp"
+#include "Oak/Core/Memory/HeapWalk.hpp"
+#include "Oak/Core/Assert.hpp"
 #include  <stdio.h>
 
 
-#define DebugPrintf(format, ...) { char buff[256]; sprintf_s(buff, format, __VA_ARGS__); OutputDebugStringA(buff);  }
-
-
-class TestClass : public Oak::GeneralAllocatedObject
-{
-public:
-    TestClass() {}
-    ~TestClass() {}
-
-    void Func()
-    {
-        OutputDebugStringA("TestClass::Func()\n");
-    }
-
-private:
-    char m_size[16];
-};
-
 #define ALIGNMENT_SIZE 32
-
-class TestClassAligned : public  Oak::GeneralAlignAllocatedObject<ALIGNMENT_SIZE>
-{
-public:
-    TestClassAligned() {}
-    ~TestClassAligned() {}
-
-    void Func()
-    {
-        Oak::PtrDiff address = reinterpret_cast<Oak::PtrDiff>(this);
-        if (!(address & Oak::PtrDiff(ALIGNMENT_SIZE - 1)))
-        {
-            OutputDebugStringA("TestClassAligned::Func() = true\n");
-        }
-        else
-        {
-            OutputDebugStringA("TestClassAligned::Func() = false\n");
-        }
-    }
-
-private:
-    char m_size[32];
-};
+#define DebugPrintf(format, ...) { char buff[256]; sprintf_s(buff, format, __VA_ARGS__); OutputDebugStringA(buff);  }
 
 
 class TestClassCustom
@@ -65,7 +27,7 @@ private:
     char m_size[64];
 };
 
-OAK_DEFINE_HEAP(TestClassCustom, "custom", Oak::GeneralAllocatePolicy);
+OAK_DEFINE_HEAP(TestClassCustom, "custom", Oak::AllocatePolicy);
 
 class TestClassCustomChild
 {
@@ -83,7 +45,7 @@ private:
     char m_size[256];
 };
 
-OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChild, "custom_child", "custom", Oak::GeneralAllocatePolicy);
+OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChild, "custom_child", "custom", Oak::AllocatePolicy);
 
 
 class TestClassCustomChild2
@@ -102,7 +64,7 @@ private:
     char m_size[256];
 };
 
-OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChild2, "custom_child2", "custom_child", Oak::GeneralAllocatePolicy);
+OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChild2, "custom_child2", "custom_child", Oak::AllocatePolicy);
 
 
 class TestClassCustomChildAligned
@@ -129,7 +91,7 @@ private:
     char m_size[256];
 };
 
-OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChildAligned, "custom_child_aligned", "custom_child", Oak::GeneralAlignedAllocatePolicy<ALIGNMENT_SIZE>);
+OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChildAligned, "custom_child_aligned", "custom_child", Oak::AlignAllocatePolicy<ALIGNMENT_SIZE>);
 
 
 class TreeStatsReporter : public Oak::IHeapTreeStatsReporter
@@ -214,35 +176,6 @@ public:
 
 int  MemoryTestMain()
 {
-#if 0
-    Oak::MemoryTracker&  tracker = Oak::MemoryTracker::Get();
-
-    {
-        TestClass* pTestClass = OAK_NEW TestClass();
-
-        pTestClass->Func();
-
-        OAK_DELETE pTestClass;
-    }
-
-    {
-        TestClassAligned* pTestClassAligned = OAK_NEW TestClassAligned();
-
-        pTestClassAligned->Func();
-
-        OAK_DELETE pTestClassAligned;
-    }
-
-    DebugPrintf(
-        "Instance : %zu\n"
-        "Total    : %zu\n"
-        "Peak     : %zu\n",
-        tracker.GetAliveInstanceCount(),
-        tracker.GetTotalMemoryAllocatedBytes(),
-        tracker.GetPeakMemoryAllocatedBytes()
-    );
-#else
-
     using namespace Oak;
 
     TestClassCustom* pCustom = OAK_NEW TestClassCustom();
@@ -267,8 +200,6 @@ int  MemoryTestMain()
     OAK_DELETE pCustomChildAligned;
 
     HeapFactory::Get().MemoryLeakCheck(&leakReporter);
-
-#endif
 
     return 0;
 }

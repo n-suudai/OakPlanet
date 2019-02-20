@@ -13,7 +13,7 @@ public:
     template<typename T>
     static inline Bool IsPowerOf2(T value)
     {
-        return  !(value & (value - 1))
+        return  !(value & (value - 1));
     }
 };
 

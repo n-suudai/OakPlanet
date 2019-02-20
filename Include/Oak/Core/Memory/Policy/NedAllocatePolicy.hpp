@@ -17,11 +17,11 @@ namespace Oak {
 class NedAllocatePolicyImpl
 {
 public:
-    static Void* AllocateBytes(SizeT bytes, const Char* file, Int32 line, const Char* func);
+    static Void* AllocateBytes(SizeT bytes);
 
     static Void DeallocateBytes(Void* pBlock);
 
-    static Void* AllocateBytesAligned(SizeT alignment, SizeT bytes, const Char* file, Int32 line, const Char* func);
+    static Void* AllocateBytesAligned(SizeT alignment, SizeT bytes);
 
     static Void DeallocateBytesAligned(SizeT alignment, Void* pBlock);
 };
@@ -30,14 +30,9 @@ public:
 class NedAllocatePolicy
 {
 public:
-    static inline Void* AllocateBytes(SizeT bytes, const Char* file, Int32 line, const Char* func)
+    static inline Void* AllocateBytes(SizeT bytes)
     {
-        return NedAllocatePolicyImpl::AllocateBytes(
-            bytes,
-            file,
-            line,
-            func
-        );
+        return NedAllocatePolicyImpl::AllocateBytes(bytes);
     }
 
     static inline Void DeallocateBytes(Void* pBlock)
@@ -53,14 +48,11 @@ class NedAlignedAllocatePolicy
     // compile-time check alignment is available.
     typedef int IsValidAlignment[Alignment <= 128 && ((Alignment & (Alignment - 1)) == 0) ? +1 : -1];
 public:
-    static inline Void* AllocateBytes(SizeT bytes, const Char* file, Int32 line, const Char* func)
+    static inline Void* AllocateBytes(SizeT bytes)
     {
         return NedAllocatePolicyImpl::AllocateBytesAligned(
             Alignment,
-            bytes,
-            file,
-            line,
-            func
+            bytes
         );
     }
 

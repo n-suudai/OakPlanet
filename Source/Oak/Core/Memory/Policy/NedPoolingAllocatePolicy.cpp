@@ -5,7 +5,6 @@
 #if OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NEDPOOLING
 
 
-#include "Oak/Core/Memory/MemoryTracker.hpp"
 #include "Oak/ThirdParty/nedmalloc.hpp"
 #include <algorithm>
 
@@ -113,54 +112,26 @@ Void internalFree(Void* a_mem)
 } // namespace NedPoolingAllocateInternal
 
 
-DECL_MALLOC Void* NedPoolingAllocatePolicyImpl::AllocateBytes(
-    SizeT bytes,
-    const Char* file,
-    Int32 line,
-    const Char* func
-)
+DECL_MALLOC Void* NedPoolingAllocatePolicyImpl::AllocateBytes(SizeT bytes)
 {
-    Void* pBlock = NedPoolingAllocateInternal::internalAlloc(bytes);
-#if OAK_MEMORY_TRACKER
-    MemoryTracker::Get().RecordAllocation(pBlock, bytes, 0, file, line, func);
-#else
-    // aVoid unused params warning
-    file = func = "";
-    line = 0;
-#endif
-    return pBlock;
+    return NedPoolingAllocateInternal::internalAlloc(bytes);
 }
 
 Void NedPoolingAllocatePolicyImpl::DeallocateBytes(Void* pBlock)
 {
     // deal with null
     if (!pBlock) { return; }
-#if OAK_MEMORY_TRACKER
-    MemoryTracker::Get().RecordDeallocation(pBlock);
-#endif
+
     NedPoolingAllocateInternal::internalFree(pBlock);
 }
 
-DECL_MALLOC Void* NedPoolingAllocatePolicyImpl::AllocateBytesAligned(
-    SizeT alignment,
-    SizeT bytes,
-    const Char* file,
-    Int32 line,
-    const Char* func)
+DECL_MALLOC Void* NedPoolingAllocatePolicyImpl::AllocateBytesAligned(SizeT alignment, SizeT bytes)
 {
     // default to platform SIMD alignment if none specified
-    Void* pBlock = NedPoolingAllocateInternal::internalAllocAligned(
+    return NedPoolingAllocateInternal::internalAllocAligned(
         alignment ? alignment : OAK_SIMD_ALIGNMENT,
         bytes
     );
-#if OAK_MEMORY_TRACKER
-    MemoryTracker::Get().RecordAllocation(pBlock, bytes, 0, file, line, func);
-#else
-    // aVoid unused params warning
-    file = func = "";
-    line = 0;
-#endif
-    return pBlock;
 }
 
 Void NedPoolingAllocatePolicyImpl::DeallocateBytesAligned(SizeT alignment, Void* pBlock)
@@ -169,9 +140,7 @@ Void NedPoolingAllocatePolicyImpl::DeallocateBytesAligned(SizeT alignment, Void*
 
     // deal with null
     if (!pBlock) { return; }
-#if OAK_MEMORY_TRACKER
-    MemoryTracker::Get().RecordDeallocation(pBlock);
-#endif
+
     NedPoolingAllocateInternal::internalFree(pBlock);
 }
 

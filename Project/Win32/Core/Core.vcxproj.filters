@@ -48,9 +48,6 @@
     <ClInclude Include="..\..\..\Include\Oak\Core\StackTrace.hpp">
       <Filter>Include\Oak\Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\AllocatedObject.hpp">
-      <Filter>Include\Oak\Core\Memory</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Core\Memory\AllocateConfig.hpp">
       <Filter>Include\Oak\Core\Memory</Filter>
     </ClInclude>
@@ -75,6 +72,18 @@
     <ClInclude Include="..\..\..\Include\Oak\Core\Memory\MemoryTracker.hpp">
       <Filter>Include\Oak\Core\Memory</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\Heap.hpp">
+      <Filter>Include\Oak\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\HeapFactory.hpp">
+      <Filter>Include\Oak\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\MemoryManager.hpp">
+      <Filter>Include\Oak\Core\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\HeapWalk.hpp">
+      <Filter>Include\Oak\Core\Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\Core\Assert.cpp">
@@ -91,6 +100,15 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Source\Oak\Core\Memory\Policy\NedAllocatePolicy.cpp">
       <Filter>Source\Oak\Core\Memory\Policy</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Oak\Core\Memory\MemoryTracker.cpp">
+      <Filter>Source\Oak\Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Oak\Core\Memory\Heap.cpp">
+      <Filter>Source\Oak\Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Oak\Core\Memory\HeapFactory.cpp">
+      <Filter>Source\Oak\Core\Memory</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
