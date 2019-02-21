@@ -3,12 +3,11 @@
 
 #include "Oak/Platform/AtomicDataTypes.hpp"
 
+namespace Oak
+{
 
-namespace Oak {
-
-
-namespace Detail {
-
+namespace Detail
+{
 
 class IFileSystem
 {
@@ -27,7 +26,5 @@ public:
     virtual Void Close() = 0;
 };
 
-
 } // namespace Detail
 } // namespace Oak
-

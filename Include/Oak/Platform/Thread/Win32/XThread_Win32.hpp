@@ -4,12 +4,10 @@
 #include "Oak/Platform/OS/Win32.hpp"
 #include "Oak/Platform/Thread/Interface/IThread.hpp"
 
+namespace Oak
+{
 
-namespace Oak {
-
-
-class Thread final
-    : public Detail::IThread
+class Thread final : public Detail::IThread
 {
 public:
     Thread(const Char* name, ThreadEntry threadEntry);
@@ -32,6 +30,4 @@ private:
     SizeT m_argumentSize;
 };
 
-
 } // namespace Oak
-

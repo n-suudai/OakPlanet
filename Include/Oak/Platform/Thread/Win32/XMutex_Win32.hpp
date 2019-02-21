@@ -1,17 +1,13 @@
 ﻿
 #pragma once
 
-
 #include "Oak/Platform/OS/Win32.hpp"
 #include "Oak/Platform/Thread/Interface/IMutex.hpp"
 
+namespace Oak
+{
 
-
-namespace Oak {
-
-
-class Mutex final
-    : public Detail::IMutex
+class Mutex final : public Detail::IMutex
 {
 public:
     explicit Mutex(const Char* name);
@@ -27,7 +23,4 @@ private:
     HANDLE m_handle;
 };
 
-
-
 } // namespace Oak
-

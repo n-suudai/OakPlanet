@@ -1,7 +1,6 @@
 ﻿#include "AssertTest.hpp"
 #include "Oak/Core/Assert.hpp"
 
-
 int AssertTestMain()
 {
     OAK_ASSERT(false);
@@ -10,4 +9,3 @@ int AssertTestMain()
 
     return 0;
 }
-

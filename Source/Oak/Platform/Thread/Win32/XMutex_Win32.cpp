@@ -1,12 +1,10 @@
 ﻿
 #include "Oak/Platform/Thread/Win32/XMutex_Win32.hpp"
 
+namespace Oak
+{
 
-namespace Oak {
-
-
-Mutex::Mutex(const Char* name)
-    : IMutex(name)
+Mutex::Mutex(const Char* name) : IMutex(name)
 {
     strcpy_s(m_name, name);
     m_handle = CreateMutexA(NULL, FALSE, m_name);
@@ -28,7 +26,4 @@ Void Mutex::Unlock()
     ReleaseMutex(m_handle);
 }
 
-
-
 } // namespace Oak
-

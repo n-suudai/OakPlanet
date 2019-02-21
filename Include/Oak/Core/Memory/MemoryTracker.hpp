@@ -3,21 +3,18 @@
 
 #include "Oak/Core/Memory/MemoryConfig.hpp"
 
-
 #include "Oak/Platform/Thread/CriticalSection.hpp"
 
 // default global new does not tracking
 #include <unordered_map>
 #include <string>
 
-
-namespace  Oak {
-
+namespace Oak
+{
 
 class Heap;
 
 struct Allocation;
-
 
 class MemoryTracker
 {
@@ -28,14 +25,8 @@ public:
 
     ~MemoryTracker();
 
-    Allocation* RecordAllocation(
-        Void* pBlock,
-        SizeT bytes,
-        const Char* file,
-        Int32 line,
-        const Char* function,
-        Heap* pHeap
-    );
+    Allocation* RecordAllocation(Void* pBlock, SizeT bytes, const Char* file,
+                                 Int32 line, const Char* function, Heap* pHeap);
 
     Void RecordDeallocation(Void* pBlock, Heap* pHeap);
 
@@ -47,10 +38,7 @@ private:
     SizeT m_nextAllocationBookmark;
 };
 
-
 //#define OAK_NEW new(__FILE__, __LINE__, __FUNCTION__)
 //#define OAK_DELETE delete
 
-
 } // namespace Oak
-

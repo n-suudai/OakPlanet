@@ -3,12 +3,10 @@
 
 #include "Oak/Platform/Timer/Interface/ITimer.hpp"
 
+namespace Oak
+{
 
-namespace Oak {
-
-
-class HighResolutionTimer final
-    : public Detail::IHighResolutionTimer
+class HighResolutionTimer final : public Detail::IHighResolutionTimer
 {
 public:
     HighResolutionTimer();
@@ -20,10 +18,8 @@ public:
     Bool IsEnableHighResolutionTimer() const override;
 
 private:
-    Bool    m_supportHighResolutionTimer;
-    Double  m_secondsPerTick;
+    Bool m_supportHighResolutionTimer;
+    Double m_secondsPerTick;
 };
 
-
 } // namespace Oak
-

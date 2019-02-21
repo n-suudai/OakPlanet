@@ -1,15 +1,14 @@
 ﻿
 #pragma once
 
-namespace Oak {
+namespace Oak
+{
 
-
-template<typename Protection>
+template <typename Protection>
 class LockGuard final
 {
 public:
-    explicit LockGuard(Protection& protection)
-        : m_protection(protection)
+    explicit LockGuard(Protection& protection) : m_protection(protection)
     {
         m_protection.Lock();
     }
@@ -32,6 +31,4 @@ private:
     Protection& m_protection;
 };
 
-
 } // namespace Oak
-

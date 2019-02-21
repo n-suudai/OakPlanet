@@ -3,12 +3,10 @@
 #include "Oak/Platform/OS/Win32.hpp"
 #include <cstdio>
 
+namespace Oak
+{
 
-namespace Oak {
-
-
-Socket::Socket()
-    : m_isInitialized(false)
+Socket::Socket() : m_isInitialized(false)
 {
     ZeroMemory(&m_wsaData, sizeof(WSADATA));
     m_socket = INVALID_SOCKET;
@@ -31,29 +29,32 @@ Bool Socket::Initialize(SOCKET_TYPE socketType)
         if (err != 0)
         {
             /*
-            WSASYSNOTREADY      ネットワークサブシステムがネットワークへの接続を準備できていない
-            WSAVERNOTSUPPORTED  要求されたwinsockのバージョンがサポートされていない
-            WSAEINPROGRESS      ブロッキング操作の実行中であるか、 またはサービスプロバイダがコールバック関数を処理している
+            WSASYSNOTREADY
+            ネットワークサブシステムがネットワークへの接続を準備できていない
+            WSAVERNOTSUPPORTED
+            要求されたwinsockのバージョンがサポートされていない
+            WSAEINPROGRESS      ブロッキング操作の実行中であるか、
+            またはサービスプロバイダがコールバック関数を処理している
             WSAEPROCLIM         winsockが処理できる最大プロセス数に達した
             WSAEFAULT           第二引数であるlpWSAData は有効なポインタではない
             */
             switch (err)
             {
-            case WSASYSNOTREADY:
-                OutputDebugStringA("WSASYSNOTREADY\n");
-                break;
-            case WSAVERNOTSUPPORTED:
-                OutputDebugStringA("WSAVERNOTSUPPORTED\n");
-                break;
-            case WSAEINPROGRESS:
-                OutputDebugStringA("WSAEINPROGRESS\n");
-                break;
-            case WSAEPROCLIM:
-                OutputDebugStringA("WSAEPROCLIM\n");
-                break;
-            case WSAEFAULT:
-                OutputDebugStringA("WSAEFAULT\n");
-                break;
+                case WSASYSNOTREADY:
+                    OutputDebugStringA("WSASYSNOTREADY\n");
+                    break;
+                case WSAVERNOTSUPPORTED:
+                    OutputDebugStringA("WSAVERNOTSUPPORTED\n");
+                    break;
+                case WSAEINPROGRESS:
+                    OutputDebugStringA("WSAEINPROGRESS\n");
+                    break;
+                case WSAEPROCLIM:
+                    OutputDebugStringA("WSAEPROCLIM\n");
+                    break;
+                case WSAEFAULT:
+                    OutputDebugStringA("WSAEFAULT\n");
+                    break;
             }
 
             return false;
@@ -61,40 +62,33 @@ Bool Socket::Initialize(SOCKET_TYPE socketType)
 
         char buff[256];
 
-        int versionHigh = static_cast<int>(static_cast<BYTE>(m_wsaData.wHighVersion));
+        int versionHigh =
+          static_cast<int>(static_cast<BYTE>(m_wsaData.wHighVersion));
         int versionLow = static_cast<int>(m_wsaData.wHighVersion >> 8);
 
-        sprintf_s(
-            buff,
-            "winsock バージョン = %d.%d\n記述 = %s\n状態 = %s\n",
-            versionHigh,
-            versionLow,
-            m_wsaData.szDescription,
-            m_wsaData.szSystemStatus
-        );
+        sprintf_s(buff, "winsock バージョン = %d.%d\n記述 = %s\n状態 = %s\n",
+                  versionHigh, versionLow, m_wsaData.szDescription,
+                  m_wsaData.szSystemStatus);
         OutputDebugStringA(buff);
     }
 
     int type = SOCK_STREAM;
     switch (socketType)
     {
-    case SOCKET_TYPE_TCP:
-        type = SOCK_STREAM;
-        break;
-    case SOCKET_TYPE_UDP:
-        type = SOCK_DGRAM;
-        break;
-    default:
-    {
-        char buff[256];
-        sprintf_s(
-            buff,
-            "socketType=%d is not supported.\n",
-            static_cast<int>(socketType)
-        );
-        OutputDebugStringA(buff);
-        return false;
-    }
+        case SOCKET_TYPE_TCP:
+            type = SOCK_STREAM;
+            break;
+        case SOCKET_TYPE_UDP:
+            type = SOCK_DGRAM;
+            break;
+        default:
+        {
+            char buff[256];
+            sprintf_s(buff, "socketType=%d is not supported.\n",
+                      static_cast<int>(socketType));
+            OutputDebugStringA(buff);
+            return false;
+        }
         break;
     }
 
@@ -125,6 +119,4 @@ Void Socket::Terminate()
     }
 }
 
-
 } // namespace Oak
-

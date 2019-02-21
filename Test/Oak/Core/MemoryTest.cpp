@@ -4,19 +4,27 @@
 #include "Oak/Core/Memory/MemoryManager.hpp"
 #include "Oak/Core/Memory/HeapWalk.hpp"
 #include "Oak/Core/Assert.hpp"
-#include  <stdio.h>
-
+#include <stdio.h>
 
 #define ALIGNMENT_SIZE 32
-#define DebugPrintf(format, ...) { char buff[256]; sprintf_s(buff, format, __VA_ARGS__); OutputDebugStringA(buff);  }
-
+#define DebugPrintf(format, ...)              \
+    {                                         \
+        char buff[256];                       \
+        sprintf_s(buff, format, __VA_ARGS__); \
+        OutputDebugStringA(buff);             \
+    }
 
 class TestClassCustom
 {
     OAK_DECLARE_HEAP;
+
 public:
-    TestClassCustom() {}
-    ~TestClassCustom() {}
+    TestClassCustom()
+    {
+    }
+    ~TestClassCustom()
+    {
+    }
 
     void Func()
     {
@@ -32,9 +40,14 @@ OAK_DEFINE_HEAP(TestClassCustom, "custom", Oak::AllocatePolicy);
 class TestClassCustomChild
 {
     OAK_DECLARE_HEAP;
+
 public:
-    TestClassCustomChild() {}
-    ~TestClassCustomChild() {}
+    TestClassCustomChild()
+    {
+    }
+    ~TestClassCustomChild()
+    {
+    }
 
     void Func()
     {
@@ -45,15 +58,20 @@ private:
     char m_size[256];
 };
 
-OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChild, "custom_child", "custom", Oak::AllocatePolicy);
-
+OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChild, "custom_child", "custom",
+                           Oak::AllocatePolicy);
 
 class TestClassCustomChild2
 {
     OAK_DECLARE_HEAP;
+
 public:
-    TestClassCustomChild2() {}
-    ~TestClassCustomChild2() {}
+    TestClassCustomChild2()
+    {
+    }
+    ~TestClassCustomChild2()
+    {
+    }
 
     void Func()
     {
@@ -64,15 +82,20 @@ private:
     char m_size[256];
 };
 
-OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChild2, "custom_child2", "custom_child", Oak::AllocatePolicy);
-
+OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChild2, "custom_child2",
+                           "custom_child", Oak::AllocatePolicy);
 
 class TestClassCustomChildAligned
 {
     OAK_DECLARE_HEAP;
+
 public:
-    TestClassCustomChildAligned() {}
-    ~TestClassCustomChildAligned() {}
+    TestClassCustomChildAligned()
+    {
+    }
+    ~TestClassCustomChildAligned()
+    {
+    }
 
     void Func()
     {
@@ -91,23 +114,31 @@ private:
     char m_size[256];
 };
 
-OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChildAligned, "custom_child_aligned", "custom_child", Oak::AlignAllocatePolicy<ALIGNMENT_SIZE>);
-
+OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChildAligned, "custom_child_aligned",
+                           "custom_child",
+                           Oak::AlignAllocatePolicy<ALIGNMENT_SIZE>);
 
 class TreeStatsReporter : public Oak::IHeapTreeStatsReporter
 {
 public:
-    TreeStatsReporter() {}
-    ~TreeStatsReporter() {}
+    TreeStatsReporter()
+    {
+    }
+    ~TreeStatsReporter()
+    {
+    }
 
     Oak::Void BeginReport()
     {
         DebugPrintf("MEMORY INFORMATION\n");
-        DebugPrintf("                            Local                 Total\n");
-        DebugPrintf("Name                  Memory  Peak  Inst   Memory  Peak  Inst\n");
+        DebugPrintf(
+          "                            Local                 Total\n");
+        DebugPrintf(
+          "Name                  Memory  Peak  Inst   Memory  Peak  Inst\n");
     }
 
-    Oak::Void Report(Oak::Int32 depth, const Oak::Heap* pHeap, const HeapTreeStats& local, const HeapTreeStats& total)
+    Oak::Void Report(Oak::Int32 depth, const Oak::Heap* pHeap,
+                     const HeapTreeStats& local, const HeapTreeStats& total)
     {
         for (Oak::Int32 i = 0; i < depth; ++i)
         {
@@ -115,25 +146,26 @@ public:
         }
 
         Oak::Int32 spacing = 20 - depth * 2;
-        DebugPrintf(
-            "%-*s %6zu %6zu %5zu  %6zu %6zu %5zu\n",
-            spacing, pHeap->GetName(),
-            local.totalBytes, local.peakBytes, local.instanceCount,
-            total.totalBytes, total.peakBytes, total.instanceCount
-        );
+        DebugPrintf("%-*s %6zu %6zu %5zu  %6zu %6zu %5zu\n", spacing,
+                    pHeap->GetName(), local.totalBytes, local.peakBytes,
+                    local.instanceCount, total.totalBytes, total.peakBytes,
+                    total.instanceCount);
     }
 
     Oak::Void EndReport()
     {
-
     }
 };
 
 class LeakReporter : public Oak::IMemoryLeakReporter
 {
 public:
-    LeakReporter() {}
-    ~LeakReporter() {}
+    LeakReporter()
+    {
+    }
+    ~LeakReporter()
+    {
+    }
 
     Oak::Void BeginReport()
     {
@@ -146,14 +178,14 @@ public:
         OAK_ASSERT(pAllocation != nullptr);
 
         DebugPrintf(
-            "%s(%d)\n"
-            "{ heap=\"%s\" address=0x%p size=%zubyte time=%s backTraceHash=0x%016llX bookmark=%llX }\n"
-            "[ %08X ]\n",
-            pAllocation->file, pAllocation->line,
-            pHeap->GetName(), pAllocation->pBlock, pAllocation->bytes,
-            /*pAllocation->time*/"", pAllocation->backTraceHash, pAllocation->bookmark,
-            (*pAllocation->pSignature)
-        );
+          "%s(%d)\n"
+          "{ heap=\"%s\" address=0x%p size=%zubyte time=%s "
+          "backTraceHash=0x%016llX bookmark=%llX }\n"
+          "[ %08X ]\n",
+          pAllocation->file, pAllocation->line, pHeap->GetName(),
+          pAllocation->pBlock, pAllocation->bytes,
+          /*pAllocation->time*/ "", pAllocation->backTraceHash,
+          pAllocation->bookmark, (*pAllocation->pSignature));
 
         m_leakCount++;
     }
@@ -174,14 +206,15 @@ public:
     Oak::SizeT m_leakCount;
 };
 
-int  MemoryTestMain()
+int MemoryTestMain()
 {
     using namespace Oak;
 
     TestClassCustom* pCustom = OAK_NEW TestClassCustom();
     TestClassCustomChild* pCustomChild = OAK_NEW TestClassCustomChild();
     TestClassCustomChild2* pCustomChild2 = OAK_NEW TestClassCustomChild2();
-    TestClassCustomChildAligned* pCustomChildAligned = OAK_NEW TestClassCustomChildAligned();
+    TestClassCustomChildAligned* pCustomChildAligned =
+      OAK_NEW TestClassCustomChildAligned();
 
     pCustom->Func();
     pCustomChild->Func();
@@ -203,4 +236,3 @@ int  MemoryTestMain()
 
     return 0;
 }
-

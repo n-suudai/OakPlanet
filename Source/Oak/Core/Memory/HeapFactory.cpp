@@ -3,9 +3,8 @@
 #include "Oak/Core/Memory/HeapWalk.hpp"
 #include "Oak/Core/Assert.hpp"
 
-
-namespace Oak {
-
+namespace Oak
+{
 
 HeapFactory& HeapFactory::Get()
 {
@@ -20,7 +19,6 @@ HeapFactory::HeapFactory()
 
 HeapFactory::~HeapFactory()
 {
-
 }
 
 Void HeapFactory::Initialize()
@@ -123,13 +121,16 @@ Heap* HeapFactory::CreateNewHeap(const Char* name)
         }
     }
 
-    OAK_ASSERT_MESSAGE(false, "ヒープの作成に失敗しました。作成可能なヒープの数を超えています。");
+    OAK_ASSERT_MESSAGE(
+      false,
+      "ヒープの作成に失敗しました。作成可能なヒープの数を超えています。");
     return nullptr;
 }
 
-
 // リークのチェック関数
-Void HeapFactory::MemoryLeakCheck(IMemoryLeakReporter* pReporter, UInt64 bookmarkStart, UInt64 bookmarkEnd) const
+Void HeapFactory::MemoryLeakCheck(IMemoryLeakReporter* pReporter,
+                                  UInt64 bookmarkStart,
+                                  UInt64 bookmarkEnd) const
 {
     OAK_ASSERT(pReporter != nullptr);
 
@@ -146,9 +147,11 @@ Void HeapFactory::MemoryLeakCheck(IMemoryLeakReporter* pReporter, UInt64 bookmar
     pReporter->EndReport();
 }
 
-Void HeapFactory::MemoryLeakCheck(IMemoryLeakReporter* pReporter, UInt64 bookmarkStart)
+Void HeapFactory::MemoryLeakCheck(IMemoryLeakReporter* pReporter,
+                                  UInt64 bookmarkStart)
 {
-    MemoryLeakCheck(pReporter, bookmarkStart, MemoryTracker::Get().GetAllocationBookmark());
+    MemoryLeakCheck(pReporter, bookmarkStart,
+                    MemoryTracker::Get().GetAllocationBookmark());
 }
 
 // メモリ情報
@@ -164,7 +167,9 @@ Void HeapFactory::ReportHeapTreeStats(IHeapTreeStatsReporter* pReporter)
 }
 
 // メモリ破壊のチェック関数
-Void HeapFactory::MemoryAssertionCheck(IMemoryAssertionReporter* pReporter, UInt64 bookmarkStart, UInt64 bookmarkEnd) const
+Void HeapFactory::MemoryAssertionCheck(IMemoryAssertionReporter* pReporter,
+                                       UInt64 bookmarkStart,
+                                       UInt64 bookmarkEnd) const
 {
     OAK_ASSERT(pReporter != nullptr);
 
@@ -181,6 +186,4 @@ Void HeapFactory::MemoryAssertionCheck(IMemoryAssertionReporter* pReporter, UInt
     pReporter->EndReport();
 }
 
-
 } // namespace Oak
-

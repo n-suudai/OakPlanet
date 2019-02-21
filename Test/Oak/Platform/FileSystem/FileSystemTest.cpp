@@ -1,11 +1,8 @@
 ﻿
 #include "FileSystemTest.hpp"
 
-
 #include "Oak/Platform/FileSystem.hpp"
 #include <cstdio>
-
-
 
 int FileSystemTestMain()
 {
@@ -18,7 +15,6 @@ int FileSystemTestMain()
     file.Write(writeText, sizeof(writeText));
 
     file.Close();
-
 
     file.Open("FileSystemTest.txt");
 
@@ -34,4 +30,3 @@ int FileSystemTestMain()
 
     return 0;
 }
-

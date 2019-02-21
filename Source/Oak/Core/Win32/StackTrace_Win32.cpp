@@ -3,30 +3,27 @@
 #include "Oak/Core/Log.hpp"
 #include "Oak/Platform/OS/Win32.hpp"
 
-
 #include <dbghelp.h>
 
 #pragma comment(lib, "imagehlp.lib")
 #pragma comment(lib, "Kernel32.lib")
 
-
-namespace {
-
+namespace
+{
 
 using namespace Oak;
 
-
 #pragma warning(push)
-#pragma warning(disable: 4074)
+#pragma warning(disable : 4074)
 #pragma init_seg(compiler)
 
 static HANDLE g_Process = NULL;
-static Bool   g_IsSymbolEngineReady = false;
+static Bool g_IsSymbolEngineReady = false;
 
 #pragma warning(pop)
 
-
-static Void AddressToTraceInfo(Void* address, Oak::StackTrace::TraceInfo& outInfo)
+static Void AddressToTraceInfo(Void* address,
+                               Oak::StackTrace::TraceInfo& outInfo)
 {
     outInfo.Clear();
     outInfo.address = address;
@@ -37,7 +34,7 @@ static Void AddressToTraceInfo(Void* address, Oak::StackTrace::TraceInfo& outInf
     }
 
     //モジュール名
-    IMAGEHLP_MODULE64 imageModule = { sizeof(IMAGEHLP_MODULE64) };
+    IMAGEHLP_MODULE64 imageModule = {sizeof(IMAGEHLP_MODULE64)};
     BOOL r = ::SymGetModuleInfo64(g_Process, (DWORD64)address, &imageModule);
     if (!r)
     {
@@ -48,8 +45,8 @@ static Void AddressToTraceInfo(Void* address, Oak::StackTrace::TraceInfo& outInf
     strcpy_s(outInfo.moduleName, imageModule.ModuleName);
 
     //シンボル情報格納バッファ.
-    IMAGEHLP_SYMBOL64 * imageSymbol;
-    char buffer[MAX_PATH + sizeof(IMAGEHLP_SYMBOL64)] = { 0 };
+    IMAGEHLP_SYMBOL64* imageSymbol;
+    char buffer[MAX_PATH + sizeof(IMAGEHLP_SYMBOL64)] = {0};
     imageSymbol = (IMAGEHLP_SYMBOL64*)buffer;
     imageSymbol->SizeOfStruct = sizeof(IMAGEHLP_SYMBOL64);
     imageSymbol->MaxNameLength = MAX_PATH;
@@ -57,7 +54,8 @@ static Void AddressToTraceInfo(Void* address, Oak::StackTrace::TraceInfo& outInf
     //関数名の取得...
     {
         DWORD64 disp = 0;
-        r = ::SymGetSymFromAddr64(g_Process, (DWORD64)address, &disp, imageSymbol);
+        r = ::SymGetSymFromAddr64(g_Process, (DWORD64)address, &disp,
+                                  imageSymbol);
         if (!r)
         {
             return;
@@ -70,7 +68,7 @@ static Void AddressToTraceInfo(Void* address, Oak::StackTrace::TraceInfo& outInf
     {
         DWORD disp = 0;
         //行番号の取得
-        IMAGEHLP_LINE64 line = { sizeof(IMAGEHLP_LINE64) };
+        IMAGEHLP_LINE64 line = {sizeof(IMAGEHLP_LINE64)};
         r = ::SymGetLineFromAddr64(g_Process, (DWORD64)address, &disp, &line);
 
         outInfo.lineAddress = (Void*)line.Address;
@@ -84,12 +82,10 @@ static Void AddressToTraceInfo(Void* address, Oak::StackTrace::TraceInfo& outInf
     }
 }
 
-
 } // namespace /* unnamed */
 
-
-namespace Oak {
-
+namespace Oak
+{
 
 StackTrace::TraceInfo::TraceInfo()
 {
@@ -110,24 +106,13 @@ Void StackTrace::TraceInfo::Print()
 {
     if (line == -1)
     {
-        Log::Format(
-            "0x%p @ %s @ %s + 0x%p\n",
-            address,
-            moduleName,
-            function,
-            address
-        );
+        Log::Format("0x%p @ %s @ %s + 0x%p\n", address, moduleName, function,
+                    address);
     }
     else
     {
-        Log::Format(
-            "0x%p @ %s @ %s @ %s(%d)\n",
-            address,
-            moduleName,
-            function,
-            file,
-            line
-        );
+        Log::Format("0x%p @ %s @ %s @ %s(%d)\n", address, moduleName, function,
+                    file, line);
     }
 }
 
@@ -157,7 +142,7 @@ Void StackTrace::Terminate()
 UInt64 StackTrace::CaptureStackTraceHash()
 {
     const ULONG bufferCount = 62;
-    Void* buffer[bufferCount] = { nullptr };
+    Void* buffer[bufferCount] = {nullptr};
 
     ULONG h = 0;
     ::RtlCaptureStackBackTrace(0, (ULONG)bufferCount, buffer, &h);
@@ -165,24 +150,25 @@ UInt64 StackTrace::CaptureStackTraceHash()
     return (UInt64)h;
 }
 
-UInt32 StackTrace::CaptureStackTrace(
-    TraceInfo* infoBuffer,
-    UInt32 bufferCount
-)
+UInt32 StackTrace::CaptureStackTrace(TraceInfo* infoBuffer, UInt32 bufferCount)
 {
     if (bufferCount >= 63)
     {
         bufferCount = 62;
     }
 
-    Void* buffer[62] = { nullptr };
+    Void* buffer[62] = {nullptr};
 
     ULONG h = 0;
-    UInt32 captureCount = (UInt32)::RtlCaptureStackBackTrace(0, (ULONG)bufferCount, buffer, &h);
+    UInt32 captureCount =
+      (UInt32)::RtlCaptureStackBackTrace(0, (ULONG)bufferCount, buffer, &h);
 
     for (UInt32 i = 0; i < captureCount; ++i)
     {
-        if (i > bufferCount) { break; }
+        if (i > bufferCount)
+        {
+            break;
+        }
 
         ::AddressToTraceInfo(buffer[i], infoBuffer[i]);
     }
@@ -190,6 +176,4 @@ UInt32 StackTrace::CaptureStackTrace(
     return captureCount;
 }
 
-
 } // namespace Oak
-

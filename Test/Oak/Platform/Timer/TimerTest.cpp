@@ -5,7 +5,6 @@
 #include "Oak/Platform/Thread/Thread.hpp"
 #include <cstdio>
 
-
 int TimerTestMain()
 {
     {
@@ -38,4 +37,3 @@ int TimerTestMain()
 
     return 0;
 }
-

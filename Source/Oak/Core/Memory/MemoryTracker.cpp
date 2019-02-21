@@ -5,9 +5,8 @@
 #include "Oak/Core/Assert.hpp"
 #include "Oak/Core/StackTrace.hpp"
 
-
-namespace Oak {
-
+namespace Oak
+{
 
 MemoryTracker& MemoryTracker::Get()
 {
@@ -16,11 +15,8 @@ MemoryTracker& MemoryTracker::Get()
 }
 
 MemoryTracker::MemoryTracker()
-    : m_protection()
-    , m_allocations()
-    , m_nextAllocationBookmark(1)
+  : m_protection(), m_allocations(), m_nextAllocationBookmark(1)
 {
-
 }
 
 MemoryTracker::~MemoryTracker()
@@ -28,14 +24,9 @@ MemoryTracker::~MemoryTracker()
     // ※この時点で残っているAllocationはリークしている
 }
 
-Allocation* MemoryTracker::RecordAllocation(
-    Void* pBlock,
-    SizeT bytes,
-    const Char* file,
-    Int32 line,
-    const Char* function,
-    Heap* pHeap
-)
+Allocation* MemoryTracker::RecordAllocation(Void* pBlock, SizeT bytes,
+                                            const Char* file, Int32 line,
+                                            const Char* function, Heap* pHeap)
 {
     LockGuard<CriticalSection> lock(m_protection);
 
@@ -47,7 +38,8 @@ Allocation* MemoryTracker::RecordAllocation(
     pAllocation->function = function;
     pAllocation->time = 0;
     pAllocation->backTraceHash = StackTrace::CaptureStackTraceHash();
-    pAllocation->pSignature = reinterpret_cast<AllocationSignature*>(reinterpret_cast<PtrDiff>(pBlock) + bytes);
+    pAllocation->pSignature = reinterpret_cast<AllocationSignature*>(
+      reinterpret_cast<PtrDiff>(pBlock) + bytes);
     pAllocation->bookmark = m_nextAllocationBookmark;
     pAllocation->pHeap = pHeap;
 
@@ -78,7 +70,7 @@ Void MemoryTracker::RecordDeallocation(Void* pBlock, Heap* pHeap)
         // リンクリストから切り離す
         pHeap->EraseAllocation(it->second);
 
-        delete it->second;  // デフォルトの delete
+        delete it->second; // デフォルトの delete
 
         m_allocations.erase(it);
     }
@@ -89,6 +81,4 @@ SizeT MemoryTracker::GetAllocationBookmark() const
     return m_nextAllocationBookmark;
 }
 
-
 } // namespace Oak
-

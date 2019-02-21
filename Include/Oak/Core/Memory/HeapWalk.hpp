@@ -3,13 +3,12 @@
 
 #include "Oak/Platform/AtomicDataTypes.hpp"
 
-
-namespace Oak {
+namespace Oak
+{
 
 class Heap;
 
 struct Allocation;
-
 
 // メモリリーク
 class IMemoryLeakReporter
@@ -34,18 +33,18 @@ public:
         SizeT peakBytes;
         SizeT instanceCount;
 
-        inline HeapTreeStats()
-            : totalBytes(0)
-            , peakBytes(0)
-            , instanceCount(0)
-        {}
+        inline HeapTreeStats() : totalBytes(0), peakBytes(0), instanceCount(0)
+        {
+        }
     };
 
     virtual ~IHeapTreeStatsReporter() = default;
 
     virtual Void BeginReport() = 0;
 
-    virtual Void Report(Int32 depth, const Heap* pHeap, const HeapTreeStats& local, const HeapTreeStats& total) = 0;
+    virtual Void Report(Int32 depth, const Heap* pHeap,
+                        const HeapTreeStats& local,
+                        const HeapTreeStats& total) = 0;
 
     virtual Void EndReport() = 0;
 };
@@ -63,6 +62,4 @@ public:
     virtual Void EndReport() = 0;
 };
 
-
 } // namespace Oak
-

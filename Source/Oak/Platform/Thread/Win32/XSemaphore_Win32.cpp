@@ -1,20 +1,15 @@
 ﻿
 #include "Oak/Platform/Thread/Win32/XSemapore_Win32.hpp"
 
-
-namespace Oak {
-
+namespace Oak
+{
 
 Semaphore::Semaphore(const Char* name, Int32 initialCount, Int32 maxCount)
-    : ISemaphore(name, initialCount, maxCount)
+  : ISemaphore(name, initialCount, maxCount)
 {
     strcpy_s(m_name, name);
-    m_handle = CreateSemaphoreA(
-        NULL,
-        static_cast<LONG>(initialCount),
-        static_cast<LONG>(maxCount),
-        m_name
-    );
+    m_handle = CreateSemaphoreA(NULL, static_cast<LONG>(initialCount),
+                                static_cast<LONG>(maxCount), m_name);
 }
 
 Semaphore::~Semaphore()
@@ -33,6 +28,4 @@ Void Semaphore::Unlock()
     ReleaseSemaphore(m_handle, 1, NULL);
 }
 
-
 } // namespace Oak
-

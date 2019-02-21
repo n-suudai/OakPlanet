@@ -4,28 +4,25 @@
 #include "Oak/Core/Assert.hpp"
 #include "Oak/Core/Memory/HeapWalk.hpp"
 
-
-namespace Oak {
-
-
-Heap::Heap()
-    : m_protection()
-    , m_totalAllocatedBytes(0)
-    , m_peakAllocatedBytes(0)
-    , m_allocatedInstanceCount(0)
-    , m_pAllocation(nullptr)
-    , m_pParent(nullptr)
-    , m_pFirstChild(nullptr)
-    , m_pNextSibling(nullptr)
-    , m_pPrevSibling(nullptr)
-    , m_isActive(false)
+namespace Oak
 {
 
+Heap::Heap()
+  : m_protection()
+  , m_totalAllocatedBytes(0)
+  , m_peakAllocatedBytes(0)
+  , m_allocatedInstanceCount(0)
+  , m_pAllocation(nullptr)
+  , m_pParent(nullptr)
+  , m_pFirstChild(nullptr)
+  , m_pNextSibling(nullptr)
+  , m_pPrevSibling(nullptr)
+  , m_isActive(false)
+{
 }
 
 Heap::~Heap()
 {
-
 }
 
 Void Heap::Initialize()
@@ -135,7 +132,10 @@ Void Heap::AttachTo(Heap* pParent)
 
     OAK_ASSERT(pParent != nullptr);
 
-    if (pParent == m_pParent) { return; }
+    if (pParent == m_pParent)
+    {
+        return;
+    }
 
     // 1. 現在の親子関係を切り離す
     if (m_pPrevSibling != nullptr)
@@ -164,14 +164,16 @@ Void Heap::AttachTo(Heap* pParent)
 }
 
 // リークのチェック関数
-Void Heap::MemoryLeakCheck(IMemoryLeakReporter* pReporter, UInt64 bookmarkStart, UInt64 bookmarkEnd) const
+Void Heap::MemoryLeakCheck(IMemoryLeakReporter* pReporter, UInt64 bookmarkStart,
+                           UInt64 bookmarkEnd) const
 {
     OAK_ASSERT(pReporter != nullptr);
 
     Allocation* pAllocation = m_pAllocation;
     while (pAllocation != nullptr)
     {
-        if (pAllocation->bookmark >= bookmarkStart && pAllocation->bookmark <= bookmarkEnd)
+        if (pAllocation->bookmark >= bookmarkStart &&
+            pAllocation->bookmark <= bookmarkEnd)
         {
             pReporter->Report(this, pAllocation);
         }
@@ -180,7 +182,8 @@ Void Heap::MemoryLeakCheck(IMemoryLeakReporter* pReporter, UInt64 bookmarkStart,
 }
 
 // 情報収集のための関数
-Void Heap::ReportTreeStats(IHeapTreeStatsReporter* pAccumulator, Int32 depth) const
+Void Heap::ReportTreeStats(IHeapTreeStatsReporter* pAccumulator,
+                           Int32 depth) const
 {
     OAK_ASSERT(pAccumulator != nullptr);
 
@@ -203,14 +206,16 @@ Void Heap::ReportTreeStats(IHeapTreeStatsReporter* pAccumulator, Int32 depth) co
 }
 
 // メモリ破壊のチェック関数
-Void Heap::MemoryAssertionCheck(IMemoryAssertionReporter* pReporter, UInt64 bookmarkStart, UInt64 bookmarkEnd) const
+Void Heap::MemoryAssertionCheck(IMemoryAssertionReporter* pReporter,
+                                UInt64 bookmarkStart, UInt64 bookmarkEnd) const
 {
     OAK_ASSERT(pReporter != nullptr);
 
     Allocation* pAllocation = m_pAllocation;
     while (pAllocation != nullptr)
     {
-        if (pAllocation->bookmark >= bookmarkStart && pAllocation->bookmark <= bookmarkEnd)
+        if (pAllocation->bookmark >= bookmarkStart &&
+            pAllocation->bookmark <= bookmarkEnd)
         {
             if ((*pAllocation->pSignature) != Allocation::SIGNATURE)
             {
@@ -221,13 +226,14 @@ Void Heap::MemoryAssertionCheck(IMemoryAssertionReporter* pReporter, UInt64 book
     }
 }
 
-Void Heap::GetTreeStats(SizeT& totalBytes, SizeT& totalPeakBytes, SizeT& totalInstanceCount) const
+Void Heap::GetTreeStats(SizeT& totalBytes, SizeT& totalPeakBytes,
+                        SizeT& totalInstanceCount) const
 {
     totalBytes += m_totalAllocatedBytes;
     totalPeakBytes += m_peakAllocatedBytes;
     totalInstanceCount += m_allocatedInstanceCount;
 
-    Heap * pChild = m_pFirstChild;
+    Heap* pChild = m_pFirstChild;
     while (pChild != NULL)
     {
         pChild->GetTreeStats(totalBytes, totalPeakBytes, totalInstanceCount);
@@ -235,6 +241,4 @@ Void Heap::GetTreeStats(SizeT& totalBytes, SizeT& totalPeakBytes, SizeT& totalIn
     }
 }
 
-
 } // namespace Oak
-

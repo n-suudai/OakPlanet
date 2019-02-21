@@ -3,22 +3,22 @@
 
 #include "Oak/Platform/AtomicDataTypes.hpp"
 
+namespace Oak
+{
 
-namespace Oak {
+typedef UInt32 (*ThreadEntry)(Void*, SizeT);
 
-
-typedef UInt32(*ThreadEntry)(Void*, SizeT);
-
-
-namespace Detail {
-
+namespace Detail
+{
 
 class IThread
 {
 protected:
     IThread() = delete;
 
-    IThread(const Char* /*name*/, ThreadEntry /*threadEntry*/) {}
+    IThread(const Char* /*name*/, ThreadEntry /*threadEntry*/)
+    {
+    }
 
     virtual ~IThread() = default;
 
@@ -30,7 +30,5 @@ public:
     static Void Sleep(UInt32 milliSeconds);
 };
 
-
 } // namespace Detail
 } // namespace Oak
-

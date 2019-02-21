@@ -4,12 +4,10 @@
 #include "Oak/Platform/OS/Win32.hpp"
 #include "Oak/Platform/Thread/Interface/ISemaphore.hpp"
 
+namespace Oak
+{
 
-namespace Oak {
-
-
-class Semaphore final
-    : public Detail::ISemaphore
+class Semaphore final : public Detail::ISemaphore
 {
 public:
     Semaphore(const Char* name, Int32 initialCount, Int32 maxCount);
@@ -25,6 +23,4 @@ private:
     HANDLE m_handle;
 };
 
-
 } // namespace Oak
-

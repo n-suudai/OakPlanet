@@ -1,25 +1,23 @@
 ﻿
 #pragma once
 
-
 #include "Oak/Platform/AtomicDataTypes.hpp"
 
-
-namespace Oak {
-
+namespace Oak
+{
 
 class Log
 {
 public:
     enum Level
     {
-        Verbose
-        , Debug
-        , Info
-        , Warning
-        , Error
-        , Assert
-        , Num
+        Verbose,
+        Debug,
+        Info,
+        Warning,
+        Error,
+        Assert,
+        Num
     };
 
     static Void Format(Level level, const Char* format, ...);
@@ -29,6 +27,4 @@ public:
     static Void Message(const Char* message);
 };
 
-
 } // namespace Oak
-

@@ -3,10 +3,10 @@
 
 #include "Oak/Platform/AtomicDataTypes.hpp"
 
-
-namespace Oak {
-namespace Detail {
-
+namespace Oak
+{
+namespace Detail
+{
 
 class IHighResolutionTimer
 {
@@ -21,9 +21,7 @@ public:
     virtual Bool IsEnableHighResolutionTimer() const = 0;
 };
 
-
 } // namespace Detail
-
 
 class StandardTimer final
 {
@@ -36,6 +34,4 @@ public:
     static Double NowSeconds();
 };
 
-
 } // namespace Oak
-

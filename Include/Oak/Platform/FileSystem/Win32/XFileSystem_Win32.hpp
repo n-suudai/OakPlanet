@@ -4,12 +4,10 @@
 #include "Oak/Platform/FileSystem/Interface/IFileSystem.hpp"
 #include "Oak/Platform/OS/Win32.hpp"
 
+namespace Oak
+{
 
-namespace Oak {
-
-
-class FileSystem final
-    : public Detail::IFileSystem
+class FileSystem final : public Detail::IFileSystem
 {
 public:
     FileSystem();
@@ -26,9 +24,6 @@ public:
 
 private:
     HANDLE m_fileHandle;
-
 };
 
-
 } // namespace Oak
-

@@ -1,18 +1,15 @@
 ﻿
 #include "CriticalSectionTest.hpp"
 
-
 #include "Oak/Platform/Thread/Thread.hpp"
 #include "Oak/Platform/Thread/CriticalSection.hpp"
 #include "Oak/Platform/Thread/LockGuard.hpp"
 #include <cstdio>
 
-
 using namespace Oak;
 
-
-namespace CriticalSectionTest {
-
+namespace CriticalSectionTest
+{
 
 Void ShowMessage(const Char* message)
 {
@@ -33,7 +30,6 @@ Oak::Thread* g_pThread2 = nullptr;
 Oak::Bool g_exitThread = false;
 Oak::CriticalSection g_criticalSection;
 int g_count = 0;
-
 
 UInt32 ThreadProc1(Void* pArgumentBlock, SizeT argumentSize)
 {
@@ -79,37 +75,34 @@ UInt32 ThreadProc2(Void* pArgumentBlock, SizeT argumentSize)
     return 0;
 }
 
-
 LRESULT CALLBACK WinProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
-    switch (msg) {
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        return 0;
-    case WM_CREATE:
-        //スレッドを作成
-        g_pThread1 = new Oak::Thread("スレッド1", ThreadProc1);
-        g_pThread2 = new Oak::Thread("スレッド2", ThreadProc2);
-        g_pThread1->Start(nullptr, 0);
-        g_pThread2->Start(nullptr, 0);
-        return 0;
-    case WM_CLOSE:
-        g_exitThread = true;
-        g_pThread1->Wait();
-        g_pThread2->Wait();
-        delete g_pThread1;
-        delete g_pThread2;
-        //ウィンドウを破棄
-        DestroyWindow(hwnd);
-        return 0;
-
+    switch (msg)
+    {
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            return 0;
+        case WM_CREATE:
+            //スレッドを作成
+            g_pThread1 = new Oak::Thread("スレッド1", ThreadProc1);
+            g_pThread2 = new Oak::Thread("スレッド2", ThreadProc2);
+            g_pThread1->Start(nullptr, 0);
+            g_pThread2->Start(nullptr, 0);
+            return 0;
+        case WM_CLOSE:
+            g_exitThread = true;
+            g_pThread1->Wait();
+            g_pThread2->Wait();
+            delete g_pThread1;
+            delete g_pThread2;
+            //ウィンドウを破棄
+            DestroyWindow(hwnd);
+            return 0;
     }
     return DefWindowProcA(hwnd, msg, wp, lp);
 }
 
-
 } // namespace CriticalSectionTest
-
 
 int CriticalSectionTestMain()
 {
@@ -128,15 +121,19 @@ int CriticalSectionTestMain()
     wc.lpszClassName = "test";
     wc.lpszMenuName = NULL;
 
-    if (!RegisterClassA(&wc)) {
+    if (!RegisterClassA(&wc))
+    {
         ShowMessage("クラスの登録失敗");
         return -1;
     }
 
-    g_hwnd = CreateWindowA("test", "テストウィンドウ", WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
-        0, 0, 400, 400, NULL, NULL, hInstance, NULL);
+    g_hwnd =
+      CreateWindowA("test", "テストウィンドウ",
+                    WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, 0, 0,
+                    400, 400, NULL, NULL, hInstance, NULL);
 
-    if (g_hwnd == NULL) {
+    if (g_hwnd == NULL)
+    {
         ShowMessage("ウィンドウ作成失敗");
         return -1;
     }
@@ -148,9 +145,11 @@ int CriticalSectionTestMain()
     int check;
 
     check = GetMessageA(&msg, NULL, 0, 0);
-    while (check) {
+    while (check)
+    {
         check = GetMessageA(&msg, NULL, 0, 0);
-        if (check == -1) {
+        if (check == -1)
+        {
             break;
         }
         DispatchMessageA(&msg);
@@ -161,4 +160,3 @@ int CriticalSectionTestMain()
 
     return 0;
 }
-

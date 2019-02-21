@@ -1,18 +1,15 @@
 ﻿
 #include "ThreadTest.hpp"
 
-
 #include "Oak/Platform/Thread/Thread.hpp"
 #include "Oak/Platform/Thread/Mutex.hpp"
 #include "Oak/Platform/Thread/LockGuard.hpp"
 #include <cstdio>
 
-
 using namespace Oak;
 
-
-namespace MutexTest {
-
+namespace MutexTest
+{
 
 Void ShowMessage(const Char* message)
 {
@@ -30,8 +27,7 @@ const int HEIGHT = 300;
 
 Oak::Thread* g_pThread = nullptr;
 Oak::Mutex g_mutex("MUTEX");
-Oak::Bool  g_exitThread = false;
-
+Oak::Bool g_exitThread = false;
 
 UInt32 ThreadProc(Void* pArgumentBlock, SizeT argumentSize)
 {
@@ -56,34 +52,31 @@ UInt32 ThreadProc(Void* pArgumentBlock, SizeT argumentSize)
     return 0;
 }
 
-
 LRESULT CALLBACK WinProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
-    switch (msg) {
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        return 0;
-    case WM_CREATE:
-        //スレッドを作成
-        g_pThread = new Oak::Thread("スレッド", ThreadProc);
-        g_pThread->Start(nullptr, 0);
-        return 0;
+    switch (msg)
+    {
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            return 0;
+        case WM_CREATE:
+            //スレッドを作成
+            g_pThread = new Oak::Thread("スレッド", ThreadProc);
+            g_pThread->Start(nullptr, 0);
+            return 0;
 
-    case WM_CLOSE:
-        g_exitThread = true;
-        g_pThread->Wait();
-        delete g_pThread;
-        //ウィンドウを破棄
-        DestroyWindow(hwnd);
-        return 0;
-
+        case WM_CLOSE:
+            g_exitThread = true;
+            g_pThread->Wait();
+            delete g_pThread;
+            //ウィンドウを破棄
+            DestroyWindow(hwnd);
+            return 0;
     }
     return DefWindowProcA(hwnd, msg, wp, lp);
 }
 
-
 } // namespace MutexTest
-
 
 int MutexTestMain()
 {
@@ -102,15 +95,19 @@ int MutexTestMain()
     wc.lpszClassName = "test";
     wc.lpszMenuName = NULL;
 
-    if (!RegisterClassA(&wc)) {
+    if (!RegisterClassA(&wc))
+    {
         ShowMessage("クラスの登録失敗");
         return -1;
     }
 
-    g_hwnd = CreateWindowA("test", "テストウィンドウ", WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
-        0, 0, 400, 400, NULL, NULL, hInstance, NULL);
+    g_hwnd =
+      CreateWindowA("test", "テストウィンドウ",
+                    WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, 0, 0,
+                    400, 400, NULL, NULL, hInstance, NULL);
 
-    if (g_hwnd == NULL) {
+    if (g_hwnd == NULL)
+    {
         ShowMessage("ウィンドウ作成失敗");
         return -1;
     }
@@ -122,9 +119,11 @@ int MutexTestMain()
     int check;
 
     check = GetMessageA(&msg, NULL, 0, 0);
-    while (check) {
+    while (check)
+    {
         check = GetMessageA(&msg, NULL, 0, 0);
-        if (check == -1) {
+        if (check == -1)
+        {
             break;
         }
         DispatchMessageA(&msg);
@@ -135,4 +134,3 @@ int MutexTestMain()
 
     return 0;
 }
-

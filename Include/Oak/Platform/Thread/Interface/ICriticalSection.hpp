@@ -3,10 +3,10 @@
 
 #include "Oak/Platform/AtomicDataTypes.hpp"
 
-
-namespace Oak {
-namespace Detail {
-
+namespace Oak
+{
+namespace Detail
+{
 
 class ICriticalSection
 {
@@ -21,7 +21,5 @@ public:
     virtual Void Unlock() = 0;
 };
 
-
 } // namespace Detail
 } // namespace Oak
-

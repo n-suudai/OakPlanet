@@ -2,9 +2,8 @@
 
 #include "Oak/Platform/AtomicDataTypes.hpp"
 
-
-namespace Oak {
-
+namespace Oak
+{
 
 enum SOCKET_TYPE
 {
@@ -13,9 +12,8 @@ enum SOCKET_TYPE
     SOCKET_TYPE_NUM,
 };
 
-
-namespace Detail {
-
+namespace Detail
+{
 
 class ISocket
 {
@@ -28,10 +26,7 @@ public:
     virtual Bool Initialize(SOCKET_TYPE socketType) = 0;
 
     virtual Void Terminate() = 0;
-
 };
-
 
 } // namespace Detail
 } // namespace Oak
-

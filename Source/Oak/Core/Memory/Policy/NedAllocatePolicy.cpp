@@ -2,17 +2,14 @@
 
 #include "Oak/Core/Memory/Policy/NedAllocatePolicy.hpp"
 
-
 #if OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NED
-
 
 #include "Oak/Core/Memory/MemoryTracker.hpp"
 #include "Oak/ThirdParty/nedmalloc.hpp"
 #include <algorithm>
 
-
-namespace Oak {
-
+namespace Oak
+{
 
 Void* NedAllocatePolicyImpl::AllocateBytes(SizeT bytes)
 {
@@ -22,7 +19,10 @@ Void* NedAllocatePolicyImpl::AllocateBytes(SizeT bytes)
 Void NedAllocatePolicyImpl::DeallocateBytes(Void* pBlock)
 {
     // deal with null
-    if (!pBlock) { return; }
+    if (!pBlock)
+    {
+        return;
+    }
 
     nedalloc::nedfree(pBlock);
 }
@@ -33,19 +33,20 @@ Void* NedAllocatePolicyImpl::AllocateBytesAligned(SizeT align, SizeT bytes)
     return nedalloc::nedmemalign(align ? align : OAK_SIMD_ALIGNMENT, bytes);
 }
 
-Void NedAllocatePolicyImpl::DeallocateBytesAligned(SizeT alignment, Void* pBlock)
+Void NedAllocatePolicyImpl::DeallocateBytesAligned(SizeT alignment,
+                                                   Void* pBlock)
 {
     alignment;
 
     // deal with null
-    if (!pBlock) { return; }
+    if (!pBlock)
+    {
+        return;
+    }
 
     nedalloc::nedfree(pBlock);
 }
 
+} // namespace  Oak
 
-}  // namespace  Oak
-
-
-#endif  // OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NED
-
+#endif // OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NED

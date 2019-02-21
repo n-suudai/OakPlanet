@@ -3,12 +3,10 @@
 #include "Oak/Platform/NetWork/Interface/ISocket.hpp"
 #include <winsock2.h>
 
+namespace Oak
+{
 
-namespace Oak {
-
-
-class Socket final
-    : public Detail::ISocket
+class Socket final : public Detail::ISocket
 {
 public:
     Socket();
@@ -20,11 +18,9 @@ public:
     Void Terminate() override;
 
 private:
-    Bool    m_isInitialized;
+    Bool m_isInitialized;
     WSADATA m_wsaData;
     SOCKET m_socket;
 };
 
-
 } // namespace Oak
-

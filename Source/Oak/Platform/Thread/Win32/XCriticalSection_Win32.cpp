@@ -1,9 +1,8 @@
 ﻿
 #include "Oak/Platform/Thread/Win32/XCriticalSection_Win32.hpp"
 
-
-namespace Oak {
-
+namespace Oak
+{
 
 CriticalSection::CriticalSection()
 {
@@ -25,6 +24,4 @@ Void CriticalSection::Unlock()
     LeaveCriticalSection(&m_criticalSection);
 }
 
-
 } // namespace Oak
-

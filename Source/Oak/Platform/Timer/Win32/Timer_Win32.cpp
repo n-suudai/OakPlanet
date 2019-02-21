@@ -2,13 +2,11 @@
 #include "Oak/Platform/Timer/Win32/Timer_Win32.hpp"
 #include "Oak/Platform/OS/Win32.hpp"
 
-
-namespace Oak {
-
+namespace Oak
+{
 
 HighResolutionTimer::HighResolutionTimer()
-    : m_secondsPerTick(0)
-    , m_supportHighResolutionTimer(false)
+  : m_secondsPerTick(0), m_supportHighResolutionTimer(false)
 {
     LARGE_INTEGER frequency;
     if (QueryPerformanceFrequency(&frequency))
@@ -24,7 +22,6 @@ HighResolutionTimer::HighResolutionTimer()
 
 HighResolutionTimer::~HighResolutionTimer()
 {
-
 }
 
 Double HighResolutionTimer::NowSeconds() const
@@ -46,14 +43,9 @@ Bool HighResolutionTimer::IsEnableHighResolutionTimer() const
     return m_supportHighResolutionTimer;
 }
 
-
-
-
 Double StandardTimer::NowSeconds()
 {
     return GetTickCount64() * 0.001;
 }
 
-
 } // namespace Oak
-

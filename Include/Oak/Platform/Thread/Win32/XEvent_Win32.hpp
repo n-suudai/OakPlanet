@@ -4,12 +4,10 @@
 #include "Oak/Platform/OS/Win32.hpp"
 #include "Oak/Platform/Thread/Interface/IEvent.hpp"
 
+namespace Oak
+{
 
-namespace Oak {
-
-
-class Event final
-    : public Detail::IEvent
+class Event final : public Detail::IEvent
 {
 public:
     Event(const Char* name, Bool initialState = false);
@@ -27,6 +25,4 @@ private:
     HANDLE m_handle;
 };
 
-
 } // namespace Oak
-

@@ -1,7 +1,6 @@
 ﻿
 #pragma once
 
-
 #if defined(_WIN32) || defined(WIN32)
 
 #include "Oak/Platform/OS/Win32.hpp"
@@ -12,7 +11,6 @@
 
 #endif
 
-
 #ifndef DECL_MALLOC
 
 #if defined(_MSC_VER)
@@ -21,9 +19,8 @@
 
 #else // !defined(_MSC_VER)
 
-#define DECL_MALLOC __attribute__ ((malloc))
+#define DECL_MALLOC __attribute__((malloc))
 
 #endif
 
 #endif // DECL_MALLOC
-

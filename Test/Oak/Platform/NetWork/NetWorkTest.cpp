@@ -2,10 +2,9 @@
 #include "NetWorkTest.hpp"
 #include "Oak/Platform/NetWork.hpp"
 
-#include  <cstdio>
+#include <cstdio>
 
 #pragma comment(lib, "ws2_32.lib")
-
 
 int NetWorkTestMain()
 {
@@ -17,4 +16,3 @@ int NetWorkTestMain()
 
     return 0;
 }
-

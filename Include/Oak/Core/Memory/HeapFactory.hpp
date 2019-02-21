@@ -1,12 +1,10 @@
 ﻿
 #pragma once
 
-
 #include "Oak/Core/Memory/Heap.hpp"
 
-
-namespace Oak {
-
+namespace Oak
+{
 
 class HeapFactory
 {
@@ -31,17 +29,19 @@ public:
 
     Heap* CreateNewHeap(const Char* name);
 
-
     // リークのチェック関数
-    Void MemoryLeakCheck(IMemoryLeakReporter* pReporter, UInt64 bookmarkStart, UInt64 bookmarkEnd) const;
+    Void MemoryLeakCheck(IMemoryLeakReporter* pReporter, UInt64 bookmarkStart,
+                         UInt64 bookmarkEnd) const;
 
-    Void MemoryLeakCheck(IMemoryLeakReporter* pReporter, UInt64 bookmarkStart = 0);
+    Void MemoryLeakCheck(IMemoryLeakReporter* pReporter,
+                         UInt64 bookmarkStart = 0);
 
     // メモリ情報
     Void ReportHeapTreeStats(IHeapTreeStatsReporter* pReporter);
 
     // メモリ破壊のチェック関数
-    Void MemoryAssertionCheck(IMemoryAssertionReporter* pReporter, UInt64 bookmarkStart, UInt64 bookmarkEnd) const;
+    Void MemoryAssertionCheck(IMemoryAssertionReporter* pReporter,
+                              UInt64 bookmarkStart, UInt64 bookmarkEnd) const;
 
 private:
     static constexpr Char* s_pRootHeapName = "Root";
@@ -49,12 +49,13 @@ private:
 
     CriticalSection m_protection;
 
-    enum { MAXHEAPS = 256 };
-    Heap    m_heaps[MAXHEAPS];
-    Heap*   m_pRootHeap;
-    Heap*   m_pDefaultHeap;
+    enum
+    {
+        MAXHEAPS = 256
+    };
+    Heap m_heaps[MAXHEAPS];
+    Heap* m_pRootHeap;
+    Heap* m_pDefaultHeap;
 };
 
-
 } // namespace Oak
-

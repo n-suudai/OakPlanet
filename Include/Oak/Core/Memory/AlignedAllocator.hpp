@@ -6,10 +6,8 @@
 #include "Oak/Core/Assert.hpp"
 #include "Oak/Core/Bitwise.hpp"
 
-
-namespace Oak {
-
-
+namespace Oak
+{
 
 /**
 *
@@ -25,16 +23,17 @@ namespace Oak {
 * 6 -> Wasted memory at rear of data block.
 */
 
-
 class AlignedMemory
 {
 public:
     static inline Void* Allocate(SizeT bytes, SizeT alignment)
     {
-        OAK_ASSERT(0 < alignment && alignment <= 128 && Bitwise::IsPowerOf2(alignment));
+        OAK_ASSERT(0 < alignment && alignment <= 128 &&
+                   Bitwise::IsPowerOf2(alignment));
 
         UInt8* p = new UInt8[bytes + alignment];
-        PtrDiff offset = alignment - (reinterpret_cast<PtrDiff>(p) & (alignment - 1));
+        PtrDiff offset =
+          alignment - (reinterpret_cast<PtrDiff>(p) & (alignment - 1));
 
         UInt8* pBlock = p + offset;
         pBlock[-1] = static_cast<UInt8>(offset);
@@ -58,6 +57,4 @@ public:
     }
 };
 
-
 } // namespace Oak
-
