@@ -7,7 +7,6 @@
 
 #include "Oak/Platform/AtomicDataTypes.hpp"
 #include "Oak/Core/Memory/AlignedAllocator.hpp"
-#include "Oak/Core/Memory/MemoryTracker.hpp"
 
 namespace Oak
 {
@@ -17,7 +16,12 @@ class StandardAllocatePolicy
 public:
     static inline Void* AllocateBytes(SizeT bytes)
     {
-        return reinterpret_cast<Void*>(new UInt8[bytes]);
+        return malloc(bytes);
+    }
+
+    static inline Void* AllocateBytesAligned(SizeT bytes, SizeT alignment)
+    {
+        return AlignedMemory::Allocate(bytes, alignment);
     }
 
     static inline Void DeallocateBytes(Void* pBlock)
@@ -28,25 +32,13 @@ public:
             return;
         }
 
-        delete[](reinterpret_cast<UInt8*>(pBlock));
-    }
-};
-
-template <SizeT Alignment>
-class StandardAlignedAllocatePolicy
-{
-    // compile-time check alignment is available.
-    typedef int IsValidAlignment
-      [Alignment <= 128 && ((Alignment & (Alignment - 1)) == 0) ? +1 : -1];
-
-public:
-    static inline Void* AllocateBytes(SizeT bytes)
-    {
-        return AlignedMemory::Allocate(bytes, Alignment);
+        free(pBlock);
     }
 
-    static inline Void DeallocateBytes(Void* pBlock)
+    static inline Void DeallocateBytesAligned(Void* pBlock, SizeT alignment)
     {
+        alignment;
+
         // deal with null
         if (!pBlock)
         {

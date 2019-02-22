@@ -30,7 +30,9 @@ Allocation* MemoryTracker::RecordAllocation(Void* pBlock, SizeT bytes,
 {
     LockGuard<CriticalSection> lock(m_protection);
 
-    Allocation* pAllocation = new Allocation(); // デフォルトの new
+    Allocation* pAllocation = reinterpret_cast<Allocation*>(
+      AllocatePolicy::AllocateBytes(sizeof(Allocation)));
+
     pAllocation->pBlock = pBlock;
     pAllocation->bytes = bytes;
     pAllocation->file = file;
@@ -70,7 +72,7 @@ Void MemoryTracker::RecordDeallocation(Void* pBlock, Heap* pHeap)
         // リンクリストから切り離す
         pHeap->EraseAllocation(it->second);
 
-        delete it->second; // デフォルトの delete
+        AllocatePolicy::DeallocateBytes(it->second);
 
         m_allocations.erase(it);
     }

@@ -3,6 +3,8 @@
 
 #if OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NEDPOOLING
 
+#include "Oak/Core/Assert.hpp"
+#include "Oak/Core/Bitwise.hpp"
 #include "Oak/ThirdParty/nedmalloc.hpp"
 #include <algorithm>
 
@@ -67,7 +69,7 @@ DECL_MALLOC Void* internalAlloc(SizeT a_reqSize)
     return nedalloc::nedpmalloc(pool, a_reqSize);
 }
 
-DECL_MALLOC Void* internalAllocAligned(SizeT a_align, SizeT a_reqSize)
+DECL_MALLOC Void* internalAllocAligned(SizeT a_reqSize, SizeT a_align)
 {
     SizeT poolID = poolIDFromSize(a_reqSize);
     nedalloc::nedpool* pool(0); // A pool pointer of 0 means the default pool.
@@ -132,15 +134,18 @@ Void NedPoolingAllocatePolicyImpl::DeallocateBytes(Void* pBlock)
 }
 
 DECL_MALLOC Void*
-NedPoolingAllocatePolicyImpl::AllocateBytesAligned(SizeT alignment, SizeT bytes)
+NedPoolingAllocatePolicyImpl::AllocateBytesAligned(SizeT bytes, SizeT alignment)
 {
+    OAK_ASSERT(0 < alignment && alignment <= 128 &&
+               Bitwise::IsPowerOf2(alignment));
+
     // default to platform SIMD alignment if none specified
     return NedPoolingAllocateInternal::internalAllocAligned(
-      alignment ? alignment : OAK_SIMD_ALIGNMENT, bytes);
+      bytes, alignment ? alignment : OAK_SIMD_ALIGNMENT);
 }
 
-Void NedPoolingAllocatePolicyImpl::DeallocateBytesAligned(SizeT alignment,
-                                                          Void* pBlock)
+Void NedPoolingAllocatePolicyImpl::DeallocateBytesAligned(Void* pBlock,
+                                                          SizeT alignment)
 {
     alignment;
 

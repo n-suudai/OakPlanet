@@ -12,9 +12,6 @@ namespace Oak
 
 typedef NedPoolingAllocatePolicy AllocatePolicy;
 
-template <SizeT Alignment = 0>
-using AlignAllocatePolicy = NedPoolingAlignedAllocatePolicy<Alignment>;
-
 } // namespace Oak
 
 #elif OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NED
@@ -26,9 +23,6 @@ namespace Oak
 
 typedef NedAllocatePolicy AllocatePolicy;
 
-template <SizeT Alignment = 0>
-using AlignAllocatePolicy = NedAlignedAllocatePolicy<Alignment>;
-
 } // namespace Oak
 
 #elif OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_STD
@@ -39,9 +33,6 @@ namespace Oak
 {
 
 typedef StandardAllocatePolicy AllocatePolicy;
-
-template <SizeT Alignment = 0>
-using AlignAllocatePolicy = StandardAlignedAllocatePolicy<Alignment>;
 
 } // namespace Oak
 

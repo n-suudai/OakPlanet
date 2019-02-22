@@ -5,6 +5,7 @@
 #include "Oak/Platform/AtomicDataTypes.hpp"
 #include "Oak/Core/Assert.hpp"
 #include "Oak/Core/Bitwise.hpp"
+#include <malloc.h>
 
 namespace Oak
 {
@@ -31,14 +32,7 @@ public:
         OAK_ASSERT(0 < alignment && alignment <= 128 &&
                    Bitwise::IsPowerOf2(alignment));
 
-        UInt8* p = new UInt8[bytes + alignment];
-        PtrDiff offset =
-          alignment - (reinterpret_cast<PtrDiff>(p) & (alignment - 1));
-
-        UInt8* pBlock = p + offset;
-        pBlock[-1] = static_cast<UInt8>(offset);
-
-        return pBlock;
+        return _mm_malloc(bytes, alignment);
     }
 
     static inline Void* Allocate(SizeT bytes)
@@ -48,12 +42,12 @@ public:
 
     static inline Void Deallocate(Void* pBlock)
     {
-        if (pBlock)
+        if (!pBlock)
         {
-            UInt8* p = reinterpret_cast<UInt8*>(pBlock);
-            p = p - p[-1];
-            delete[] p;
+            return;
         }
+
+        _mm_free(pBlock);
     }
 };
 

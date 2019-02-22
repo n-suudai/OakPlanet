@@ -40,19 +40,6 @@ Void Heap::Initialize()
     m_pPrevSibling = nullptr;
 }
 
-Void Heap::Activate(const Char* name)
-{
-    LockGuard<CriticalSection> lock(m_protection);
-
-    OAK_ASSERT(name != nullptr);
-    OAK_ASSERT(strlen(name) < NAMELENGTH);
-    strcpy_s(m_name, name);
-    m_isActive = true;
-    m_totalAllocatedBytes = 0;
-    m_peakAllocatedBytes = 0;
-    m_allocatedInstanceCount = 0;
-}
-
 Void Heap::Deactivate()
 {
     LockGuard<CriticalSection> lock(m_protection);
@@ -62,6 +49,7 @@ Void Heap::Deactivate()
     m_totalAllocatedBytes = 0;
     m_peakAllocatedBytes = 0;
     m_allocatedInstanceCount = 0;
+    m_pBaseAllocator = nullptr;
 }
 
 const Char* Heap::GetName() const
@@ -71,7 +59,74 @@ const Char* Heap::GetName() const
 
 Bool Heap::IsActive() const
 {
-    return m_isActive;
+    return m_pBaseAllocator != nullptr && m_isActive;
+}
+
+Void* Heap::AllocateBytes(SizeT bytes, const Char* file, Int32 line,
+                          const Char* function)
+{
+    LockGuard<CriticalSection> lock(m_protection);
+
+    OAK_ASSERT(m_pBaseAllocator != nullptr);
+
+    // シグネチャサイズをプラス
+    constexpr SizeT signatureSize = sizeof(AllocationSignature);
+
+    // メモリを確保
+    Void* pBlock = m_pBaseAllocator->AllocateBytes(bytes + signatureSize);
+
+    // トラッカーへ情報を登録
+    MemoryTracker::Get().RecordAllocation(pBlock, bytes, file, line, function,
+                                          this);
+
+    return pBlock;
+}
+
+Void* Heap::AllocateAlignedBytes(SizeT bytes, SizeT alignment, const Char* file,
+                                 Int32 line, const Char* function)
+{
+    LockGuard<CriticalSection> lock(m_protection);
+
+    OAK_ASSERT(m_pBaseAllocator != nullptr);
+
+    // シグネチャサイズをプラス
+    constexpr SizeT signatureSize = sizeof(AllocationSignature);
+
+    // メモリを確保
+    Void* pBlock =
+      m_pBaseAllocator->AllocateBytesAligned(bytes + signatureSize, alignment);
+
+    // トラッカーへ情報を登録
+    MemoryTracker::Get().RecordAllocation(pBlock, bytes, file, line, function,
+                                          this);
+
+    return pBlock;
+}
+
+Void Heap::DeallocateBytes(Void* pBlock)
+{
+    LockGuard<CriticalSection> lock(m_protection);
+
+    OAK_ASSERT(m_pBaseAllocator != nullptr);
+
+    // トラッカーから情報を削除
+    MemoryTracker::Get().RecordDeallocation(pBlock, this);
+
+    // メモリを破棄
+    m_pBaseAllocator->DeallocateBytes(pBlock);
+}
+
+Void Heap::DeallocateAlignedBytes(Void* pBlock, SizeT alignment)
+{
+    LockGuard<CriticalSection> lock(m_protection);
+
+    OAK_ASSERT(m_pBaseAllocator != nullptr);
+
+    // トラッカーから情報を削除
+    MemoryTracker::Get().RecordDeallocation(pBlock, this);
+
+    // メモリを破棄
+    m_pBaseAllocator->DeallocateBytesAligned(pBlock, alignment);
 }
 
 // リンクリストを構築

@@ -16,44 +16,36 @@ class NedPoolingAllocatePolicyImpl
 public:
     static DECL_MALLOC Void* AllocateBytes(SizeT bytes);
 
+    static DECL_MALLOC Void* AllocateBytesAligned(SizeT bytes, SizeT alignment);
+
     static Void DeallocateBytes(Void* pBlock);
 
-    static DECL_MALLOC Void* AllocateBytesAligned(SizeT alignment, SizeT bytes);
-
-    static Void DeallocateBytesAligned(SizeT alignment, Void* pBlock);
+    static Void DeallocateBytesAligned(Void* pBlock, SizeT alignment);
 };
 
 class NedPoolingAllocatePolicy
 {
 public:
-    static inline Void* AllocateBytes(SizeT bytes)
+    static inline DECL_MALLOC Void* AllocateBytes(SizeT bytes)
     {
         return NedPoolingAllocatePolicyImpl::AllocateBytes(bytes);
+    }
+
+    static inline DECL_MALLOC Void* AllocateBytesAligned(SizeT bytes,
+                                                         SizeT alignment)
+    {
+        return NedPoolingAllocatePolicyImpl::AllocateBytesAligned(bytes,
+                                                                  alignment);
     }
 
     static inline Void DeallocateBytes(Void* pBlock)
     {
         NedPoolingAllocatePolicyImpl::DeallocateBytes(pBlock);
     }
-};
 
-template <SizeT Alignment = 0>
-class NedPoolingAlignedAllocatePolicy
-{
-    // compile-time check alignment is available.
-    typedef int IsValidAlignment
-      [Alignment <= 128 && ((Alignment & (Alignment - 1)) == 0) ? +1 : -1];
-
-public:
-    static inline Void* AllocateBytes(SizeT bytes)
+    static inline Void DeallocateBytesAligned(Void* pBlock, SizeT alignment)
     {
-        return NedPoolingAllocatePolicyImpl::AllocateBytesAligned(Alignment,
-                                                                  bytes);
-    }
-
-    static inline Void DeallocateBytes(Void* pBlock)
-    {
-        NedPoolingAllocatePolicyImpl::DeallocateBytesAligned(Alignment, pBlock);
+        NedPoolingAllocatePolicyImpl::DeallocateBytesAligned(pBlock, alignment);
     }
 };
 

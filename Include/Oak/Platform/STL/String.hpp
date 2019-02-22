@@ -3,8 +3,8 @@
 
 #include "Oak/Platform/STL/STLAllocator.hpp"
 
-#include <string>
 #include <sstream>
+#include <string>
 
 namespace Oak
 {

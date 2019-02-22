@@ -114,9 +114,9 @@ private:
     char m_size[256];
 };
 
-OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChildAligned, "custom_child_aligned",
-                           "custom_child",
-                           Oak::AlignAllocatePolicy<ALIGNMENT_SIZE>);
+OAK_DEFINE_HIERARCHAL_HEAP_ALIGN(TestClassCustomChildAligned,
+                                 "custom_child_aligned", "custom_child",
+                                 Oak::AllocatePolicy, ALIGNMENT_SIZE);
 
 class TreeStatsReporter : public Oak::IHeapTreeStatsReporter
 {

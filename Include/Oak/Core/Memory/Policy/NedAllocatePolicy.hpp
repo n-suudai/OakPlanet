@@ -6,7 +6,6 @@
 #if OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_NED
 
 #include "Oak/Platform/AtomicDataTypes.hpp"
-#include "Oak/Platform/PlatformDetection.hpp"
 
 namespace Oak
 {
@@ -16,11 +15,11 @@ class NedAllocatePolicyImpl
 public:
     static Void* AllocateBytes(SizeT bytes);
 
+    static Void* AllocateBytesAligned(SizeT bytes, SizeT alignment);
+
     static Void DeallocateBytes(Void* pBlock);
 
-    static Void* AllocateBytesAligned(SizeT alignment, SizeT bytes);
-
-    static Void DeallocateBytesAligned(SizeT alignment, Void* pBlock);
+    static Void DeallocateBytesAligned(Void* pBlock, SizeT alignment);
 };
 
 class NedAllocatePolicy
@@ -31,28 +30,19 @@ public:
         return NedAllocatePolicyImpl::AllocateBytes(bytes);
     }
 
+    static inline Void* AllocateBytesAligned(SizeT bytes, SizeT alignment)
+    {
+        return NedAllocatePolicyImpl::AllocateBytesAligned(bytes, alignment);
+    }
+
     static inline Void DeallocateBytes(Void* pBlock)
     {
         NedAllocatePolicyImpl::DeallocateBytes(pBlock);
     }
-};
 
-template <SizeT Alignment = 0>
-class NedAlignedAllocatePolicy
-{
-    // compile-time check alignment is available.
-    typedef int IsValidAlignment
-      [Alignment <= 128 && ((Alignment & (Alignment - 1)) == 0) ? +1 : -1];
-
-public:
-    static inline Void* AllocateBytes(SizeT bytes)
+    static inline Void DeallocateBytesAligned(Void* pBlock, SizeT alignment)
     {
-        return NedAllocatePolicyImpl::AllocateBytesAligned(Alignment, bytes);
-    }
-
-    static inline Void DeallocateBytes(Void* pBlock)
-    {
-        NedAllocatePolicyImpl::DeallocateBytesAligned(Alignment, pBlock);
+        NedAllocatePolicyImpl::DeallocateBytesAligned(pBlock, alignment);
     }
 };
 

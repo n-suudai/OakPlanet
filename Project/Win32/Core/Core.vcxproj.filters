@@ -84,6 +84,12 @@
     <ClInclude Include="..\..\..\Include\Oak\Core\Memory\HeapWalk.hpp">
       <Filter>Include\Oak\Core\Memory</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\JobSystem.hpp">
+      <Filter>Include\Oak\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\STLAllocator.hpp">
+      <Filter>Include\Oak\Core\Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\Core\Assert.cpp">
@@ -108,6 +114,9 @@
       <Filter>Source\Oak\Core\Memory</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Source\Oak\Core\Memory\HeapFactory.cpp">
+      <Filter>Source\Oak\Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Oak\Core\Memory\MemoryManager.cpp">
       <Filter>Source\Oak\Core\Memory</Filter>
     </ClCompile>
   </ItemGroup>

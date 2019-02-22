@@ -4,6 +4,8 @@
 #include "Oak/Platform/Thread/CriticalSection.hpp"
 #include "Oak/Platform/Thread/LockGuard.hpp"
 #include "Oak/Core/Memory/MemoryTracker.hpp"
+#include "Oak/Core/Assert.hpp"
+#include <typeinfo>
 
 namespace Oak
 {
@@ -34,6 +36,74 @@ struct Allocation
     Allocation* pPrev;
 };
 
+namespace Detail
+{
+
+class HeapAllocatorBase
+{
+public:
+    virtual const SizeT GetHash() const = 0;
+
+    virtual Void* AllocateBytes(SizeT bytes) = 0;
+
+    virtual Void* AllocateBytesAligned(SizeT bytes, SizeT alignment) = 0;
+
+    virtual Void DeallocateBytes(Void* pBlock) = 0;
+
+    virtual Void DeallocateBytesAligned(Void* pBlock, SizeT alignment) = 0;
+};
+
+template <typename Policy>
+class PolicyHashCode
+{
+public:
+    static const SizeT value;
+};
+
+template <class Policy>
+const SizeT PolicyHashCode<Policy>::value =
+  typeid(const PolicyHashCode*).hash_code();
+
+template <typename Policy>
+class HeapAllocatorOverride : public HeapAllocatorBase
+{
+public:
+    typedef Policy PolicyType;
+
+    static inline HeapAllocatorBase* Get()
+    {
+        static HeapAllocatorOverride instance;
+        return &instance;
+    }
+
+    inline const SizeT GetHash() const override
+    {
+        return PolicyHashCode<Policy>::value;
+    }
+
+    inline Void* AllocateBytes(SizeT bytes) override
+    {
+        return Policy::AllocateBytes(bytes);
+    }
+
+    inline Void* AllocateBytesAligned(SizeT bytes, SizeT alignment) override
+    {
+        return Policy::AllocateBytesAligned(bytes, alignment);
+    }
+
+    inline Void DeallocateBytes(Void* pBlock) override
+    {
+        Policy::DeallocateBytes(pBlock);
+    }
+
+    inline Void DeallocateBytesAligned(Void* pBlock, SizeT alignment) override
+    {
+        Policy::DeallocateBytesAligned(pBlock, alignment);
+    }
+};
+
+} // namespace Detail
+
 // ヒープ
 class Heap
 {
@@ -44,7 +114,8 @@ public:
 
     Void Initialize();
 
-    Void Activate(const Char* name);
+    template <typename Policy>
+    inline Void Activate(const Char* name);
 
     Void Deactivate();
 
@@ -53,11 +124,17 @@ public:
     Bool IsActive() const;
 
     template <typename Policy>
-    inline Void* Allocate(SizeT bytes, const Char* file, Int32 line,
-                          const Char* function);
+    inline Bool IsActive() const;
 
-    template <typename Policy>
-    inline Void Deallocate(Void* pBlock);
+    Void* AllocateBytes(SizeT bytes, const Char* file, Int32 line,
+                        const Char* function);
+
+    Void* AllocateAlignedBytes(SizeT bytes, SizeT alignment, const Char* file,
+                               Int32 line, const Char* function);
+
+    Void DeallocateBytes(Void* pBlock);
+
+    Void DeallocateAlignedBytes(Void* pBlock, SizeT alignment);
 
     // リンクリストを構築
     Void AddAllocation(Allocation* pAllocation);
@@ -104,37 +181,33 @@ private:
     Heap* m_pPrevSibling;
 
     Bool m_isActive;
+
+    Detail::HeapAllocatorBase* m_pBaseAllocator;
 };
 
 template <typename Policy>
-inline Void* Heap::Allocate(SizeT bytes, const Char* file, Int32 line,
-                            const Char* function)
+inline Void Heap::Activate(const Char* name)
 {
     LockGuard<CriticalSection> lock(m_protection);
 
-    // シグネチャサイズをプラス
-    constexpr SizeT signatureSize = sizeof(AllocationSignature);
+    OAK_ASSERT(name != nullptr);
+    OAK_ASSERT(strlen(name) < NAMELENGTH);
+    strcpy_s(m_name, name);
+    m_isActive = true;
+    m_totalAllocatedBytes = 0;
+    m_peakAllocatedBytes = 0;
+    m_allocatedInstanceCount = 0;
 
-    // ポリシーを利用してメモリを確保
-    Void* pBlock = Policy::AllocateBytes(bytes + signatureSize);
-
-    // トラッカーへ情報を登録
-    MemoryTracker::Get().RecordAllocation(pBlock, bytes, file, line, function,
-                                          this);
-
-    return pBlock;
+    m_pBaseAllocator = Detail::HeapAllocatorOverride<Policy>::Get();
 }
 
 template <typename Policy>
-inline Void Heap::Deallocate(Void* pBlock)
+inline Bool Heap::IsActive() const
 {
-    LockGuard<CriticalSection> lock(m_protection);
-
-    // トラッカーから情報を削除
-    MemoryTracker::Get().RecordDeallocation(pBlock, this);
-
-    // ポリシーを利用してメモリを破棄
-    Policy::DeallocateBytes(pBlock);
+    return m_pBaseAllocator != nullptr &&
+           Detail::PolicyHashCode<Policy>::value ==
+             m_pBaseAllocator->GetHash() &&
+           m_isActive;
 }
 
 } // namespace Oak

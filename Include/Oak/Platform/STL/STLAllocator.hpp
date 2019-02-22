@@ -12,12 +12,13 @@ namespace STL
 class StandardAllocator
 {
 public:
-    static Void* MallocDebug(const Char*, UInt64, SizeT bytes, SizeT alignment)
+    static Void* AllocateBytes(SizeT bytes, SizeT alignment, const Char*, Int32,
+                               const Char*)
     {
         return _mm_malloc(bytes, alignment);
     }
 
-    static Void Free(Void* pBlock)
+    static Void DeallocateBytes(Void* pBlock)
     {
         _mm_free(pBlock);
     }
@@ -45,13 +46,14 @@ struct StdAllocator
 
     T* allocate(SizeT count)
     {
-        return reinterpret_cast<T*>(Allocator::MallocDebug(
-          __FILE__, __LINE__, sizeof(T) * count, alignof(T)));
+        return reinterpret_cast<T*>(Allocator::AllocateBytesAligned(
+          sizeof(T) * count, alignof(T), __FILE__, __LINE__, __FUNCTION__));
     }
 
     Void deallocate(T* ptr, SizeT)
     {
-        Allocator::Free(reinterpret_cast<Void*>(ptr));
+        Allocator::DeallocateBytesAligned(reinterpret_cast<Void*>(ptr),
+                                          alignof(T));
     }
 };
 
