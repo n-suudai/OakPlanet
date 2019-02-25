@@ -16,17 +16,19 @@ typedef Void (*JobCallback)(Void* pArgumentBlock, SizeT argumentSize);
 
 struct Job
 {
+    OAK_DECLARE_HEAP;
+
     Void Execute()
     {
-        if (m_function != nullptr)
+        if (function != nullptr)
         {
-            m_function(m_pArgumentBlock, m_argumentSize);
+            function(pArgumentBlock, argumentSize);
         }
     }
 
-    JobCallback m_function;
-    Void* m_pArgumentBlock;
-    SizeT m_argumentSize;
+    JobCallback function;
+    Void* pArgumentBlock;
+    SizeT argumentSize;
 };
 
 class JobThread

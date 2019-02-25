@@ -4,15 +4,10 @@
 #include "Oak/Core/Memory/MemoryManager.hpp"
 #include "Oak/Core/Memory/HeapWalk.hpp"
 #include "Oak/Core/Assert.hpp"
+#include "Oak/Core/Log.hpp"
 #include <stdio.h>
 
 #define ALIGNMENT_SIZE 32
-#define DebugPrintf(format, ...)              \
-    {                                         \
-        char buff[256];                       \
-        sprintf_s(buff, format, __VA_ARGS__); \
-        OutputDebugStringA(buff);             \
-    }
 
 class TestClassCustom
 {
@@ -28,7 +23,7 @@ public:
 
     void Func()
     {
-        OutputDebugStringA("TestClassCustom::Func()\n");
+        Oak::Log::Message("TestClassCustom::Func()\n");
     }
 
 private:
@@ -51,7 +46,7 @@ public:
 
     void Func()
     {
-        OutputDebugStringA("TestClassCustomChild::Func()\n");
+        Oak::Log::Message("TestClassCustomChild::Func()\n");
     }
 
 private:
@@ -75,7 +70,7 @@ public:
 
     void Func()
     {
-        OutputDebugStringA("TestClassCustomChild2::Func()\n");
+        Oak::Log::Message("TestClassCustomChild2::Func()\n");
     }
 
 private:
@@ -102,11 +97,11 @@ public:
         Oak::PtrDiff address = reinterpret_cast<Oak::PtrDiff>(this);
         if (!(address & Oak::PtrDiff(ALIGNMENT_SIZE - 1)))
         {
-            OutputDebugStringA("TestClassCustomChildAligned::Func() = true\n");
+            Oak::Log::Message("TestClassCustomChildAligned::Func() = true\n");
         }
         else
         {
-            OutputDebugStringA("TestClassCustomChildAligned::Func() = false\n");
+            Oak::Log::Message("TestClassCustomChildAligned::Func() = false\n");
         }
     }
 
@@ -117,6 +112,8 @@ private:
 OAK_DEFINE_HIERARCHAL_HEAP_ALIGN(TestClassCustomChildAligned,
                                  "custom_child_aligned", "custom_child",
                                  Oak::AllocatePolicy, ALIGNMENT_SIZE);
+
+#if OAK_USE_HEAP_TRACKING
 
 class TreeStatsReporter : public Oak::IHeapTreeStatsReporter
 {
@@ -130,10 +127,10 @@ public:
 
     Oak::Void BeginReport()
     {
-        DebugPrintf("MEMORY INFORMATION\n");
-        DebugPrintf(
+        Oak::Log::Format("MEMORY INFORMATION\n");
+        Oak::Log::Format(
           "                            Local                 Total\n");
-        DebugPrintf(
+        Oak::Log::Format(
           "Name                  Memory  Peak  Inst   Memory  Peak  Inst\n");
     }
 
@@ -142,14 +139,14 @@ public:
     {
         for (Oak::Int32 i = 0; i < depth; ++i)
         {
-            DebugPrintf("..");
+            Oak::Log::Format("..");
         }
 
         Oak::Int32 spacing = 20 - depth * 2;
-        DebugPrintf("%-*s %6zu %6zu %5zu  %6zu %6zu %5zu\n", spacing,
-                    pHeap->GetName(), local.totalBytes, local.peakBytes,
-                    local.instanceCount, total.totalBytes, total.peakBytes,
-                    total.instanceCount);
+        Oak::Log::Format("%-*s %6zu %6zu %5zu  %6zu %6zu %5zu\n", spacing,
+                         pHeap->GetName(), local.totalBytes, local.peakBytes,
+                         local.instanceCount, total.totalBytes, total.peakBytes,
+                         total.instanceCount);
     }
 
     Oak::Void EndReport()
@@ -177,7 +174,7 @@ public:
         OAK_ASSERT(pHeap != nullptr);
         OAK_ASSERT(pAllocation != nullptr);
 
-        DebugPrintf(
+        Oak::Log::Format(
           "%s(%d)\n"
           "{ heap=\"%s\" address=0x%p size=%zubyte time=%s "
           "backTraceHash=0x%016llX bookmark=%llX }\n"
@@ -194,17 +191,19 @@ public:
     {
         if (m_leakCount > 0)
         {
-            DebugPrintf("%zu memory leaks found!\n", m_leakCount);
+            Oak::Log::Format("%zu memory leaks found!\n", m_leakCount);
         }
         else
         {
-            DebugPrintf("No memory leaks detected.\n");
+            Oak::Log::Format("No memory leaks detected.\n");
         }
     }
 
 public:
     Oak::SizeT m_leakCount;
 };
+
+#endif // OAK_USE_HEAP_TRACKING
 
 int MemoryTestMain()
 {
@@ -221,18 +220,24 @@ int MemoryTestMain()
     pCustomChild2->Func();
     pCustomChildAligned->Func();
 
+#if OAK_USE_HEAP_TRACKING
+
     TreeStatsReporter statsReporter;
     HeapFactory::Get().ReportHeapTreeStats(&statsReporter);
 
     LeakReporter leakReporter;
     HeapFactory::Get().MemoryLeakCheck(&leakReporter);
 
+#endif // OAK_USE_HEAP_TRACKING
+
     OAK_DELETE pCustom;
     OAK_DELETE pCustomChild;
     OAK_DELETE pCustomChild2;
     OAK_DELETE pCustomChildAligned;
 
+#if OAK_USE_HEAP_TRACKING
     HeapFactory::Get().MemoryLeakCheck(&leakReporter);
+#endif
 
     return 0;
 }

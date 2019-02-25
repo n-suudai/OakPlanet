@@ -1,7 +1,12 @@
 ﻿
 #include "Oak/Core/Memory/HeapFactory.hpp"
+
+#if OAK_USE_HEAP_TRACKING
+
 #include "Oak/Core/Memory/HeapWalk.hpp"
 #include "Oak/Core/Assert.hpp"
+#include "Oak/Core/Memory/AllocateConfig.hpp"
+#include "Oak/Core/Memory/MemoryTracker.hpp"
 
 namespace Oak
 {
@@ -14,7 +19,6 @@ HeapFactory& HeapFactory::Get()
 
 HeapFactory::HeapFactory()
 {
-    Initialize<>();
 }
 
 HeapFactory::~HeapFactory()
@@ -27,7 +31,7 @@ Heap* HeapFactory::GetRootHeap()
 
     if (m_pRootHeap == nullptr)
     {
-        Initialize<>();
+        Initialize<AllocatePolicy>();
     }
 
     return m_pRootHeap;
@@ -39,7 +43,7 @@ Heap* HeapFactory::GetDefaultHeap()
 
     if (m_pDefaultHeap == nullptr)
     {
-        Initialize<>();
+        Initialize<AllocatePolicy>();
     }
 
     return m_pDefaultHeap;
@@ -100,9 +104,9 @@ Void HeapFactory::ReportHeapTreeStats(IHeapTreeStatsReporter* pReporter)
 }
 
 // メモリ破壊のチェック関数
-Void HeapFactory::MemoryAssertionCheck(IMemoryAssertionReporter* pReporter,
-                                       UInt64 bookmarkStart,
-                                       UInt64 bookmarkEnd) const
+Void HeapFactory::MemoryCorruptionCheck(IMemoryCorruptionReporter* pReporter,
+                                        UInt64 bookmarkStart,
+                                        UInt64 bookmarkEnd) const
 {
     OAK_ASSERT(pReporter != nullptr);
 
@@ -112,7 +116,7 @@ Void HeapFactory::MemoryAssertionCheck(IMemoryAssertionReporter* pReporter,
     {
         if (heap.IsActive())
         {
-            heap.MemoryAssertionCheck(pReporter, bookmarkStart, bookmarkEnd);
+            heap.MemoryCorruptionCheck(pReporter, bookmarkStart, bookmarkEnd);
         }
     }
 
@@ -120,3 +124,5 @@ Void HeapFactory::MemoryAssertionCheck(IMemoryAssertionReporter* pReporter,
 }
 
 } // namespace Oak
+
+#endif // OAK_USE_HEAP_TRACKING

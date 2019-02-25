@@ -1,5 +1,8 @@
 ﻿
 #include "Oak/Core/Memory/MemoryTracker.hpp"
+
+#if OAK_USE_HEAP_TRACKING
+
 #include "Oak/Core/Memory/Heap.hpp"
 #include "Oak/Platform/Thread/LockGuard.hpp"
 #include "Oak/Core/Assert.hpp"
@@ -31,7 +34,7 @@ Allocation* MemoryTracker::RecordAllocation(Void* pBlock, SizeT bytes,
     LockGuard<CriticalSection> lock(m_protection);
 
     Allocation* pAllocation = reinterpret_cast<Allocation*>(
-      AllocatePolicy::AllocateBytes(sizeof(Allocation)));
+      AllocatePolicy::AllocateBytesForTracking(sizeof(Allocation)));
 
     pAllocation->pBlock = pBlock;
     pAllocation->bytes = bytes;
@@ -72,7 +75,7 @@ Void MemoryTracker::RecordDeallocation(Void* pBlock, Heap* pHeap)
         // リンクリストから切り離す
         pHeap->EraseAllocation(it->second);
 
-        AllocatePolicy::DeallocateBytes(it->second);
+        AllocatePolicy::DeallocateBytesForTracking(it->second);
 
         m_allocations.erase(it);
     }
@@ -84,3 +87,5 @@ SizeT MemoryTracker::GetAllocationBookmark() const
 }
 
 } // namespace Oak
+
+#endif // OAK_USE_HEAP_TRACKING

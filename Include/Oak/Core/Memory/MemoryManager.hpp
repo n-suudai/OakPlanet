@@ -5,6 +5,10 @@
 #include "Oak/Core/Memory/HeapFactory.hpp"
 #include "Oak/Core/Memory/Heap.hpp"
 
+#if !OAK_USE_HEAP_TRACKING
+#include "Oak/Platform/AtomicDataTypes.hpp"
+#endif // !OAK_USE_HEAP_TRACKING
+
 Oak::Void* operator new(Oak::SizeT bytes, const Oak::Char* file,
                         const Oak::Int32 line, const Oak::Char* function);
 Oak::Void* operator new[](Oak::SizeT bytes, const Oak::Char* file,

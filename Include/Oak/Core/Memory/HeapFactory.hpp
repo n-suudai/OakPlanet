@@ -3,6 +3,8 @@
 
 #include "Oak/Core/Memory/Heap.hpp"
 
+#if OAK_USE_HEAP_TRACKING
+
 namespace Oak
 {
 
@@ -15,7 +17,7 @@ public:
 
     ~HeapFactory();
 
-    template <typename Policy = AllocatePolicy>
+    template <typename Policy>
     inline Void Initialize();
 
     Heap* GetRootHeap();
@@ -44,8 +46,8 @@ public:
     Void ReportHeapTreeStats(IHeapTreeStatsReporter* pReporter);
 
     // メモリ破壊のチェック関数
-    Void MemoryAssertionCheck(IMemoryAssertionReporter* pReporter,
-                              UInt64 bookmarkStart, UInt64 bookmarkEnd) const;
+    Void MemoryCorruptionCheck(IMemoryCorruptionReporter* pReporter,
+                               UInt64 bookmarkStart, UInt64 bookmarkEnd) const;
 
 private:
     static constexpr Char* s_pRootHeapName = "Root";
@@ -83,7 +85,7 @@ inline Heap* HeapFactory::CreateHeap(const Char* name, const Char* parentName)
 
     if (m_pRootHeap == nullptr)
     {
-        Initialize<>();
+        Initialize<Policy>();
     }
 
     // 親ヒープを探す
@@ -134,3 +136,5 @@ inline Heap* HeapFactory::CreateNewHeap(const Char* name)
 }
 
 } // namespace Oak
+
+#endif // OAK_USE_HEAP_TRACKING

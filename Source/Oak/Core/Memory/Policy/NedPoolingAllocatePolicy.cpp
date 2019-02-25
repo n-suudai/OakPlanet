@@ -18,6 +18,12 @@ Void* s_poolFootprint = reinterpret_cast<Void*>(0xBB1AA45ABB1AA45A);
 nedalloc::nedpool* s_pools[s_poolCount + 1] = {0};
 nedalloc::nedpool* s_poolsAligned[s_poolCount + 1] = {0};
 
+#if OAK_USE_HEAP_TRACKING
+
+nedalloc::nedpool* s_poolForTracking = 0;
+
+#endif // OAK_USE_HEAP_TRACKING
+
 SizeT poolIDFromSize(SizeT a_reqSize)
 {
     // Requests size 16 or smaller are allocated at a 4 byte granularity.
@@ -115,14 +121,54 @@ Void internalFree(Void* a_mem)
     }
 }
 
+#if OAK_USE_HEAP_TRACKING
+
+DECL_MALLOC Void* internalAllocForTracking(SizeT a_reqSize)
+{
+    if (s_poolForTracking == 0)
+    {
+        // Init pool if first use
+
+        s_poolForTracking = nedalloc::nedcreatepool(0, 8);
+        nedalloc::nedpsetvalue(
+          s_poolForTracking,
+          s_poolFootprint); // All pools are stamped with a footprint
+    }
+
+    return nedalloc::nedpmalloc(s_poolForTracking, a_reqSize);
+}
+
+DECL_MALLOC Void* internalAllocAlignedForTracking(SizeT a_reqSize,
+                                                  SizeT a_align)
+{
+    if (s_poolForTracking == 0)
+    {
+        // Init pool if first use
+
+        s_poolForTracking = nedalloc::nedcreatepool(0, 8);
+        nedalloc::nedpsetvalue(
+          s_poolForTracking,
+          s_poolFootprint); // All pools are stamped with a footprint
+    }
+
+    return nedalloc::nedpmemalign(s_poolForTracking, a_align, a_reqSize);
+}
+
+Void internalFreeForTracking(Void* a_mem)
+{
+    internalFree(a_mem);
+}
+
+#endif // OAK_USE_HEAP_TRACKING
+
 } // namespace NedPoolingAllocateInternal
 
-DECL_MALLOC Void* NedPoolingAllocatePolicyImpl::AllocateBytes(SizeT bytes)
+DECL_MALLOC Void* NedPoolingAllocatePolicy::AllocateBytes(SizeT bytes)
 {
     return NedPoolingAllocateInternal::internalAlloc(bytes);
 }
 
-Void NedPoolingAllocatePolicyImpl::DeallocateBytes(Void* pBlock)
+Void NedPoolingAllocatePolicy::DeallocateBytes(Void* pBlock)
 {
     // deal with null
     if (!pBlock)
@@ -134,7 +180,7 @@ Void NedPoolingAllocatePolicyImpl::DeallocateBytes(Void* pBlock)
 }
 
 DECL_MALLOC Void*
-NedPoolingAllocatePolicyImpl::AllocateBytesAligned(SizeT bytes, SizeT alignment)
+NedPoolingAllocatePolicy::AllocateBytesAligned(SizeT bytes, SizeT alignment)
 {
     OAK_ASSERT(0 < alignment && alignment <= 128 &&
                Bitwise::IsPowerOf2(alignment));
@@ -144,8 +190,8 @@ NedPoolingAllocatePolicyImpl::AllocateBytesAligned(SizeT bytes, SizeT alignment)
       bytes, alignment ? alignment : OAK_SIMD_ALIGNMENT);
 }
 
-Void NedPoolingAllocatePolicyImpl::DeallocateBytesAligned(Void* pBlock,
-                                                          SizeT alignment)
+Void NedPoolingAllocatePolicy::DeallocateBytesAligned(Void* pBlock,
+                                                      SizeT alignment)
 {
     alignment;
 
@@ -157,6 +203,50 @@ Void NedPoolingAllocatePolicyImpl::DeallocateBytesAligned(Void* pBlock,
 
     NedPoolingAllocateInternal::internalFree(pBlock);
 }
+
+#if OAK_USE_HEAP_TRACKING
+
+DECL_MALLOC Void*
+NedPoolingAllocatePolicy::AllocateBytesForTracking(SizeT bytes)
+{
+    return NedPoolingAllocateInternal::internalAllocForTracking(bytes);
+}
+
+DECL_MALLOC Void*
+NedPoolingAllocatePolicy::AllocateBytesAlignedForTracking(SizeT bytes,
+                                                          SizeT alignment)
+{
+    return NedPoolingAllocateInternal::internalAllocAlignedForTracking(
+      bytes, alignment);
+}
+
+Void NedPoolingAllocatePolicy::DeallocateBytesForTracking(Void* pBlock)
+{
+    // deal with null
+    if (!pBlock)
+    {
+        return;
+    }
+
+    NedPoolingAllocateInternal::internalFreeForTracking(pBlock);
+}
+
+Void
+NedPoolingAllocatePolicy::DeallocateBytesAlignedForTracking(Void* pBlock,
+                                                            SizeT alignment)
+{
+    alignment;
+
+    // deal with null
+    if (!pBlock)
+    {
+        return;
+    }
+
+    NedPoolingAllocateInternal::internalFreeForTracking(pBlock);
+}
+
+#endif // OAK_USE_HEAP_TRACKING
 
 } // namespace Oak
 

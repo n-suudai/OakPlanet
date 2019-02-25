@@ -2,6 +2,9 @@
 #pragma once
 
 #include "Oak/Core/Memory/MemoryConfig.hpp"
+
+#if OAK_USE_HEAP_TRACKING
+
 #include "Oak/Platform/Thread/CriticalSection.hpp"
 #include "Oak/Core/Memory/AllocateConfig.hpp"
 #include "Oak/Platform/STL/Container.hpp"
@@ -16,19 +19,20 @@ struct Allocation;
 namespace Detail
 {
 
-// for system
+// for tracking
 class STLMapAllocator
 {
 public:
     static inline Void* AllocateBytesAligned(SizeT bytes, SizeT alignment,
                                              const Char*, Int32, const Char*)
     {
-        return AllocatePolicy::AllocateBytesAligned(bytes, alignment);
+        return AllocatePolicy::AllocateBytesAlignedForTracking(bytes,
+                                                               alignment);
     }
 
     static inline Void DeallocateBytesAligned(Void* pBlock, SizeT alignment)
     {
-        AllocatePolicy::DeallocateBytesAligned(pBlock, alignment);
+        AllocatePolicy::DeallocateBytesAlignedForTracking(pBlock, alignment);
     }
 };
 
@@ -61,3 +65,5 @@ private:
 };
 
 } // namespace Oak
+
+#endif // OAK_USE_HEAP_TRACKING

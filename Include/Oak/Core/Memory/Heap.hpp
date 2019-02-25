@@ -1,10 +1,14 @@
 ﻿
 #pragma once
 
+#include "Oak/Core/Memory/MemoryConfig.hpp"
+
+#if OAK_USE_HEAP_TRACKING
+
 #include "Oak/Platform/Thread/CriticalSection.hpp"
 #include "Oak/Platform/Thread/LockGuard.hpp"
-#include "Oak/Core/Memory/MemoryTracker.hpp"
 #include "Oak/Core/Assert.hpp"
+#include "Oak/Core/Memory/PolicyWrapper.hpp"
 #include <typeinfo>
 
 namespace Oak
@@ -12,10 +16,11 @@ namespace Oak
 
 class IMemoryLeakReporter;
 class IHeapTreeStatsReporter;
-class IMemoryAssertionReporter;
+class IMemoryCorruptionReporter;
 
 typedef Int32 AllocationSignature;
 
+class Heap;
 struct Allocation
 {
     static constexpr AllocationSignature SIGNATURE = 0xCDCDCDCD;
@@ -32,77 +37,9 @@ struct Allocation
     UInt64 bookmark;                 // ブックマーク
     Heap* pHeap;                     // 確保したヒープ領域
 
-    Allocation* pNext; // リンクリスト (ヒープをウォークするのに必要)
+    Allocation* pNext; // リンクリスト
     Allocation* pPrev;
 };
-
-namespace Detail
-{
-
-class HeapAllocatorBase
-{
-public:
-    virtual const SizeT GetHash() const = 0;
-
-    virtual Void* AllocateBytes(SizeT bytes) = 0;
-
-    virtual Void* AllocateBytesAligned(SizeT bytes, SizeT alignment) = 0;
-
-    virtual Void DeallocateBytes(Void* pBlock) = 0;
-
-    virtual Void DeallocateBytesAligned(Void* pBlock, SizeT alignment) = 0;
-};
-
-template <typename Policy>
-class PolicyHashCode
-{
-public:
-    static const SizeT value;
-};
-
-template <class Policy>
-const SizeT PolicyHashCode<Policy>::value =
-  typeid(const PolicyHashCode*).hash_code();
-
-template <typename Policy>
-class HeapAllocatorOverride : public HeapAllocatorBase
-{
-public:
-    typedef Policy PolicyType;
-
-    static inline HeapAllocatorBase* Get()
-    {
-        static HeapAllocatorOverride instance;
-        return &instance;
-    }
-
-    inline const SizeT GetHash() const override
-    {
-        return PolicyHashCode<Policy>::value;
-    }
-
-    inline Void* AllocateBytes(SizeT bytes) override
-    {
-        return Policy::AllocateBytes(bytes);
-    }
-
-    inline Void* AllocateBytesAligned(SizeT bytes, SizeT alignment) override
-    {
-        return Policy::AllocateBytesAligned(bytes, alignment);
-    }
-
-    inline Void DeallocateBytes(Void* pBlock) override
-    {
-        Policy::DeallocateBytes(pBlock);
-    }
-
-    inline Void DeallocateBytesAligned(Void* pBlock, SizeT alignment) override
-    {
-        Policy::DeallocateBytesAligned(pBlock, alignment);
-    }
-};
-
-} // namespace Detail
 
 // ヒープ
 class Heap
@@ -154,16 +91,14 @@ public:
                          Int32 depth) const;
 
     // メモリ破壊のチェック関数
-    Void MemoryAssertionCheck(IMemoryAssertionReporter* pReporter,
-                              UInt64 bookmarkStart, UInt64 bookmarkEnd) const;
+    Void MemoryCorruptionCheck(IMemoryCorruptionReporter* pReporter,
+                               UInt64 bookmarkStart, UInt64 bookmarkEnd) const;
 
 protected:
     Void GetTreeStats(SizeT& totalBytes, SizeT& totalPeakBytes,
                       SizeT& totalInstanceCount) const;
 
 private:
-    CriticalSection m_protection;
-
     enum
     {
         NAMELENGTH = 128
@@ -173,7 +108,7 @@ private:
     SizeT m_totalAllocatedBytes;
     SizeT m_peakAllocatedBytes;
     SizeT m_allocatedInstanceCount;
-    Allocation* m_pAllocation; // リンクリスト
+    Allocation* m_pAllocation; // リンクリストの先頭
 
     Heap* m_pParent;
     Heap* m_pFirstChild;
@@ -182,7 +117,9 @@ private:
 
     Bool m_isActive;
 
-    Detail::HeapAllocatorBase* m_pBaseAllocator;
+    IPolicyWrapper* m_pPolicyWrapper;
+
+    CriticalSection m_protection;
 };
 
 template <typename Policy>
@@ -192,22 +129,23 @@ inline Void Heap::Activate(const Char* name)
 
     OAK_ASSERT(name != nullptr);
     OAK_ASSERT(strlen(name) < NAMELENGTH);
-    strcpy_s(m_name, name);
+    strcpy(m_name, name);
     m_isActive = true;
     m_totalAllocatedBytes = 0;
     m_peakAllocatedBytes = 0;
     m_allocatedInstanceCount = 0;
 
-    m_pBaseAllocator = Detail::HeapAllocatorOverride<Policy>::Get();
+    m_pPolicyWrapper = PolicyWrapper<Policy>::Get();
 }
 
 template <typename Policy>
 inline Bool Heap::IsActive() const
 {
-    return m_pBaseAllocator != nullptr &&
-           Detail::PolicyHashCode<Policy>::value ==
-             m_pBaseAllocator->GetHash() &&
+    return m_pPolicyWrapper != nullptr &&
+           PolicyHashCode<Policy>::value == m_pPolicyWrapper->GetHash() &&
            m_isActive;
 }
 
 } // namespace Oak
+
+#endif // OAK_USE_HEAP_TRACKING

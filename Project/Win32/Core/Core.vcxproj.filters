@@ -90,6 +90,9 @@
     <ClInclude Include="..\..\..\Include\Oak\Core\Memory\STLAllocator.hpp">
       <Filter>Include\Oak\Core\Memory</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Memory\PolicyWrapper.hpp">
+      <Filter>Include\Oak\Core\Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\Core\Assert.cpp">
@@ -118,6 +121,12 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Source\Oak\Core\Memory\MemoryManager.cpp">
       <Filter>Source\Oak\Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Oak\Core\Memory\AlignedAllocator.cpp">
+      <Filter>Source\Oak\Core\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Oak\Core\Memory\Policy\StandardAllocatePolicy.cpp">
+      <Filter>Source\Oak\Core\Memory\Policy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

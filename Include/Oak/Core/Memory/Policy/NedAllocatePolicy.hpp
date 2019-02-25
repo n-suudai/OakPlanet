@@ -10,7 +10,7 @@
 namespace Oak
 {
 
-class NedAllocatePolicyImpl
+class NedAllocatePolicy
 {
 public:
     static Void* AllocateBytes(SizeT bytes);
@@ -20,30 +20,19 @@ public:
     static Void DeallocateBytes(Void* pBlock);
 
     static Void DeallocateBytesAligned(Void* pBlock, SizeT alignment);
-};
 
-class NedAllocatePolicy
-{
-public:
-    static inline Void* AllocateBytes(SizeT bytes)
-    {
-        return NedAllocatePolicyImpl::AllocateBytes(bytes);
-    }
+#if OAK_USE_HEAP_TRACKING
 
-    static inline Void* AllocateBytesAligned(SizeT bytes, SizeT alignment)
-    {
-        return NedAllocatePolicyImpl::AllocateBytesAligned(bytes, alignment);
-    }
+    static Void* AllocateBytesForTracking(SizeT bytes);
 
-    static inline Void DeallocateBytes(Void* pBlock)
-    {
-        NedAllocatePolicyImpl::DeallocateBytes(pBlock);
-    }
+    static Void* AllocateBytesAlignedForTracking(SizeT bytes, SizeT alignment);
 
-    static inline Void DeallocateBytesAligned(Void* pBlock, SizeT alignment)
-    {
-        NedAllocatePolicyImpl::DeallocateBytesAligned(pBlock, alignment);
-    }
+    static Void DeallocateBytesForTracking(Void* pBlock);
+
+    static Void DeallocateBytesAlignedForTracking(Void* pBlock,
+                                                  SizeT alignment);
+
+#endif // OAK_USE_HEAP_TRACKING
 };
 
 } // namespace Oak

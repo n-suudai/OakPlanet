@@ -2,7 +2,6 @@
 #pragma once
 
 #include "Oak/Platform/AtomicDataTypes.hpp"
-#include "Oak/Platform/STL/Container.hpp"
 
 namespace Oak
 {

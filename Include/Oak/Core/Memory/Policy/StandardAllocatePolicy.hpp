@@ -6,7 +6,6 @@
 #if OAK_MEMORY_ALLOCATOR == OAK_MEMORY_ALLOCATOR_STD
 
 #include "Oak/Platform/AtomicDataTypes.hpp"
-#include "Oak/Core/Memory/AlignedAllocator.hpp"
 
 namespace Oak
 {
@@ -14,39 +13,26 @@ namespace Oak
 class StandardAllocatePolicy
 {
 public:
-    static inline Void* AllocateBytes(SizeT bytes)
-    {
-        return malloc(bytes);
-    }
+    static Void* AllocateBytes(SizeT bytes);
 
-    static inline Void* AllocateBytesAligned(SizeT bytes, SizeT alignment)
-    {
-        return AlignedMemory::Allocate(bytes, alignment);
-    }
+    static Void* AllocateBytesAligned(SizeT bytes, SizeT alignment);
 
-    static inline Void DeallocateBytes(Void* pBlock)
-    {
-        // deal with null
-        if (!pBlock)
-        {
-            return;
-        }
+    static Void DeallocateBytes(Void* pBlock);
 
-        free(pBlock);
-    }
+    static Void DeallocateBytesAligned(Void* pBlock, SizeT alignment);
 
-    static inline Void DeallocateBytesAligned(Void* pBlock, SizeT alignment)
-    {
-        alignment;
+#if OAK_USE_HEAP_TRACKING
 
-        // deal with null
-        if (!pBlock)
-        {
-            return;
-        }
+    static Void* AllocateBytesForTracking(SizeT bytes);
 
-        AlignedMemory::Deallocate(pBlock);
-    }
+    static Void* AllocateBytesAlignedForTracking(SizeT bytes, SizeT alignment);
+
+    static Void DeallocateBytesForTracking(Void* pBlock);
+
+    static Void DeallocateBytesAlignedForTracking(Void* pBlock,
+                                                  SizeT alignment);
+
+#endif // OAK_USE_HEAP_TRACKING
 };
 
 } // namespace Oak

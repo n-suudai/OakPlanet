@@ -11,7 +11,7 @@
 namespace Oak
 {
 
-class NedPoolingAllocatePolicyImpl
+class NedPoolingAllocatePolicy
 {
 public:
     static DECL_MALLOC Void* AllocateBytes(SizeT bytes);
@@ -21,32 +21,20 @@ public:
     static Void DeallocateBytes(Void* pBlock);
 
     static Void DeallocateBytesAligned(Void* pBlock, SizeT alignment);
-};
 
-class NedPoolingAllocatePolicy
-{
-public:
-    static inline DECL_MALLOC Void* AllocateBytes(SizeT bytes)
-    {
-        return NedPoolingAllocatePolicyImpl::AllocateBytes(bytes);
-    }
+#if OAK_USE_HEAP_TRACKING
 
-    static inline DECL_MALLOC Void* AllocateBytesAligned(SizeT bytes,
-                                                         SizeT alignment)
-    {
-        return NedPoolingAllocatePolicyImpl::AllocateBytesAligned(bytes,
-                                                                  alignment);
-    }
+    static DECL_MALLOC Void* AllocateBytesForTracking(SizeT bytes);
 
-    static inline Void DeallocateBytes(Void* pBlock)
-    {
-        NedPoolingAllocatePolicyImpl::DeallocateBytes(pBlock);
-    }
+    static DECL_MALLOC Void* AllocateBytesAlignedForTracking(SizeT bytes,
+                                                             SizeT alignment);
 
-    static inline Void DeallocateBytesAligned(Void* pBlock, SizeT alignment)
-    {
-        NedPoolingAllocatePolicyImpl::DeallocateBytesAligned(pBlock, alignment);
-    }
+    static Void DeallocateBytesForTracking(Void* pBlock);
+
+    static Void DeallocateBytesAlignedForTracking(Void* pBlock,
+                                                  SizeT alignment);
+
+#endif // OAK_USE_HEAP_TRACKING
 };
 
 } // namespace Oak

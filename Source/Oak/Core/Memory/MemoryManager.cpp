@@ -1,6 +1,6 @@
 ﻿
 #include "Oak/Core/Memory/MemoryManager.hpp"
-//#include "Oak/Core/Memory/AllocateConfig.hpp"
+#include "Oak/Core/Memory/AllocateConfig.hpp"
 
 #if OAK_USE_HEAP_TRACKING
 

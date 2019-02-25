@@ -1,6 +1,10 @@
 ﻿
 #pragma once
 
+#include "Oak/Core/Memory/MemoryConfig.hpp"
+
+#if OAK_USE_HEAP_TRACKING
+
 #include "Oak/Platform/AtomicDataTypes.hpp"
 
 namespace Oak
@@ -50,10 +54,10 @@ public:
 };
 
 // メモリ破壊
-class IMemoryAssertionReporter
+class IMemoryCorruptionReporter
 {
 public:
-    virtual ~IMemoryAssertionReporter() = default;
+    virtual ~IMemoryCorruptionReporter() = default;
 
     virtual Void BeginReport() = 0;
 
@@ -63,3 +67,5 @@ public:
 };
 
 } // namespace Oak
+
+#endif // OAK_USE_HEAP_TRACKING

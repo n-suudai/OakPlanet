@@ -1,8 +1,10 @@
-﻿
+﻿#include "Oak/Core/Memory/Heap.hpp"
 
-#include "Oak/Core/Memory/Heap.hpp"
+#if OAK_USE_HEAP_TRACKING
+
 #include "Oak/Core/Assert.hpp"
 #include "Oak/Core/Memory/HeapWalk.hpp"
+#include "Oak/Core/Memory/MemoryTracker.hpp"
 
 namespace Oak
 {
@@ -49,7 +51,7 @@ Void Heap::Deactivate()
     m_totalAllocatedBytes = 0;
     m_peakAllocatedBytes = 0;
     m_allocatedInstanceCount = 0;
-    m_pBaseAllocator = nullptr;
+    m_pPolicyWrapper = nullptr;
 }
 
 const Char* Heap::GetName() const
@@ -59,7 +61,7 @@ const Char* Heap::GetName() const
 
 Bool Heap::IsActive() const
 {
-    return m_pBaseAllocator != nullptr && m_isActive;
+    return m_pPolicyWrapper != nullptr && m_isActive;
 }
 
 Void* Heap::AllocateBytes(SizeT bytes, const Char* file, Int32 line,
@@ -67,13 +69,13 @@ Void* Heap::AllocateBytes(SizeT bytes, const Char* file, Int32 line,
 {
     LockGuard<CriticalSection> lock(m_protection);
 
-    OAK_ASSERT(m_pBaseAllocator != nullptr);
+    OAK_ASSERT(m_pPolicyWrapper != nullptr);
 
     // シグネチャサイズをプラス
     constexpr SizeT signatureSize = sizeof(AllocationSignature);
 
     // メモリを確保
-    Void* pBlock = m_pBaseAllocator->AllocateBytes(bytes + signatureSize);
+    Void* pBlock = m_pPolicyWrapper->AllocateBytes(bytes + signatureSize);
 
     // トラッカーへ情報を登録
     MemoryTracker::Get().RecordAllocation(pBlock, bytes, file, line, function,
@@ -87,14 +89,14 @@ Void* Heap::AllocateAlignedBytes(SizeT bytes, SizeT alignment, const Char* file,
 {
     LockGuard<CriticalSection> lock(m_protection);
 
-    OAK_ASSERT(m_pBaseAllocator != nullptr);
+    OAK_ASSERT(m_pPolicyWrapper != nullptr);
 
     // シグネチャサイズをプラス
     constexpr SizeT signatureSize = sizeof(AllocationSignature);
 
     // メモリを確保
     Void* pBlock =
-      m_pBaseAllocator->AllocateBytesAligned(bytes + signatureSize, alignment);
+      m_pPolicyWrapper->AllocateBytesAligned(bytes + signatureSize, alignment);
 
     // トラッカーへ情報を登録
     MemoryTracker::Get().RecordAllocation(pBlock, bytes, file, line, function,
@@ -107,26 +109,26 @@ Void Heap::DeallocateBytes(Void* pBlock)
 {
     LockGuard<CriticalSection> lock(m_protection);
 
-    OAK_ASSERT(m_pBaseAllocator != nullptr);
+    OAK_ASSERT(m_pPolicyWrapper != nullptr);
 
     // トラッカーから情報を削除
     MemoryTracker::Get().RecordDeallocation(pBlock, this);
 
     // メモリを破棄
-    m_pBaseAllocator->DeallocateBytes(pBlock);
+    m_pPolicyWrapper->DeallocateBytes(pBlock);
 }
 
 Void Heap::DeallocateAlignedBytes(Void* pBlock, SizeT alignment)
 {
     LockGuard<CriticalSection> lock(m_protection);
 
-    OAK_ASSERT(m_pBaseAllocator != nullptr);
+    OAK_ASSERT(m_pPolicyWrapper != nullptr);
 
     // トラッカーから情報を削除
     MemoryTracker::Get().RecordDeallocation(pBlock, this);
 
     // メモリを破棄
-    m_pBaseAllocator->DeallocateBytesAligned(pBlock, alignment);
+    m_pPolicyWrapper->DeallocateBytesAligned(pBlock, alignment);
 }
 
 // リンクリストを構築
@@ -261,8 +263,8 @@ Void Heap::ReportTreeStats(IHeapTreeStatsReporter* pAccumulator,
 }
 
 // メモリ破壊のチェック関数
-Void Heap::MemoryAssertionCheck(IMemoryAssertionReporter* pReporter,
-                                UInt64 bookmarkStart, UInt64 bookmarkEnd) const
+Void Heap::MemoryCorruptionCheck(IMemoryCorruptionReporter* pReporter,
+                                 UInt64 bookmarkStart, UInt64 bookmarkEnd) const
 {
     OAK_ASSERT(pReporter != nullptr);
 
@@ -297,3 +299,5 @@ Void Heap::GetTreeStats(SizeT& totalBytes, SizeT& totalPeakBytes,
 }
 
 } // namespace Oak
+
+#endif // OAK_USE_HEAP_TRACKING

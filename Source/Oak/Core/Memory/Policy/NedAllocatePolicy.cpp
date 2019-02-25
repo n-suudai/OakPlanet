@@ -12,23 +12,15 @@
 namespace Oak
 {
 
-Void* NedAllocatePolicyImpl::AllocateBytes(SizeT bytes)
+namespace NedAllocatePolicyInternal
+{
+
+Void* internalAlloc(SizeT bytes)
 {
     return nedalloc::nedmalloc(bytes);
 }
 
-Void NedAllocatePolicyImpl::DeallocateBytes(Void* pBlock)
-{
-    // deal with null
-    if (!pBlock)
-    {
-        return;
-    }
-
-    nedalloc::nedfree(pBlock);
-}
-
-Void* NedAllocatePolicyImpl::AllocateBytesAligned(SizeT bytes, SizeT alignment)
+Void* internalAllocAligned(SizeT bytes, SizeT alignment)
 {
     OAK_ASSERT(0 < alignment && alignment <= 128 &&
                Bitwise::IsPowerOf2(alignment));
@@ -38,11 +30,8 @@ Void* NedAllocatePolicyImpl::AllocateBytesAligned(SizeT bytes, SizeT alignment)
                                  bytes);
 }
 
-Void NedAllocatePolicyImpl::DeallocateBytesAligned(Void* pBlock,
-                                                   SizeT alignment)
+Void internalFree(Void* pBlock)
 {
-    alignment;
-
     // deal with null
     if (!pBlock)
     {
@@ -51,6 +40,57 @@ Void NedAllocatePolicyImpl::DeallocateBytesAligned(Void* pBlock,
 
     nedalloc::nedfree(pBlock);
 }
+
+} // namespace NedAllocatePolicyInternal
+
+Void* NedAllocatePolicy::AllocateBytes(SizeT bytes)
+{
+    return NedAllocatePolicyInternal::internalAlloc(bytes);
+}
+
+Void* NedAllocatePolicy::AllocateBytesAligned(SizeT bytes, SizeT alignment)
+{
+    return NedAllocatePolicyInternal::internalAllocAligned(bytes, alignment);
+}
+
+Void NedAllocatePolicy::DeallocateBytes(Void* pBlock)
+{
+    NedAllocatePolicyInternal::internalFree(pBlock);
+}
+
+Void NedAllocatePolicy::DeallocateBytesAligned(Void* pBlock, SizeT alignment)
+{
+    alignment;
+
+    NedAllocatePolicyInternal::internalFree(pBlock);
+}
+
+#if OAK_USE_HEAP_TRACKING
+
+Void* NedAllocatePolicy::AllocateBytesForTracking(SizeT bytes)
+{
+    return NedAllocatePolicyInternal::internalAlloc(bytes);
+}
+
+Void* NedAllocatePolicy::AllocateBytesAlignedForTracking(SizeT bytes,
+                                                         SizeT alignment)
+{
+    return NedAllocatePolicyInternal::internalAllocAligned(bytes, alignment);
+}
+
+Void NedAllocatePolicy::DeallocateBytesForTracking(Void* pBlock)
+{
+    NedAllocatePolicyInternal::internalFree(pBlock);
+}
+
+Void NedAllocatePolicy::DeallocateBytesAlignedForTracking(Void* pBlock,
+                                                          SizeT alignment)
+{
+    alignment;
+    NedAllocatePolicyInternal::internalFree(pBlock);
+}
+
+#endif // OAK_USE_HEAP_TRACKING
 
 } // namespace  Oak
 
