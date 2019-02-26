@@ -63,7 +63,7 @@ struct STL
                 s_pHeap = HeapFactory::Get().CreateHeap<Policy>(s_heapName);
             }
 
-            return reinterpret_cast<T *>(s_pHeap->AllocateAlignedBytes(
+            return reinterpret_cast<T *>(s_pHeap->AllocateBytesAligned(
               sizeof(T) * count, alignof(T), __FILE__, __LINE__, __FUNCTION__));
 
 #else // OAK_USE_HEAP_TRACKING
@@ -78,7 +78,7 @@ struct STL
         {
 #if OAK_USE_HEAP_TRACKING
 
-            s_pHeap->DeallocateAlignedBytes(reinterpret_cast<Void *>(ptr),
+            s_pHeap->DeallocateBytesAligned(reinterpret_cast<Void *>(ptr),
                                             alignof(T));
 
 #else // OAK_USE_HEAP_TRACKING
