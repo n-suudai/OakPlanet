@@ -7,7 +7,7 @@ int RandomTestMain()
 {
     using namespace Oak;
 
-    Random::XorShift random(3);
+    Random::XorShift128 random = Random::XorShift128::defaultSeed();
 
     for (Int32 i = 0; i < 100; ++i)
     {

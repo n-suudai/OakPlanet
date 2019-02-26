@@ -9,7 +9,7 @@ namespace Oak
 namespace Random
 {
 
-class XorShift
+class XorShift128
 {
 private:
     struct Dictionary
@@ -29,7 +29,7 @@ public:
     UInt32 randCount = 0;
     struct Dictionary seeds;
 
-    inline XorShift(UInt32 w, UInt32 x = 0, UInt32 y = 0, UInt32 z = 0)
+    inline XorShift128(UInt32 w, UInt32 x = 0, UInt32 y = 0, UInt32 z = 0)
     {
         OAK_ASSERT(w != 0 || x != 0 || y != 0 || z != 0);
 
@@ -78,15 +78,15 @@ public:
         return arr;
     }
 
-    static inline XorShift defaultSeed()
+    static inline XorShift128 defaultSeed()
     {
-        return XorShift(XorShift::defaults.w, XorShift::defaults.x,
-                        XorShift::defaults.y, XorShift::defaults.z);
+        return XorShift128(XorShift128::defaults.w, XorShift128::defaults.x,
+                           XorShift128::defaults.y, XorShift128::defaults.z);
     }
 };
 
-const struct XorShift::Dictionary XorShift::defaults = {123456789, 362436069,
-                                                        521288629, 88675123};
+const struct XorShift128::Dictionary XorShift128::defaults = {
+  123456789, 362436069, 521288629, 88675123};
 
 } // namespace Random
 } // namespace Oak
