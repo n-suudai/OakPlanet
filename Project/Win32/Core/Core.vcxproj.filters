@@ -96,6 +96,9 @@
     <ClInclude Include="..\..\..\Include\Oak\Core\STL.hpp">
       <Filter>Include\Oak\Core</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\Random.hpp">
+      <Filter>Include\Oak\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\Core\Assert.cpp">

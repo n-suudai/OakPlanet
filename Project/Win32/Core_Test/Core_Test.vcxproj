@@ -28,6 +28,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="..\..\..\Test\Oak\Core\MemoryTest.cpp" />
+    <ClCompile Include="..\..\..\Test\Oak\Core\RandomTest.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Test\Oak\Core\AssertTest.hpp">
@@ -35,6 +39,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="..\..\..\Test\Oak\Core\MemoryTest.hpp" />
+    <ClInclude Include="..\..\..\Test\Oak\Core\RandomTest.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
