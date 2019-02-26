@@ -84,7 +84,7 @@ Void* Heap::AllocateBytes(SizeT bytes, const Char* file, Int32 line,
     return pBlock;
 }
 
-Void* Heap::AllocateAlignedBytes(SizeT bytes, SizeT alignment, const Char* file,
+Void* Heap::AllocateBytesAligned(SizeT bytes, SizeT alignment, const Char* file,
                                  Int32 line, const Char* function)
 {
     LockGuard<CriticalSection> lock(m_protection);
@@ -118,7 +118,7 @@ Void Heap::DeallocateBytes(Void* pBlock)
     m_pPolicyWrapper->DeallocateBytes(pBlock);
 }
 
-Void Heap::DeallocateAlignedBytes(Void* pBlock, SizeT alignment)
+Void Heap::DeallocateBytesAligned(Void* pBlock, SizeT alignment)
 {
     LockGuard<CriticalSection> lock(m_protection);
 

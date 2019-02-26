@@ -30,6 +30,9 @@ public:
     template <typename Policy>
     inline Heap* CreateHeap(const Char* name);
 
+    template <typename Policy>
+    inline Heap* FindHeap(const Char* name);
+
     Heap* FindHeap(const Char* name);
 
     template <typename Policy>
@@ -89,7 +92,7 @@ inline Heap* HeapFactory::CreateHeap(const Char* name, const Char* parentName)
     }
 
     // 親ヒープを探す
-    Heap* pParent = FindHeap(parentName);
+    Heap* pParent = FindHeap<Policy>(parentName);
     if (pParent == nullptr)
     { // 見つからなければ Root 以下に作成
         pParent = CreateNewHeap<Policy>(parentName);
@@ -97,7 +100,7 @@ inline Heap* HeapFactory::CreateHeap(const Char* name, const Char* parentName)
     }
 
     // ヒープを探す
-    Heap* pHeap = FindHeap(name);
+    Heap* pHeap = FindHeap<Policy>(name);
     if (pHeap == nullptr)
     { // 見つからなければ作成
         pHeap = CreateNewHeap<Policy>(name);
@@ -132,6 +135,22 @@ inline Heap* HeapFactory::CreateNewHeap(const Char* name)
     OAK_ASSERT_MESSAGE(
       false,
       "ヒープの作成に失敗しました。作成可能なヒープの数を超えています。");
+    return nullptr;
+}
+
+template <typename Policy>
+inline Heap* HeapFactory::FindHeap(const Char* name)
+{
+    LockGuard<CriticalSection> lock(m_protection);
+
+    for (auto& heap : m_heaps)
+    {
+        if (heap.IsActive<Policy>() && !_stricmp(name, heap.GetName()))
+        {
+            return &heap;
+        }
+    }
+
     return nullptr;
 }
 

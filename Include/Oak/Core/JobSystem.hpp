@@ -2,12 +2,9 @@
 #pragma once
 
 #include "Oak/Core/Assert.hpp"
-#include "Oak/Core/Memory/AllocateConfig.hpp"
-#include "Oak/Core/Memory/MemoryManager.hpp"
-#include "Oak/Platform/STL/Container.hpp"
+#include "Oak/Core/STL.hpp"
 #include "Oak/Platform/Thread/Thread.hpp"
 #include "Oak/Platform/Thread/LockGuard.hpp"
-#include "Oak/Core/Memory/STLAllocator.hpp"
 
 namespace Oak
 {
@@ -162,8 +159,8 @@ public:
 
 private:
     CriticalSection m_protection;
-    STL::deque<Job, STLAllocator<AllocatePolicy>> m_jobList;
-    STL::vector<JobThread*, STLAllocator<AllocatePolicy>> m_jobThreads;
+    STL<>::deque<Job> m_jobList;
+    STL<>::vector<JobThread*> m_jobThreads;
     SizeT m_jobPointer;
 };
 

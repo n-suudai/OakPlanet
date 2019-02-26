@@ -6,6 +6,7 @@
 #include "Oak/Core/Assert.hpp"
 #include "Oak/Core/Log.hpp"
 #include <stdio.h>
+#include "Oak/Core/STL.hpp"
 
 #define ALIGNMENT_SIZE 32
 
@@ -53,7 +54,7 @@ private:
     char m_size[256];
 };
 
-OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChild, "custom_child", "custom",
+OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChild, "child", "custom",
                            Oak::AllocatePolicy);
 
 class TestClassCustomChild2
@@ -77,8 +78,8 @@ private:
     char m_size[256];
 };
 
-OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChild2, "custom_child2",
-                           "custom_child", Oak::AllocatePolicy);
+OAK_DEFINE_HIERARCHAL_HEAP(TestClassCustomChild2, "child2", "child",
+                           Oak::AllocatePolicy);
 
 class TestClassCustomChildAligned
 {
@@ -109,9 +110,8 @@ private:
     char m_size[256];
 };
 
-OAK_DEFINE_HIERARCHAL_HEAP_ALIGN(TestClassCustomChildAligned,
-                                 "custom_child_aligned", "custom_child",
-                                 Oak::AllocatePolicy, ALIGNMENT_SIZE);
+OAK_DEFINE_HIERARCHAL_HEAP_ALIGN(TestClassCustomChildAligned, "child_aligned",
+                                 "child", Oak::AllocatePolicy, ALIGNMENT_SIZE);
 
 #if OAK_USE_HEAP_TRACKING
 
@@ -208,6 +208,32 @@ public:
 int MemoryTestMain()
 {
     using namespace Oak;
+
+    {
+        // STL<>::string str;
+        // str = "STL<AllocatePolicy>::string\n";
+        // Log::Message(str.c_str());
+
+        // STL<>::vector<STL<>::string> v(1024);
+
+        {
+            STL<>::shared_ptr<TestClassCustom> ptr =
+              STL<>::make_shared<TestClassCustom>();
+            ptr->Func();
+        }
+
+        {
+            STL<>::unique_ptr<TestClassCustom> ptr =
+              STL<>::make_unique<TestClassCustom>();
+            ptr->Func();
+        }
+
+        {
+            STL<>::unique_ptr<TestClassCustom[]> ary =
+              STL<>::make_unique<TestClassCustom[]>(8);
+            ary[7].Func();
+        }
+    }
 
     TestClassCustom* pCustom = OAK_NEW TestClassCustom();
     TestClassCustomChild* pCustomChild = OAK_NEW TestClassCustomChild();

@@ -63,15 +63,18 @@ public:
     template <typename Policy>
     inline Bool IsActive() const;
 
+    template <typename Policy>
+    inline Bool Is() const;
+
     Void* AllocateBytes(SizeT bytes, const Char* file, Int32 line,
                         const Char* function);
 
-    Void* AllocateAlignedBytes(SizeT bytes, SizeT alignment, const Char* file,
+    Void* AllocateBytesAligned(SizeT bytes, SizeT alignment, const Char* file,
                                Int32 line, const Char* function);
 
     Void DeallocateBytes(Void* pBlock);
 
-    Void DeallocateAlignedBytes(Void* pBlock, SizeT alignment);
+    Void DeallocateBytesAligned(Void* pBlock, SizeT alignment);
 
     // リンクリストを構築
     Void AddAllocation(Allocation* pAllocation);
@@ -141,9 +144,14 @@ inline Void Heap::Activate(const Char* name)
 template <typename Policy>
 inline Bool Heap::IsActive() const
 {
+    return Is<Policy>() && IsActive();
+}
+
+template <typename Policy>
+inline Bool Heap::Is() const
+{
     return m_pPolicyWrapper != nullptr &&
-           PolicyHashCode<Policy>::value == m_pPolicyWrapper->GetHash() &&
-           m_isActive;
+           PolicyHashCode<Policy>::value == m_pPolicyWrapper->GetHash();
 }
 
 } // namespace Oak

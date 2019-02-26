@@ -93,6 +93,9 @@
     <ClInclude Include="..\..\..\Include\Oak\Core\Memory\PolicyWrapper.hpp">
       <Filter>Include\Oak\Core\Memory</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Include\Oak\Core\STL.hpp">
+      <Filter>Include\Oak\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\Core\Assert.cpp">

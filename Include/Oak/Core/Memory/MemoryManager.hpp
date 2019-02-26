@@ -116,7 +116,7 @@ public:                                                                        \
             s_pHeap =                                                          \
               Oak::HeapFactory::Get().CreateHeap<policyName>(heapName);        \
         }                                                                      \
-        return s_pHeap->AllocateAlignedBytes(bytes, alignment, file, line,     \
+        return s_pHeap->AllocateBytesAligned(bytes, alignment, file, line,     \
                                              function);                        \
     }                                                                          \
     Oak::Void* className::operator new [](                                     \
@@ -128,7 +128,7 @@ public:                                                                        \
             s_pHeap =                                                          \
               Oak::HeapFactory::Get().CreateHeap<policyName>(heapName);        \
         }                                                                      \
-        return s_pHeap->AllocateAlignedBytes(bytes, alignment, file, line,     \
+        return s_pHeap->AllocateBytesAligned(bytes, alignment, file, line,     \
                                              function);                        \
     } Oak::Void* className::operator new(Oak::SizeT bytes)                     \
     {                                                                          \
@@ -137,7 +137,7 @@ public:                                                                        \
             s_pHeap =                                                          \
               Oak::HeapFactory::Get().CreateHeap<policyName>(heapName);        \
         }                                                                      \
-        return s_pHeap->AllocateAlignedBytes(bytes, alignment, __FILE__,       \
+        return s_pHeap->AllocateBytesAligned(bytes, alignment, __FILE__,       \
                                              __LINE__, __FUNCTION__);          \
     }                                                                          \
     Oak::Void* className::operator new [](Oak::SizeT bytes)                    \
@@ -147,24 +147,24 @@ public:                                                                        \
             s_pHeap =                                                          \
               Oak::HeapFactory::Get().CreateHeap<policyName>(heapName);        \
         }                                                                      \
-        return s_pHeap->AllocateAlignedBytes(bytes, alignment, __FILE__,       \
+        return s_pHeap->AllocateBytesAligned(bytes, alignment, __FILE__,       \
                                              __LINE__, __FUNCTION__);          \
     } Oak::Void className::operator delete(Oak::Void* pBlock,                  \
                                            const Oak::Char*, const Oak::Int32, \
                                            const Oak::Char*)                   \
     {                                                                          \
-        s_pHeap->DeallocateAlignedBytes(pBlock, alignment);                    \
+        s_pHeap->DeallocateBytesAligned(pBlock, alignment);                    \
     }                                                                          \
     Oak::Void className::operator delete [](                                   \
       Oak::Void* pBlock, const Oak::Char*, const Oak::Int32, const Oak::Char*) \
     {                                                                          \
-        s_pHeap->DeallocateAlignedBytes(pBlock, alignment);                    \
+        s_pHeap->DeallocateBytesAligned(pBlock, alignment);                    \
     } Oak::Void className::operator delete(Oak::Void* pBlock)                  \
     {                                                                          \
-        s_pHeap->DeallocateAlignedBytes(pBlock, alignment);                    \
+        s_pHeap->DeallocateBytesAligned(pBlock, alignment);                    \
     }                                                                          \
     Oak::Void className::operator delete [](Oak::Void* pBlock)                 \
-    { s_pHeap->DeallocateAlignedBytes(pBlock, alignment); }
+    { s_pHeap->DeallocateBytesAligned(pBlock, alignment); }
 
 #define OAK_DEFINE_HIERARCHAL_HEAP(className, heapName, parentName,             \
                                    policyName)                                  \
@@ -237,7 +237,7 @@ public:                                                                        \
             s_pHeap = Oak::HeapFactory::Get().CreateHeap<policyName>(          \
               heapName, parentName);                                           \
         }                                                                      \
-        return s_pHeap->AllocateAlignedBytes(bytes, alignment, file, line,     \
+        return s_pHeap->AllocateBytesAligned(bytes, alignment, file, line,     \
                                              function);                        \
     }                                                                          \
     Oak::Void* className::operator new [](                                     \
@@ -249,7 +249,7 @@ public:                                                                        \
             s_pHeap = Oak::HeapFactory::Get().CreateHeap<policyName>(          \
               heapName, parentName);                                           \
         }                                                                      \
-        return s_pHeap->AllocateAlignedBytes(bytes, alignment, file, line,     \
+        return s_pHeap->AllocateBytesAligned(bytes, alignment, file, line,     \
                                              function);                        \
     } Oak::Void* className::operator new(Oak::SizeT bytes)                     \
     {                                                                          \
@@ -258,7 +258,7 @@ public:                                                                        \
             s_pHeap = Oak::HeapFactory::Get().CreateHeap<policyName>(          \
               heapName, parentName);                                           \
         }                                                                      \
-        return s_pHeap->AllocateAlignedBytes(bytes, alignment, __FILE__,       \
+        return s_pHeap->AllocateBytesAligned(bytes, alignment, __FILE__,       \
                                              __LINE__, __FUNCTION__);          \
     }                                                                          \
     Oak::Void* className::operator new [](Oak::SizeT bytes)                    \
@@ -268,24 +268,24 @@ public:                                                                        \
             s_pHeap = Oak::HeapFactory::Get().CreateHeap<policyName>(          \
               heapName, parentName);                                           \
         }                                                                      \
-        return s_pHeap->AllocateAlignedBytes(bytes, alignment, __FILE__,       \
+        return s_pHeap->AllocateBytesAligned(bytes, alignment, __FILE__,       \
                                              __LINE__, __FUNCTION__);          \
     } Oak::Void className::operator delete(Oak::Void* pBlock,                  \
                                            const Oak::Char*, const Oak::Int32, \
                                            const Oak::Char*)                   \
     {                                                                          \
-        s_pHeap->DeallocateAlignedBytes(pBlock, alignment);                    \
+        s_pHeap->DeallocateBytesAligned(pBlock, alignment);                    \
     }                                                                          \
     Oak::Void className::operator delete [](                                   \
       Oak::Void* pBlock, const Oak::Char*, const Oak::Int32, const Oak::Char*) \
     {                                                                          \
-        s_pHeap->DeallocateAlignedBytes(pBlock, alignment);                    \
+        s_pHeap->DeallocateBytesAligned(pBlock, alignment);                    \
     } Oak::Void className::operator delete(Oak::Void* pBlock)                  \
     {                                                                          \
-        s_pHeap->DeallocateAlignedBytes(pBlock, alignment);                    \
+        s_pHeap->DeallocateBytesAligned(pBlock, alignment);                    \
     }                                                                          \
     Oak::Void className::operator delete [](Oak::Void* pBlock)                 \
-    { s_pHeap->DeallocateAlignedBytes(pBlock, alignment); }
+    { s_pHeap->DeallocateBytesAligned(pBlock, alignment); }
 
 #define OAK_NEW new (__FILE__, __LINE__, __FUNCTION__)
 #define OAK_DELETE delete

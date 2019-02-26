@@ -203,6 +203,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\Oak\Core\StackTrace.hpp" />
+    <ClInclude Include="..\..\..\Include\Oak\Core\STL.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Oak\Core\Assert.cpp">

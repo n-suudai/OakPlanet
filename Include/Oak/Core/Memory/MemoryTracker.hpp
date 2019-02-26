@@ -7,36 +7,67 @@
 
 #include "Oak/Platform/Thread/CriticalSection.hpp"
 #include "Oak/Core/Memory/AllocateConfig.hpp"
-#include "Oak/Platform/STL/Container.hpp"
+#include <unordered_map>
 
 namespace Oak
 {
-
-class Heap;
-
-struct Allocation;
 
 namespace Detail
 {
 
 // for tracking
-class STLMapAllocator
+template <typename T>
+struct AllocatorForTracking
 {
-public:
-    static inline Void* AllocateBytesAligned(SizeT bytes, SizeT alignment,
-                                             const Char*, Int32, const Char*)
+    using value_type = T;
+
+    template <typename U>
+    struct rebind
     {
-        return AllocatePolicy::AllocateBytesAlignedForTracking(bytes,
-                                                               alignment);
+        typedef AllocatorForTracking<U> other;
+    };
+
+    inline AllocatorForTracking()
+    {/* DO_NOTHING */
     }
 
-    static inline Void DeallocateBytesAligned(Void* pBlock, SizeT alignment)
+    template <typename U>
+    inline AllocatorForTracking(const AllocatorForTracking<U>&)
+    {/* DO_NOTHING */
+    }
+
+    inline T* allocate(SizeT count)
     {
-        AllocatePolicy::DeallocateBytesAlignedForTracking(pBlock, alignment);
+        return reinterpret_cast<T*>(
+          AllocatePolicy::AllocateBytesAlignedForTracking(sizeof(T) * count,
+                                                          alignof(T)));
+    }
+
+    inline Void deallocate(T* ptr, SizeT)
+    {
+        AllocatePolicy::DeallocateBytesAlignedForTracking(
+          reinterpret_cast<Void*>(ptr), alignof(T));
     }
 };
 
+template <typename T, typename U>
+inline Bool operator==(const AllocatorForTracking<T>&,
+                       const AllocatorForTracking<U>&)
+{
+    return true;
+}
+
+template <typename Policy, typename T, typename U>
+inline Bool operator!=(const AllocatorForTracking<T>&,
+                       const AllocatorForTracking<U>&)
+{
+    return false;
+}
+
 } // namespace Detail
+
+class Heap;
+struct Allocation;
 
 class MemoryTracker
 {
@@ -55,9 +86,10 @@ public:
     SizeT GetAllocationBookmark() const;
 
 private:
-    typedef STL::unordered_map<Void*, Allocation*, std::hash<Void*>,
-                               std::equal_to<Void*>,
-                               Detail::STLMapAllocator> AllocationMap;
+    typedef std::unordered_map<
+      Void*, Allocation*, std::hash<Void*>, std::equal_to<Void*>,
+      Detail::AllocatorForTracking<std::pair<const Void*, Allocation*>>>
+    AllocationMap;
 
     CriticalSection m_protection;
     AllocationMap m_allocations;
