@@ -13,7 +13,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
     Oak::StackTrace::Initialize();
 
     // ExecuteTest(Assert);
-    // ExecuteTest(Memory);
+    ExecuteTest(Memory);
     ExecuteTest(Random);
 
     Oak::StackTrace::Terminate();

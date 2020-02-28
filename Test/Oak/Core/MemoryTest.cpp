@@ -15,7 +15,7 @@ class TestClassCustom
     OAK_DECLARE_HEAP;
 
 public:
-    TestClassCustom()
+    TestClassCustom() : m_size()
     {
     }
     ~TestClassCustom()
@@ -38,7 +38,7 @@ class TestClassCustomChild
     OAK_DECLARE_HEAP;
 
 public:
-    TestClassCustomChild()
+    TestClassCustomChild() : m_size()
     {
     }
     ~TestClassCustomChild()
@@ -62,7 +62,7 @@ class TestClassCustomChild2
     OAK_DECLARE_HEAP;
 
 public:
-    TestClassCustomChild2()
+    TestClassCustomChild2() : m_size()
     {
     }
     ~TestClassCustomChild2()
@@ -86,7 +86,7 @@ class TestClassCustomChildAligned
     OAK_DECLARE_HEAP;
 
 public:
-    TestClassCustomChildAligned()
+    TestClassCustomChildAligned() : m_size()
     {
     }
     ~TestClassCustomChildAligned()
@@ -157,7 +157,7 @@ public:
 class LeakReporter : public Oak::IMemoryLeakReporter
 {
 public:
-    LeakReporter()
+    LeakReporter() : m_leakCount(0)
     {
     }
     ~LeakReporter()
@@ -210,11 +210,11 @@ int MemoryTestMain()
     using namespace Oak;
 
     {
-        // STL<>::string str;
-        // str = "STL<AllocatePolicy>::string\n";
-        // Log::Message(str.c_str());
+        STL<>::string str;
+        str = "STL<AllocatePolicy>::string\n";
+        Log::Message(str.c_str());
 
-        // STL<>::vector<STL<>::string> v(1024);
+        STL<>::vector<STL<>::string> v(1024);
 
         {
             STL<>::shared_ptr<TestClassCustom> ptr =

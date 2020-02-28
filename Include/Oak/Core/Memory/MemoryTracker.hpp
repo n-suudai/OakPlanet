@@ -7,7 +7,7 @@
 
 #include "Oak/Platform/Thread/CriticalSection.hpp"
 #include "Oak/Core/Memory/AllocateConfig.hpp"
-#include <unordered_map>
+#include <map>
 
 namespace Oak
 {
@@ -86,10 +86,9 @@ public:
     SizeT GetAllocationBookmark() const;
 
 private:
-    typedef std::unordered_map<
-      Void*, Allocation*, std::hash<Void*>, std::equal_to<Void*>,
-      Detail::AllocatorForTracking<std::pair<const Void*, Allocation*>>>
-    AllocationMap;
+    typedef std::map<Void*, Allocation*, std::less<Void*>,
+                     Detail::AllocatorForTracking<
+                       std::pair<const Void*, Allocation*>>> AllocationMap;
 
     CriticalSection m_protection;
     AllocationMap m_allocations;
